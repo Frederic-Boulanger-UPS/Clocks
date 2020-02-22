@@ -421,21 +421,15 @@ proof -
   with bounded_merge[OF 1 2 3] show ?thesis by metis
 qed
 
-section \<open>Main theorems\<close>
+section \<open>Main theorem\<close>
 text \<open>The merge of two sporadic clocks is bounded on the min of the bounding intervals.\<close>
-lemma sporadic_bounded_min:
+theorem sporadic_bounded_min:
   assumes \<open>p_sporadic n c\<close>
       and \<open>p_sporadic n' c'\<close>
     shows \<open>bounded (Suc (min n n')) 2 (c\<oplus>c')\<close>
 using assms bounded_less bounded_merge sporadic_bounded1 spor_bounded
 by (metis (no_types, lifting) min.cobounded1 min_Suc_Suc min_def one_add_one)
 
-text \<open>The merge of two sporadic clocks is also bounded on the max of the bounding intervals.\<close>
-lemma sporadic_bounded_max:
-  assumes \<open>p_sporadic n c\<close>
-      and \<open>p_sporadic n' c'\<close>
-    shows \<open>bounded (max n n') (Suc n + Suc n') (c\<oplus>c')\<close>
-by (metis add.commute add_Suc bounded_less bounded_n le_add1 max_def)
 
 section \<open>Tests\<close>
 

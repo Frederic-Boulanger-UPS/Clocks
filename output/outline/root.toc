@@ -4,5 +4,5 @@
 \contentsline {section}{\numberline {2}Properties of clocks}{2}{section.2}%
 \contentsline {section}{\numberline {3}Merging clocks}{3}{section.3}%
 \contentsline {section}{\numberline {4}Bounded clocks}{5}{section.4}%
-\contentsline {section}{\numberline {5}Main theorems}{6}{section.5}%
+\contentsline {section}{\numberline {5}Main theorem}{6}{section.5}%
 \contentsline {section}{\numberline {6}Tests}{6}{section.6}%
