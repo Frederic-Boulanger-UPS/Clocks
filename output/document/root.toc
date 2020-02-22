@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Basic definitions}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Periodic clocks}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Sporadic clocks}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Properties of clocks}{2}{section.2}%
+\contentsline {section}{\numberline {3}Merging clocks}{3}{section.3}%
+\contentsline {section}{\numberline {4}Bounded clocks}{6}{section.4}%
+\contentsline {section}{\numberline {5}Main theorems}{9}{section.5}%
+\contentsline {section}{\numberline {6}Tests}{9}{section.6}%

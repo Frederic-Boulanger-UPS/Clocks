@@ -1,0 +1,2607 @@
+%
+\begin{isabellebody}%
+\setisabellecontext{Clocks}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+\isacommand{theory}\isamarkupfalse%
+\ Clocks\isanewline
+\isanewline
+\isanewline
+\isakeyword{imports}\ Main\isanewline
+\isanewline
+\isakeyword{begin}%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Basic definitions%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+Time is represented as the natural numbers.
+A clock represents an event that may occur or not at any time.
+We model a clock as a function from nat to bool, which is True at every
+instant when the clock ticks (the event occurs).%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{type{\isacharunderscore}synonym}\isamarkupfalse%
+\ clock\ {\isacharequal}\ {\isacartoucheopen}nat\ {\isasymRightarrow}\ bool{\isacartoucheclose}%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsubsection{Periodic clocks%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+A clock is (k,p)-periodic if it ticks at instants separated by p instants,
+starting at instant k.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ kp{\isacharunderscore}periodic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ nat{\isacharcomma}\ clock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}kp{\isacharunderscore}periodic\ k\ p\ c\ {\isasymequiv}\isanewline
+\ \ \ \ {\isacharparenleft}p\ {\isachargreater}\ {\isadigit{0}}{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isasymforall}n{\isachardot}\ c\ n\ {\isacharequal}\ {\isacharparenleft}{\isacharparenleft}n\ {\isasymge}\ k{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+A 1-periodic clock always ticks starting at its offset%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ one{\isacharunderscore}periodic{\isacharunderscore}ticks{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}kp{\isacharunderscore}periodic\ k\ {\isadigit{1}}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}n\ {\isasymge}\ k{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}c\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ assms\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A p-periodic clock is a (k,p)-periodic clock starting from a given offset.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}p{\isacharunderscore}periodic\ p\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymexists}k{\isachardot}\ kp{\isacharunderscore}periodic\ k\ p\ c{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ p{\isacharunderscore}periodic{\isacharunderscore}intro{\isacharbrackleft}intro{\isacharbrackright}{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}kp{\isacharunderscore}periodic\ k\ p\ c\ {\isasymLongrightarrow}\ p{\isacharunderscore}periodic\ p\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ p{\isacharunderscore}periodic{\isacharunderscore}def\ \ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+No clock is 0-periodic.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ no{\isacharunderscore}{\isadigit{0}}{\isacharunderscore}periodic{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}{\isasymnot}p{\isacharunderscore}periodic\ {\isadigit{0}}\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ p{\isacharunderscore}periodic{\isacharunderscore}def{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A periodic clock is a p-periodic clock for a given period.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}periodic\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymexists}p{\isachardot}\ p{\isacharunderscore}periodic\ p\ c{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ periodic{\isacharunderscore}intro{\isadigit{1}}{\isacharbrackleft}intro{\isacharbrackright}{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}p{\isacharunderscore}periodic\ p\ c\ {\isasymLongrightarrow}\ periodic\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ p{\isacharunderscore}periodic{\isacharunderscore}def\ periodic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ periodic{\isacharunderscore}intro{\isadigit{2}}{\isacharbrackleft}intro{\isacharbrackright}{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}kp{\isacharunderscore}periodic\ k\ p\ c\ {\isasymLongrightarrow}\ periodic\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ p{\isacharunderscore}periodic{\isacharunderscore}intro\ periodic{\isacharunderscore}intro{\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsubsection{Sporadic clocks%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+A clock is p-sporadic if it ticks at instants separated at least by p instants.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ p{\isacharunderscore}sporadic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ clock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ p\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymforall}t{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}p{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}c\ t{\isacharprime}{\isacharparenright}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+Any clock is 0-sporadic%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ sporadic{\isacharunderscore}{\isadigit{0}}{\isacharcolon}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ {\isadigit{0}}\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ p{\isacharunderscore}sporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+We define sporadic clock as p-sporadic clocks for some non null interval p.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}sporadic\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymexists}p\ {\isachargreater}\ {\isadigit{0}}{\isachardot}\ p{\isacharunderscore}sporadic\ p\ c{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ sporadic{\isacharunderscore}intro{\isacharbrackleft}intro{\isacharbrackright}\isanewline
+\ \ {\isacharcolon}{\isacartoucheopen}{\isasymlbrakk}p{\isacharunderscore}sporadic\ p\ c{\isacharsemicolon}p\ {\isachargreater}\ {\isadigit{0}}{\isasymrbrakk}\ {\isasymLongrightarrow}\ sporadic\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ sporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Properties of clocks%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+Some useful lemmas about modulo.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ mod{\isacharunderscore}sporadic{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isacharparenleft}{\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}{\isasymforall}n{\isacharprime}{\isachardot}\ {\isacharparenleft}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ n{\isacharprime}\ {\isacharless}\ n{\isacharplus}p{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}n{\isacharprime}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ assms\ less{\isacharunderscore}imp{\isacharunderscore}add{\isacharunderscore}positive\ \isacommand{by}\isamarkupfalse%
+\ fastforce%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ mod{\isacharunderscore}offset{\isacharunderscore}sporadic{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isasymge}\ k{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}{\isasymforall}n{\isacharprime}{\isachardot}\ {\isacharparenleft}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ n{\isacharprime}\ {\isacharless}\ n{\isacharplus}p{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}{\isacharparenleft}n{\isacharprime}{\isacharminus}k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}n{\isacharprime}{\isachardot}\ n{\isacharprime}\ {\isachargreater}\ n\ {\isasymlongrightarrow}\ {\isacharparenleft}n{\isacharprime}{\isacharminus}k{\isacharparenright}\ {\isachargreater}\ {\isacharparenleft}n{\isacharminus}k{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ diff{\isacharunderscore}less{\isacharunderscore}mono{\isacharparenright}\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ mod{\isacharunderscore}sporadic{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}{\isacharbrackright}\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A (p+1)-periodic clock is p-sporadic.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ periodic{\isacharunderscore}suc{\isacharunderscore}sporadic{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}periodic\ {\isacharparenleft}Suc\ p{\isacharparenright}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ p\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ p{\isacharunderscore}periodic{\isacharunderscore}def\ \isacommand{obtain}\isamarkupfalse%
+\ k\isanewline
+\ \ \ \ \isakeyword{where}\ {\isacartoucheopen}kp{\isacharunderscore}periodic\ k\ {\isacharparenleft}Suc\ p{\isacharparenright}\ c{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ assms\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ p{\isacharunderscore}sporadic{\isacharunderscore}def\ mod{\isacharunderscore}offset{\isacharunderscore}sporadic\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Merging clocks%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+The result of merging two clocks ticks whenever any of the two clocks ticks.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ merge\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}clock{\isacharcomma}\ clock{\isacharbrackright}\ {\isasymRightarrow}\ clock{\isacartoucheclose}\ {\isacharparenleft}\isakeyword{infix}\ {\isacartoucheopen}{\isasymoplus}{\isacartoucheclose}\ {\isadigit{6}}{\isadigit{0}}{\isacharparenright}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}c{\isadigit{1}}\ {\isasymoplus}\ c{\isadigit{2}}\ {\isasymequiv}\ {\isasymlambda}t{\isachardot}\ c{\isadigit{1}}\ t\ {\isasymor}\ c{\isadigit{2}}\ t{\isacartoucheclose}%
+\begin{isamarkuptext}%
+Merging two sporadic clocks does not necessary yields a sporadic clock.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ merge{\isacharunderscore}no{\isacharunderscore}sporadic{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}{\isasymexists}c\ c{\isacharprime}{\isachardot}\ sporadic\ c\ {\isasymand}\ sporadic\ c{\isacharprime}\ {\isasymand}\ {\isasymnot}sporadic\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{define}\isamarkupfalse%
+\ c\ {\isacharcolon}{\isacharcolon}\ clock\ \isakeyword{where}\ {\isacartoucheopen}c\ {\isacharequal}\ {\isacharparenleft}{\isasymlambda}t{\isachardot}\ t\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \isacommand{define}\isamarkupfalse%
+\ c{\isacharprime}\ {\isacharcolon}{\isacharcolon}\ clock\ \isakeyword{where}\ {\isacartoucheopen}c{\isacharprime}\ {\isacharequal}\ {\isacharparenleft}{\isasymlambda}t{\isachardot}\ t\ {\isasymge}\ {\isadigit{1}}\ {\isasymand}\ {\isacharparenleft}t{\isacharminus}{\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}p{\isacharunderscore}periodic\ {\isadigit{2}}\ c{\isacartoucheclose}\ \isacommand{unfolding}\isamarkupfalse%
+\ p{\isacharunderscore}periodic{\isacharunderscore}def\ kp{\isacharunderscore}periodic{\isacharunderscore}def\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ c{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isacartoucheopen}sporadic\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ periodic{\isacharunderscore}suc{\isacharunderscore}sporadic\ Suc{\isacharunderscore}{\isadigit{1}}{\isacharbrackleft}symmetric{\isacharbrackright}\ sporadic{\isacharunderscore}def\ zero{\isacharunderscore}less{\isacharunderscore}one\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}p{\isacharunderscore}periodic\ {\isadigit{2}}\ c{\isacharprime}{\isacartoucheclose}\ \isacommand{unfolding}\isamarkupfalse%
+\ p{\isacharunderscore}periodic{\isacharunderscore}def\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ \isacommand{using}\isamarkupfalse%
+\ c{\isacharprime}{\isacharunderscore}def\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isacartoucheopen}sporadic\ c{\isacharprime}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ periodic{\isacharunderscore}suc{\isacharunderscore}sporadic\ Suc{\isacharunderscore}{\isadigit{1}}{\isacharbrackleft}symmetric{\isacharbrackright}\ sporadic{\isacharunderscore}def\ zero{\isacharunderscore}less{\isacharunderscore}one\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymnot}sporadic\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \ \ \isacommand{{\isacharbraceleft}}\isamarkupfalse%
+\ \isacommand{assume}\isamarkupfalse%
+\ {\isacartoucheopen}sporadic\ {\isacharparenleft}c\ {\isasymoplus}\ c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isacommand{from}\isamarkupfalse%
+\ this\ \isacommand{obtain}\isamarkupfalse%
+\ p\ \isakeyword{where}\ {\isacharasterisk}{\isacharcolon}{\isacartoucheopen}p\ {\isachargreater}\ {\isadigit{0}}{\isacartoucheclose}\ \isakeyword{and}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ p\ {\isacharparenleft}c\ {\isasymoplus}\ c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ sporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}p{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}{\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t{\isacharprime}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}p{\isacharunderscore}sporadic{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{moreover}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ {\isadigit{0}}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ c{\isacharunderscore}def\ c{\isacharprime}{\isacharunderscore}def\ merge{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{moreover}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ c{\isacharunderscore}def\ c{\isacharprime}{\isacharunderscore}def\ merge{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{ultimately}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ False\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ {\isachardoublequoteopen}{\isacharasterisk}{\isachardoublequoteclose}\ Suc{\isacharunderscore}leI{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{{\isacharbraceright}}\isamarkupfalse%
+\ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ {\isadigit{1}}\ \isakeyword{and}\ {\isadigit{2}}\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Get the number of ticks on a clock from the beginning up to instant n.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ ticks{\isacharunderscore}up{\isacharunderscore}to\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}clock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+There cannot be more than n event occurrences during n instants.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isasymle}\ Suc\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ finite{\isacharcolon}\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\ {\isasymle}\ n{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ incl{\isacharcolon}\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isasymsubseteq}\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\ {\isasymle}\ n{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\ {\isasymle}\ n{\isacharbraceright}\ {\isacharequal}\ Suc\ n{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ card{\isacharunderscore}mono{\isacharbrackleft}OF\ finite\ incl{\isacharbrackright}\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Counting event occurrences.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}count\ b\ n\ {\isasymequiv}\ if\ b\ then\ Suc\ n\ else\ n{\isacartoucheclose}%
+\begin{isamarkuptext}%
+The count of event occurrences cannot grow by more than one at each instant.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ count{\isacharunderscore}inc{\isacharcolon}\ {\isacartoucheopen}count\ b\ n\ {\isasymle}\ Suc\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Alternative definition of the number of event occurrences using fold.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fold\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}clock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fold\ c\ n\ {\isacharequal}\ fold\ count\ {\isacharparenleft}map\ c\ {\isacharbrackleft}{\isadigit{0}}{\isachardot}{\isachardot}{\isacharless}Suc\ n{\isacharbrackright}{\isacharparenright}\ {\isadigit{0}}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+Alternative definition of the number of event occurrences as a function.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{fun}\isamarkupfalse%
+\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}clock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\isakeyword{where}\isanewline
+\ \ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ c\ {\isadigit{0}}\ {\isacharequal}\ count\ {\isacharparenleft}c\ {\isadigit{0}}{\isacharparenright}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+{\isacharbar}\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ c\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ count\ {\isacharparenleft}c\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ c\ n{\isacharparenright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+Proof that the original definition and the function definition are equivalent.
+Use this to generate code.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}is{\isacharunderscore}fun{\isacharbrackleft}code{\isacharbrackright}{\isacharcolon}\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ c\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induction\ n{\isacharparenright}\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isadigit{0}}\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ {\isadigit{0}}\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ {\isadigit{0}}\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t{\isacharequal}{\isadigit{0}}\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isacharparenleft}if\ c\ {\isadigit{0}}\ then\ {\isadigit{1}}\ else\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ Collect{\isacharunderscore}conv{\isacharunderscore}if{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ c\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun{\isachardot}simps{\isacharparenleft}{\isadigit{1}}{\isacharparenright}\ count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Suc\ n{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isacartoucheopen}c\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ Suc\ n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isacharequal}\ insert\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ Suc\ {\isacharparenleft}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ n{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ Suc\ {\isacharparenleft}ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ c\ n{\isacharparenright}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ Suc{\isachardot}IH\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ count{\isacharunderscore}def\ {\isacartoucheopen}c\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ Suc\ n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ le{\isacharunderscore}Suc{\isacharunderscore}eq\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ n{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}fun\ c\ n{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ Suc{\isachardot}IH\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ count{\isacharunderscore}def\ {\isacartoucheopen}{\isasymnot}c\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Number of event occurrences during an n instant window starting at \isa{t\isactrlsub {\isadigit{0}}}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ tick{\isacharunderscore}count\ {\isacharcolon}{\isacharcolon}{\isacartoucheopen}{\isacharbrackleft}clock{\isacharcomma}\ nat{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}tick{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ n\ {\isasymequiv}\ card\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+The number of event occurrences is monotonous with regard to the window width.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}mono{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}n{\isacharprime}\ {\isasymge}\ n{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}tick{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ n{\isacharprime}\ {\isasymge}\ tick{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ finite{\isacharcolon}\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharprime}\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ incl{\isacharcolon}\isanewline
+\ \ \ \ {\isacartoucheopen}{\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isasymsubseteq}\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharprime}\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ {\isasymle}\ card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharprime}\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ card{\isacharunderscore}mono{\isacharbrackleft}OF\ finite\ incl{\isacharbrackright}\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+The interval [t, t+n[ contains n instants.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ card{\isacharunderscore}interval{\isacharcolon}{\isacartoucheopen}card\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharbraceright}\ {\isacharequal}\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induction\ n{\isacharparenright}\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isadigit{0}}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Suc\ n{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}{\isacharparenleft}Suc\ n{\isacharparenright}{\isacharbraceright}\ {\isacharequal}\ insert\ {\isacharparenleft}t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharparenright}\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}{\isacharparenleft}Suc\ n{\isacharparenright}{\isacharbraceright}\ {\isacharequal}\ Suc\ {\isacharparenleft}card\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharbraceright}{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ Suc{\isachardot}IH\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+There cannot be more than n occurrences of an event in an interval of n instants.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}bound{\isacharcolon}\ {\isacartoucheopen}tick{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ n\ {\isasymle}\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ finite{\isacharcolon}\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ incl{\isacharcolon}\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isasymsubseteq}\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ card{\isacharunderscore}interval\ card{\isacharunderscore}mono{\isacharbrackleft}OF\ finite\ incl{\isacharbrackright}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+No event occurrence occur in 0 instant.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}{\isadigit{0}}{\isacharbrackleft}code{\isacharbrackright}{\isacharcolon}\ {\isacartoucheopen}tick{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ {\isadigit{0}}\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Event occurrences starting from instant 0 are event occurrences from the beginning.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}orig{\isacharbrackleft}code{\isacharbrackright}{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}tick{\isacharunderscore}count\ c\ {\isadigit{0}}\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isacharequal}\ ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\isanewline
+\isacommand{using}\isamarkupfalse%
+\ less{\isacharunderscore}Suc{\isacharunderscore}eq{\isacharunderscore}le\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Counting event occurrences between two instants is simply subtracting
+occurrence counts from the beginning.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}diff{\isacharbrackleft}code{\isacharbrackright}{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}tick{\isacharunderscore}count\ c\ {\isacharparenleft}Suc\ t\isactrlsub {\isadigit{0}}{\isacharparenright}\ n\ {\isacharequal}\ {\isacharparenleft}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ {\isacharparenleft}t\isactrlsub {\isadigit{0}}{\isacharplus}n{\isacharparenright}{\isacharparenright}\ {\isacharminus}\ {\isacharparenleft}ticks{\isacharunderscore}up{\isacharunderscore}to\ c\ t\isactrlsub {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ incl{\isacharcolon}\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isasymsubseteq}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ {\isacharparenleft}Suc\ t\isactrlsub {\isadigit{0}}{\isacharparenright}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ {\isacharparenleft}Suc\ t\isactrlsub {\isadigit{0}}{\isacharparenright}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\isanewline
+\ \ \ \ \ \ {\isacharequal}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isacharminus}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isachardot}\ {\isacharparenleft}Suc\ t\isactrlsub {\isadigit{0}}{\isacharparenright}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ {\isacharparenleft}Suc\ t\isactrlsub {\isadigit{0}}{\isacharparenright}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isacharminus}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}\ {\isasymand}\ c\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ card{\isacharunderscore}Diff{\isacharunderscore}subset\ incl{\isacharparenright}\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+The merge of two clocks has less ticks than the union of the ticks of the two clocks.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}merge{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}tick{\isacharunderscore}count\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t\isactrlsub {\isadigit{0}}\ n\ \ {\isasymle}\ tick{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ n\ {\isacharplus}\ tick{\isacharunderscore}count\ c{\isacharprime}\ t\isactrlsub {\isadigit{0}}\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t{\isacharparenright}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ {\isacharequal}\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\ {\isasymunion}\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c{\isacharprime}\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ merge{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t{\isacharparenright}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ {\isasymle}\ card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c\ t{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ {\isacharplus}\ card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}n\ {\isasymand}\ c{\isacharprime}\ t{\isacharbraceright}{\isacartoucheclose}\ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ card{\isacharunderscore}Un{\isacharunderscore}le{\isacharparenright}\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Bounded clocks%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+An (n,m)-bounded clock does not tick more than m times in a n interval of width n.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ bounded\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ nat{\isacharcomma}\ clock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}bounded\ n\ m\ c\ {\isasymequiv}\ {\isasymforall}t{\isachardot}\ tick{\isacharunderscore}count\ c\ t\ n\ {\isasymle}\ m{\isacartoucheclose}%
+\begin{isamarkuptext}%
+All clocks are (n,n)-bounded.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ bounded{\isacharunderscore}n{\isacharcolon}\ {\isacartoucheopen}bounded\ n\ n\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\ \isacommand{using}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}bound\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ le{\isacharunderscore}imp{\isacharunderscore}less{\isacharunderscore}Suc{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A sporadic clock is bounded.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ spor{\isacharunderscore}bound{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isasymforall}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}c\ t{\isacharprime}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \isakeyword{shows}\ {\isacartoucheopen}{\isasymforall}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{{\isacharbraceleft}}\isamarkupfalse%
+\ \isacommand{fix}\isamarkupfalse%
+\ t{\isacharcolon}{\isacharcolon}nat\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isacartoucheopen}c\ t{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}c\ t{\isacharprime}{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ empty{\isacharcolon}\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ finite{\isacharcolon}\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ notin{\isacharcolon}\ {\isacartoucheopen}t\ {\isasymnotin}\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ {\isacharequal}\ insert\ t\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacartoucheopen}c\ t{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ empty\ card{\isacharunderscore}insert{\isacharunderscore}disjoint{\isacharbrackleft}OF\ finite\ notin{\isacharbrackright}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\isanewline
+\ \ \ \ \ \ \isacommand{proof}\isamarkupfalse%
+{\isacharparenleft}cases\ {\isacartoucheopen}{\isasymexists}tt{\isachardot}\ t\ {\isacharless}\ tt\ {\isasymand}\ tt\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ tt{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \ \ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymexists}ttmin{\isachardot}\ t\ {\isacharless}\ ttmin\ {\isasymand}\ ttmin\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ ttmin\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isasymand}\ {\isacharparenleft}{\isasymforall}tt{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ tt{\isacharprime}\ {\isasymand}\ tt{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ tt{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ ttmin\ {\isasymle}\ tt{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ add{\isacharunderscore}lessD{\isadigit{1}}\ add{\isacharunderscore}less{\isacharunderscore}mono{\isadigit{1}}\ assms\ le{\isacharunderscore}eq{\isacharunderscore}less{\isacharunderscore}or{\isacharunderscore}eq\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ le{\isacharunderscore}refl\ less{\isacharunderscore}imp{\isacharunderscore}le{\isacharunderscore}nat\ nat{\isacharunderscore}le{\isacharunderscore}iff{\isacharunderscore}add\ nat{\isacharunderscore}le{\isacharunderscore}linear{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{from}\isamarkupfalse%
+\ this\ \isacommand{obtain}\isamarkupfalse%
+\ ttmin\ \isakeyword{where}\isanewline
+\ \ \ \ \ \ \ \ \ \ tmin{\isacharcolon}\ {\isacartoucheopen}t\ {\isacharless}\ ttmin\ {\isasymand}\ ttmin\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ ttmin\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isasymand}\ {\isacharparenleft}{\isasymforall}tt{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ tt{\isacharprime}\ {\isasymand}\ tt{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ tt{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ ttmin\ {\isasymle}\ tt{\isacharprime}{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ tick{\isacharcolon}{\isacartoucheopen}c\ ttmin{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ notick{\isacharcolon}{\isacartoucheopen}{\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ ttmin\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ ttmin\ {\isacharplus}\ n\ {\isasymlongrightarrow}\ {\isasymnot}\ c\ t{\isacharprime}{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ ttmin{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}c\ t{\isacharprime}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ tmin\ {\isacartoucheopen}{\isasymnot}c\ t{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{moreover}\isamarkupfalse%
+\ \isacommand{from}\isamarkupfalse%
+\ notick\ tmin\ \isacommand{have}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \ \ \ \ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}ttmin\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}c\ t{\isacharprime}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{ultimately}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isacharcolon}{\isacharcolon}nat{\isachardot}\ {\isacharparenleft}t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isacharequal}\ ttmin{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ tick\ tmin\ {\isacartoucheopen}{\isasymnot}c\ t{\isacartoucheclose}\ le{\isacharunderscore}eq{\isacharunderscore}less{\isacharunderscore}or{\isacharunderscore}eq\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}ttmin{\isacharbraceright}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ tmin\ \isacommand{by}\isamarkupfalse%
+\ fastforce\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymnot}c\ t{\isacartoucheclose}\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymlongrightarrow}\ {\isasymnot}c\ t{\isacharprime}{\isacartoucheclose}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ nat{\isacharunderscore}less{\isacharunderscore}le\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ linarith\isanewline
+\ \ \ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{{\isacharbraceright}}\isamarkupfalse%
+\ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+An n-sporadic clock is (n+1, 1)-bounded.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ spor{\isacharunderscore}bounded{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isadigit{1}}\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}c\ t{\isacharprime}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ p{\isacharunderscore}sporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ spor{\isacharunderscore}bound{\isacharbrackleft}OF\ this{\isacharbrackright}\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ Suc\ {\isacharparenleft}t{\isacharplus}n{\isacharparenright}\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ less{\isacharunderscore}Suc{\isacharunderscore}eq{\isacharunderscore}le\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ t\ {\isacharplus}\ Suc\ n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+An n-sporadic clock is (n+2, 2)-bounded.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ spor{\isacharunderscore}bounded{\isadigit{2}}{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isacharparenright}\ {\isadigit{2}}\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ spor{\isacharunderscore}bounded{\isacharbrackleft}OF\ assms{\isacharbrackright}\ \isacommand{have}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ {\isacharasterisk}{\isacharcolon}{\isacartoucheopen}{\isasymforall}t{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ t\ {\isacharplus}\ Suc\ n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ Suc\ {\isacharparenleft}t\ {\isacharplus}\ Suc\ n{\isacharparenright}\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ Suc\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \ \ \isacommand{{\isacharbraceleft}}\isamarkupfalse%
+\ \isacommand{fix}\isamarkupfalse%
+\ t{\isacharcolon}{\isacharcolon}nat\isanewline
+\ \ \ \ \ \ \isacommand{from}\isamarkupfalse%
+\ {\isacharasterisk}\ \isacommand{have}\isamarkupfalse%
+\ {\isacharasterisk}{\isacharasterisk}{\isacharcolon}{\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ t\ {\isacharplus}\ Suc\ n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ Suc\ {\isacharparenleft}t\ {\isacharplus}\ Suc\ n{\isacharparenright}\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ Suc\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isacartoucheopen}c\ {\isacharparenleft}t\ {\isacharplus}\ Suc\ n{\isacharparenright}{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ Suc\ {\isacharparenleft}t\ {\isacharplus}\ Suc\ n{\isacharparenright}\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharequal}\ insert\ {\isacharparenleft}t{\isacharplus}Suc\ n{\isacharparenright}\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ t\ {\isacharplus}\ Suc\ n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ Suc\ {\isacharparenleft}t\ {\isacharplus}\ Suc\ n{\isacharparenright}\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharequal}\ Suc\ {\isacharparenleft}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ t\ {\isacharplus}\ Suc\ n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ {\isacharasterisk}{\isacharasterisk}\ \isacommand{by}\isamarkupfalse%
+\ simp\ \isanewline
+\ \ \ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ Suc\ {\isacharparenleft}t\ {\isacharplus}\ Suc\ n{\isacharparenright}\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharequal}\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ t\ {\isacharplus}\ Suc\ n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ less{\isacharunderscore}Suc{\isacharunderscore}eq\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ Suc\ {\isacharparenleft}t\ {\isacharplus}\ Suc\ n{\isacharparenright}\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharequal}\ {\isacharparenleft}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ t\ {\isacharplus}\ Suc\ n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ {\isacharasterisk}{\isacharasterisk}\ \isacommand{by}\isamarkupfalse%
+\ simp\ \isanewline
+\ \ \ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{{\isacharbraceright}}\isamarkupfalse%
+\ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\ tick{\isacharunderscore}count{\isacharunderscore}def\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ Suc{\isacharunderscore}{\isadigit{1}}\ add{\isacharunderscore}Suc{\isacharunderscore}right{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A bounded clock on an interval is also bounded on a narrower interval.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ bounded{\isacharunderscore}less{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}bounded\ n{\isacharprime}\ m\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}n{\isacharprime}\ {\isasymge}\ n{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ n\ m\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ assms{\isacharparenleft}{\isadigit{1}}{\isacharparenright}\ \isacommand{unfolding}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\isanewline
+\ \ \isacommand{using}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}mono{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}{\isacharbrackright}\ order{\isacharunderscore}trans\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+The merge of two bounded clocks is bounded.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ bounded{\isacharunderscore}merge{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}bounded\ n\ m\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}bounded\ n{\isacharprime}\ m{\isacharprime}\ c{\isacharprime}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}n{\isacharprime}\ {\isasymge}\ n{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ n\ {\isacharparenleft}m{\isacharplus}m{\isacharprime}{\isacharparenright}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}merge\ bounded{\isacharunderscore}less{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{2}}{\isacharcomma}{\isadigit{3}}{\isacharparenright}{\isacharbrackright}\ assms{\isacharparenleft}{\isadigit{1}}{\isacharcomma}{\isadigit{2}}{\isacharparenright}\ add{\isacharunderscore}mono\ order{\isacharunderscore}trans\isanewline
+\ \ \isacommand{unfolding}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+The merge of two sporadic clocks is bounded.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ sporadic{\isacharunderscore}bounded{\isadigit{1}}{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n{\isacharprime}\ c{\isacharprime}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}n{\isacharprime}\ {\isasymge}\ n{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isadigit{2}}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isadigit{1}}\ c{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ spor{\isacharunderscore}bounded{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{1}}{\isacharparenright}{\isacharbrackright}\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharprime}{\isacharparenright}\ {\isadigit{1}}\ c{\isacharprime}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ spor{\isacharunderscore}bounded{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}{\isacharbrackright}\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms{\isacharparenleft}{\isadigit{3}}{\isacharparenright}\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{3}}{\isacharcolon}{\isacartoucheopen}Suc\ n{\isacharprime}\ {\isasymge}\ Suc\ n{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isadigit{1}}{\isacharplus}{\isadigit{1}}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}{\isacharcolon}{\isacharcolon}nat{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ bounded{\isacharunderscore}merge{\isacharbrackleft}OF\ {\isadigit{1}}\ {\isadigit{2}}\ {\isadigit{3}}{\isacharbrackright}\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ metis\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Main theorems%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+The merge of two sporadic clocks is bounded on the min of the bounding intervals.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ sporadic{\isacharunderscore}bounded{\isacharunderscore}min{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n{\isacharprime}\ c{\isacharprime}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ {\isacharparenleft}min\ n\ n{\isacharprime}{\isacharparenright}{\isacharparenright}\ {\isadigit{2}}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ assms\ bounded{\isacharunderscore}less\ bounded{\isacharunderscore}merge\ sporadic{\isacharunderscore}bounded{\isadigit{1}}\ spor{\isacharunderscore}bounded\isanewline
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ {\isacharparenleft}no{\isacharunderscore}types{\isacharcomma}\ lifting{\isacharparenright}\ min{\isachardot}cobounded{\isadigit{1}}\ min{\isacharunderscore}Suc{\isacharunderscore}Suc\ min{\isacharunderscore}def\ one{\isacharunderscore}add{\isacharunderscore}one{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+The merge of two sporadic clocks is also bounded on the max of the bounding intervals.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ sporadic{\isacharunderscore}bounded{\isacharunderscore}max{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n{\isacharprime}\ c{\isacharprime}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}max\ n\ n{\isacharprime}{\isacharparenright}\ {\isacharparenleft}Suc\ n\ {\isacharplus}\ Suc\ n{\isacharprime}{\isacharparenright}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ add{\isachardot}commute\ add{\isacharunderscore}Suc\ bounded{\isacharunderscore}less\ bounded{\isacharunderscore}n\ le{\isacharunderscore}add{\isadigit{1}}\ max{\isacharunderscore}def{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Tests%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+\isacommand{abbreviation}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{1}}{\isacharcolon}{\isacharcolon}clock\ {\isasymequiv}\ {\isacharparenleft}{\isasymlambda}t{\isachardot}\ t\ {\isasymge}\ {\isadigit{1}}\ {\isasymand}\ {\isacharparenleft}t{\isacharminus}{\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\isacommand{abbreviation}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{2}}{\isacharcolon}{\isacharcolon}clock\ {\isasymequiv}\ {\isacharparenleft}{\isasymlambda}t{\isachardot}\ t\ {\isasymge}\ {\isadigit{2}}\ {\isasymand}\ {\isacharparenleft}t{\isacharminus}{\isadigit{2}}{\isacharparenright}\ mod\ {\isadigit{3}}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{1}}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{1}}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{1}}\ {\isadigit{2}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{1}}\ {\isadigit{3}}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{2}}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{2}}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{2}}\ {\isadigit{2}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{2}}\ {\isadigit{3}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{2}}\ {\isadigit{4}}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{2}}\ {\isadigit{5}}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isacartoucheopen}kp{\isacharunderscore}periodic\ {\isadigit{1}}\ {\isadigit{2}}\ c{\isadigit{1}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isacartoucheopen}kp{\isacharunderscore}periodic\ {\isadigit{2}}\ {\isadigit{3}}\ c{\isadigit{2}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{abbreviation}\isamarkupfalse%
+\ {\isacartoucheopen}c{\isadigit{3}}\ {\isasymequiv}\ c{\isadigit{1}}\ {\isasymoplus}\ c{\isadigit{2}}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}map\ c{\isadigit{1}}\ {\isacharbrackleft}{\isadigit{0}}{\isacharcomma}{\isadigit{1}}{\isacharcomma}{\isadigit{2}}{\isacharcomma}{\isadigit{3}}{\isacharcomma}{\isadigit{4}}{\isacharcomma}{\isadigit{5}}{\isacharcomma}{\isadigit{6}}{\isacharcomma}{\isadigit{7}}{\isacharcomma}{\isadigit{8}}{\isacharcomma}{\isadigit{9}}{\isacharcomma}{\isadigit{1}}{\isadigit{0}}{\isacharbrackright}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}map\ c{\isadigit{2}}\ {\isacharbrackleft}{\isadigit{0}}{\isacharcomma}{\isadigit{1}}{\isacharcomma}{\isadigit{2}}{\isacharcomma}{\isadigit{3}}{\isacharcomma}{\isadigit{4}}{\isacharcomma}{\isadigit{5}}{\isacharcomma}{\isadigit{6}}{\isacharcomma}{\isadigit{7}}{\isacharcomma}{\isadigit{8}}{\isacharcomma}{\isadigit{9}}{\isacharcomma}{\isadigit{1}}{\isadigit{0}}{\isacharbrackright}{\isacartoucheclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isacartoucheopen}map\ c{\isadigit{3}}\ {\isacharbrackleft}{\isadigit{0}}{\isacharcomma}{\isadigit{1}}{\isacharcomma}{\isadigit{2}}{\isacharcomma}{\isadigit{3}}{\isacharcomma}{\isadigit{4}}{\isacharcomma}{\isadigit{5}}{\isacharcomma}{\isadigit{6}}{\isacharcomma}{\isadigit{7}}{\isacharcomma}{\isadigit{8}}{\isacharcomma}{\isadigit{9}}{\isacharcomma}{\isadigit{1}}{\isadigit{0}}{\isacharbrackright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ interv{\isacharunderscore}{\isadigit{2}}{\isacharcolon}{\isacartoucheopen}{\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ {\isadigit{2}}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t\ {\isasymand}\ {\isacharparenleft}t\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}t{\isachardot}\ {\isacharparenleft}t\ {\isacharequal}\ t\isactrlsub {\isadigit{0}}\ {\isasymor}\ t\ {\isacharequal}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ {\isadigit{1}}{\isacharparenright}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t\ {\isasymand}\ {\isacharparenleft}t\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharbraceright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isacartoucheopen}bounded\ {\isadigit{2}}\ {\isadigit{1}}\ c{\isadigit{1}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ tick{\isacharunderscore}count\ c{\isadigit{1}}\ t\ {\isadigit{2}}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \ \ \isacommand{{\isacharbraceleft}}\isamarkupfalse%
+\ \isacommand{fix}\isamarkupfalse%
+\ t\isactrlsub {\isadigit{0}}{\isacharcolon}{\isacharcolon}nat\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}tick{\isacharunderscore}count\ c{\isadigit{1}}\ t\isactrlsub {\isadigit{0}}\ {\isadigit{2}}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ t\isactrlsub {\isadigit{0}}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ {\isadigit{0}}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}tick{\isacharunderscore}count\ c{\isadigit{1}}\ t\isactrlsub {\isadigit{0}}\ {\isadigit{2}}\ {\isacharequal}\ ticks{\isacharunderscore}up{\isacharunderscore}to\ c{\isadigit{1}}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}orig\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ numeral{\isacharunderscore}{\isadigit{2}}{\isacharunderscore}eq{\isacharunderscore}{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\ {\isasymle}\ {\isadigit{1}}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t\ {\isasymand}\ {\isacharparenleft}t{\isacharminus}{\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ ticks{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isasymle}\ \ card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\ {\isasymle}\ {\isadigit{1}}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ {\isacharparenleft}mono{\isacharunderscore}tags{\isacharcomma}\ lifting{\isacharparenright}\ Collect{\isacharunderscore}cong\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cancel{\isacharunderscore}comm{\isacharunderscore}monoid{\isacharunderscore}add{\isacharunderscore}class{\isachardot}diff{\isacharunderscore}cancel\ le{\isacharunderscore}antisym\ le{\isacharunderscore}refl\ mod{\isacharunderscore}{\isadigit{0}}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\ {\isacharequal}\ {\isadigit{1}}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ le{\isacharunderscore}antisym\ order{\isacharunderscore}refl{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{finally}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}}\isamarkupfalse%
+\ \isanewline
+\ \ \ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Suc\ nat{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isacartoucheopen}{\isacharparenleft}t\isactrlsub {\isadigit{0}}{\isacharminus}{\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ Suc\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}t\isactrlsub {\isadigit{0}}\ mod\ {\isadigit{2}}\ {\isasymnoteq}\ {\isadigit{0}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ arith\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ {\isacharparenleft}t\ {\isacharequal}\ t\isactrlsub {\isadigit{0}}\ {\isasymor}\ t\ {\isacharequal}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ {\isadigit{1}}{\isacharparenright}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t\ {\isasymand}\ {\isacharparenleft}t\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}t\isactrlsub {\isadigit{0}}{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ True\ \ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ {\isadigit{2}}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t\ {\isasymand}\ {\isacharparenleft}t\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}t\isactrlsub {\isadigit{0}}{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ interv{\isacharunderscore}{\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ Suc\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}t\isactrlsub {\isadigit{0}}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ arith\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ {\isacharparenleft}t\ {\isacharequal}\ t\isactrlsub {\isadigit{0}}\ {\isasymor}\ t\ {\isacharequal}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ {\isadigit{1}}{\isacharparenright}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t\ {\isasymand}\ {\isacharparenleft}t\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}t\isactrlsub {\isadigit{0}}{\isacharplus}{\isadigit{1}}{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ auto\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ {\isadigit{2}}\ {\isasymand}\ {\isadigit{1}}\ {\isasymle}\ t\ {\isasymand}\ {\isacharparenleft}t\ {\isacharminus}\ {\isadigit{1}}{\isacharparenright}\ mod\ {\isadigit{2}}\ {\isacharequal}\ {\isadigit{0}}{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}t\isactrlsub {\isadigit{0}}{\isacharplus}{\isadigit{1}}{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ interv{\isacharunderscore}{\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{{\isacharbraceright}}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+%
+\isadelimtheory
+\isanewline
+%
+\endisadelimtheory
+%
+\isatagtheory
+\isacommand{end}\isamarkupfalse%
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\end{isabellebody}%
+\endinput
+%:%file=~/Documents/Recherche/Divers/2020-02_EdLee/Clocks/Clocks.thy%:%
+%:%10=1%:%
+%:%11=1%:%
+%:%12=2%:%
+%:%13=3%:%
+%:%14=4%:%
+%:%15=5%:%
+%:%16=6%:%
+%:%30=8%:%
+%:%42=10%:%
+%:%43=11%:%
+%:%44=12%:%
+%:%45=13%:%
+%:%47=15%:%
+%:%48=15%:%
+%:%55=17%:%
+%:%67=19%:%
+%:%68=20%:%
+%:%70=22%:%
+%:%71=22%:%
+%:%72=23%:%
+%:%75=26%:%
+%:%77=27%:%
+%:%78=27%:%
+%:%79=28%:%
+%:%80=29%:%
+%:%81=30%:%
+%:%88=31%:%
+%:%89=31%:%
+%:%90=31%:%
+%:%99=33%:%
+%:%101=34%:%
+%:%102=34%:%
+%:%103=35%:%
+%:%104=36%:%
+%:%105=36%:%
+%:%106=37%:%
+%:%113=38%:%
+%:%114=38%:%
+%:%115=38%:%
+%:%124=40%:%
+%:%126=41%:%
+%:%127=41%:%
+%:%128=42%:%
+%:%135=43%:%
+%:%136=43%:%
+%:%145=45%:%
+%:%147=46%:%
+%:%148=46%:%
+%:%149=47%:%
+%:%150=48%:%
+%:%151=48%:%
+%:%152=49%:%
+%:%159=50%:%
+%:%160=50%:%
+%:%161=50%:%
+%:%166=50%:%
+%:%169=51%:%
+%:%170=52%:%
+%:%171=52%:%
+%:%172=53%:%
+%:%179=54%:%
+%:%180=54%:%
+%:%181=54%:%
+%:%195=56%:%
+%:%207=58%:%
+%:%209=60%:%
+%:%210=60%:%
+%:%211=61%:%
+%:%213=63%:%
+%:%215=64%:%
+%:%216=64%:%
+%:%219=65%:%
+%:%223=65%:%
+%:%224=65%:%
+%:%225=65%:%
+%:%234=67%:%
+%:%236=68%:%
+%:%237=68%:%
+%:%238=69%:%
+%:%239=70%:%
+%:%240=70%:%
+%:%241=71%:%
+%:%248=72%:%
+%:%249=72%:%
+%:%250=72%:%
+%:%264=74%:%
+%:%276=76%:%
+%:%278=77%:%
+%:%279=77%:%
+%:%280=78%:%
+%:%281=79%:%
+%:%288=80%:%
+%:%289=80%:%
+%:%290=80%:%
+%:%295=80%:%
+%:%298=81%:%
+%:%299=82%:%
+%:%300=82%:%
+%:%301=83%:%
+%:%302=84%:%
+%:%303=85%:%
+%:%310=86%:%
+%:%311=86%:%
+%:%312=87%:%
+%:%313=87%:%
+%:%314=87%:%
+%:%315=87%:%
+%:%316=88%:%
+%:%317=88%:%
+%:%318=88%:%
+%:%319=88%:%
+%:%320=89%:%
+%:%330=91%:%
+%:%332=92%:%
+%:%333=92%:%
+%:%334=93%:%
+%:%335=94%:%
+%:%342=95%:%
+%:%343=95%:%
+%:%344=96%:%
+%:%345=96%:%
+%:%346=96%:%
+%:%347=97%:%
+%:%348=97%:%
+%:%349=98%:%
+%:%350=98%:%
+%:%351=99%:%
+%:%352=99%:%
+%:%353=99%:%
+%:%354=100%:%
+%:%369=102%:%
+%:%381=104%:%
+%:%383=105%:%
+%:%384=105%:%
+%:%385=106%:%
+%:%387=108%:%
+%:%389=109%:%
+%:%390=109%:%
+%:%391=110%:%
+%:%398=111%:%
+%:%399=111%:%
+%:%400=112%:%
+%:%401=112%:%
+%:%402=113%:%
+%:%403=113%:%
+%:%404=114%:%
+%:%405=115%:%
+%:%406=115%:%
+%:%407=115%:%
+%:%408=116%:%
+%:%409=116%:%
+%:%410=116%:%
+%:%411=117%:%
+%:%412=117%:%
+%:%413=118%:%
+%:%414=118%:%
+%:%415=119%:%
+%:%416=119%:%
+%:%417=120%:%
+%:%418=121%:%
+%:%419=121%:%
+%:%420=121%:%
+%:%421=121%:%
+%:%422=122%:%
+%:%423=122%:%
+%:%424=123%:%
+%:%425=123%:%
+%:%426=124%:%
+%:%427=124%:%
+%:%428=125%:%
+%:%429=125%:%
+%:%430=126%:%
+%:%431=127%:%
+%:%432=127%:%
+%:%433=128%:%
+%:%434=128%:%
+%:%435=129%:%
+%:%436=129%:%
+%:%437=129%:%
+%:%438=130%:%
+%:%439=130%:%
+%:%440=130%:%
+%:%441=131%:%
+%:%442=131%:%
+%:%443=131%:%
+%:%444=132%:%
+%:%445=132%:%
+%:%446=133%:%
+%:%447=133%:%
+%:%448=134%:%
+%:%449=134%:%
+%:%450=134%:%
+%:%451=134%:%
+%:%452=134%:%
+%:%453=135%:%
+%:%454=135%:%
+%:%455=135%:%
+%:%456=135%:%
+%:%457=135%:%
+%:%458=136%:%
+%:%459=136%:%
+%:%460=136%:%
+%:%461=136%:%
+%:%462=137%:%
+%:%463=137%:%
+%:%464=137%:%
+%:%465=137%:%
+%:%466=138%:%
+%:%467=138%:%
+%:%468=139%:%
+%:%469=139%:%
+%:%470=139%:%
+%:%471=139%:%
+%:%472=140%:%
+%:%482=142%:%
+%:%484=143%:%
+%:%485=143%:%
+%:%486=144%:%
+%:%488=146%:%
+%:%490=147%:%
+%:%491=147%:%
+%:%498=148%:%
+%:%499=148%:%
+%:%500=149%:%
+%:%501=149%:%
+%:%502=149%:%
+%:%503=150%:%
+%:%504=150%:%
+%:%505=150%:%
+%:%506=151%:%
+%:%507=151%:%
+%:%508=151%:%
+%:%509=152%:%
+%:%510=152%:%
+%:%511=152%:%
+%:%512=152%:%
+%:%513=152%:%
+%:%514=153%:%
+%:%524=155%:%
+%:%526=156%:%
+%:%527=156%:%
+%:%529=158%:%
+%:%531=159%:%
+%:%532=159%:%
+%:%535=160%:%
+%:%539=160%:%
+%:%540=160%:%
+%:%541=160%:%
+%:%550=162%:%
+%:%552=163%:%
+%:%553=163%:%
+%:%554=164%:%
+%:%556=166%:%
+%:%558=167%:%
+%:%559=167%:%
+%:%560=168%:%
+%:%561=169%:%
+%:%562=170%:%
+%:%564=173%:%
+%:%565=174%:%
+%:%567=176%:%
+%:%568=176%:%
+%:%575=177%:%
+%:%576=177%:%
+%:%577=178%:%
+%:%578=178%:%
+%:%579=179%:%
+%:%580=179%:%
+%:%581=180%:%
+%:%582=180%:%
+%:%583=181%:%
+%:%584=181%:%
+%:%585=181%:%
+%:%586=181%:%
+%:%587=182%:%
+%:%588=182%:%
+%:%589=182%:%
+%:%590=183%:%
+%:%591=183%:%
+%:%592=184%:%
+%:%593=184%:%
+%:%594=184%:%
+%:%595=185%:%
+%:%596=185%:%
+%:%597=185%:%
+%:%598=186%:%
+%:%599=186%:%
+%:%600=186%:%
+%:%601=186%:%
+%:%602=187%:%
+%:%603=187%:%
+%:%604=188%:%
+%:%605=188%:%
+%:%606=189%:%
+%:%607=189%:%
+%:%608=190%:%
+%:%609=190%:%
+%:%610=191%:%
+%:%611=191%:%
+%:%612=192%:%
+%:%613=192%:%
+%:%614=192%:%
+%:%615=193%:%
+%:%616=193%:%
+%:%617=194%:%
+%:%618=194%:%
+%:%619=195%:%
+%:%620=195%:%
+%:%621=195%:%
+%:%622=195%:%
+%:%623=195%:%
+%:%624=196%:%
+%:%625=196%:%
+%:%626=196%:%
+%:%627=196%:%
+%:%628=197%:%
+%:%629=197%:%
+%:%630=198%:%
+%:%631=198%:%
+%:%632=199%:%
+%:%633=199%:%
+%:%634=199%:%
+%:%635=199%:%
+%:%636=200%:%
+%:%637=200%:%
+%:%638=201%:%
+%:%639=201%:%
+%:%640=202%:%
+%:%641=202%:%
+%:%642=202%:%
+%:%643=202%:%
+%:%644=202%:%
+%:%645=203%:%
+%:%646=203%:%
+%:%647=203%:%
+%:%648=203%:%
+%:%649=204%:%
+%:%650=204%:%
+%:%651=205%:%
+%:%661=207%:%
+%:%663=208%:%
+%:%664=208%:%
+%:%665=209%:%
+%:%667=211%:%
+%:%669=212%:%
+%:%670=212%:%
+%:%671=213%:%
+%:%672=214%:%
+%:%679=215%:%
+%:%680=215%:%
+%:%681=216%:%
+%:%682=216%:%
+%:%683=216%:%
+%:%684=217%:%
+%:%685=217%:%
+%:%686=217%:%
+%:%687=218%:%
+%:%688=218%:%
+%:%689=219%:%
+%:%690=219%:%
+%:%691=220%:%
+%:%692=221%:%
+%:%693=221%:%
+%:%694=221%:%
+%:%695=222%:%
+%:%696=222%:%
+%:%697=222%:%
+%:%698=222%:%
+%:%699=223%:%
+%:%709=225%:%
+%:%711=226%:%
+%:%712=226%:%
+%:%719=227%:%
+%:%720=227%:%
+%:%721=228%:%
+%:%722=228%:%
+%:%723=229%:%
+%:%724=229%:%
+%:%725=229%:%
+%:%726=229%:%
+%:%727=230%:%
+%:%728=230%:%
+%:%729=231%:%
+%:%730=231%:%
+%:%731=232%:%
+%:%732=232%:%
+%:%733=232%:%
+%:%734=233%:%
+%:%735=233%:%
+%:%736=233%:%
+%:%737=234%:%
+%:%738=234%:%
+%:%739=234%:%
+%:%740=234%:%
+%:%741=235%:%
+%:%751=237%:%
+%:%753=238%:%
+%:%754=238%:%
+%:%761=239%:%
+%:%762=239%:%
+%:%763=240%:%
+%:%764=240%:%
+%:%765=240%:%
+%:%766=241%:%
+%:%767=241%:%
+%:%768=241%:%
+%:%769=242%:%
+%:%770=242%:%
+%:%771=242%:%
+%:%772=242%:%
+%:%773=243%:%
+%:%783=245%:%
+%:%785=246%:%
+%:%786=246%:%
+%:%789=247%:%
+%:%793=247%:%
+%:%794=247%:%
+%:%795=247%:%
+%:%804=249%:%
+%:%806=250%:%
+%:%807=250%:%
+%:%808=251%:%
+%:%815=252%:%
+%:%816=252%:%
+%:%817=253%:%
+%:%818=253%:%
+%:%819=253%:%
+%:%828=256%:%
+%:%829=257%:%
+%:%831=259%:%
+%:%832=259%:%
+%:%833=260%:%
+%:%840=261%:%
+%:%841=261%:%
+%:%842=262%:%
+%:%843=262%:%
+%:%844=262%:%
+%:%845=263%:%
+%:%846=263%:%
+%:%847=264%:%
+%:%848=264%:%
+%:%849=265%:%
+%:%850=265%:%
+%:%851=266%:%
+%:%852=267%:%
+%:%853=267%:%
+%:%854=268%:%
+%:%855=268%:%
+%:%856=268%:%
+%:%857=268%:%
+%:%858=269%:%
+%:%868=271%:%
+%:%870=272%:%
+%:%871=272%:%
+%:%872=273%:%
+%:%879=274%:%
+%:%880=274%:%
+%:%881=275%:%
+%:%882=275%:%
+%:%883=276%:%
+%:%884=277%:%
+%:%885=277%:%
+%:%886=277%:%
+%:%887=278%:%
+%:%888=278%:%
+%:%890=280%:%
+%:%891=280%:%
+%:%892=281%:%
+%:%893=281%:%
+%:%894=281%:%
+%:%895=281%:%
+%:%896=282%:%
+%:%911=284%:%
+%:%923=285%:%
+%:%925=286%:%
+%:%926=286%:%
+%:%927=287%:%
+%:%929=289%:%
+%:%931=290%:%
+%:%932=290%:%
+%:%935=291%:%
+%:%939=291%:%
+%:%940=291%:%
+%:%941=291%:%
+%:%942=291%:%
+%:%951=293%:%
+%:%953=294%:%
+%:%954=294%:%
+%:%955=295%:%
+%:%956=296%:%
+%:%963=297%:%
+%:%964=297%:%
+%:%965=298%:%
+%:%966=298%:%
+%:%967=298%:%
+%:%968=299%:%
+%:%969=299%:%
+%:%970=300%:%
+%:%971=300%:%
+%:%972=301%:%
+%:%973=301%:%
+%:%974=302%:%
+%:%975=302%:%
+%:%976=302%:%
+%:%977=302%:%
+%:%978=303%:%
+%:%979=303%:%
+%:%980=303%:%
+%:%981=304%:%
+%:%982=304%:%
+%:%983=304%:%
+%:%984=305%:%
+%:%985=305%:%
+%:%986=305%:%
+%:%987=306%:%
+%:%988=306%:%
+%:%989=307%:%
+%:%990=307%:%
+%:%991=307%:%
+%:%992=308%:%
+%:%993=308%:%
+%:%994=309%:%
+%:%995=309%:%
+%:%996=309%:%
+%:%997=310%:%
+%:%998=310%:%
+%:%999=310%:%
+%:%1000=310%:%
+%:%1001=311%:%
+%:%1002=311%:%
+%:%1003=312%:%
+%:%1004=312%:%
+%:%1005=313%:%
+%:%1006=313%:%
+%:%1007=313%:%
+%:%1008=314%:%
+%:%1009=314%:%
+%:%1010=315%:%
+%:%1011=315%:%
+%:%1012=316%:%
+%:%1013=317%:%
+%:%1014=317%:%
+%:%1015=318%:%
+%:%1016=319%:%
+%:%1017=319%:%
+%:%1018=320%:%
+%:%1019=321%:%
+%:%1020=321%:%
+%:%1021=321%:%
+%:%1022=322%:%
+%:%1023=323%:%
+%:%1024=323%:%
+%:%1025=324%:%
+%:%1026=324%:%
+%:%1027=324%:%
+%:%1028=325%:%
+%:%1029=325%:%
+%:%1030=325%:%
+%:%1031=325%:%
+%:%1032=326%:%
+%:%1033=326%:%
+%:%1034=326%:%
+%:%1035=326%:%
+%:%1036=327%:%
+%:%1037=327%:%
+%:%1038=327%:%
+%:%1039=327%:%
+%:%1040=328%:%
+%:%1041=328%:%
+%:%1042=329%:%
+%:%1043=329%:%
+%:%1044=329%:%
+%:%1045=330%:%
+%:%1046=330%:%
+%:%1047=330%:%
+%:%1048=331%:%
+%:%1049=331%:%
+%:%1050=331%:%
+%:%1051=331%:%
+%:%1052=332%:%
+%:%1053=332%:%
+%:%1054=332%:%
+%:%1055=333%:%
+%:%1056=333%:%
+%:%1057=333%:%
+%:%1058=334%:%
+%:%1059=334%:%
+%:%1060=335%:%
+%:%1061=335%:%
+%:%1062=336%:%
+%:%1063=336%:%
+%:%1064=336%:%
+%:%1065=337%:%
+%:%1066=337%:%
+%:%1067=337%:%
+%:%1068=338%:%
+%:%1069=338%:%
+%:%1070=338%:%
+%:%1071=339%:%
+%:%1072=339%:%
+%:%1073=339%:%
+%:%1074=340%:%
+%:%1075=340%:%
+%:%1076=341%:%
+%:%1077=341%:%
+%:%1078=342%:%
+%:%1079=342%:%
+%:%1080=342%:%
+%:%1081=342%:%
+%:%1082=343%:%
+%:%1092=345%:%
+%:%1094=346%:%
+%:%1095=346%:%
+%:%1096=347%:%
+%:%1097=348%:%
+%:%1104=349%:%
+%:%1105=349%:%
+%:%1106=350%:%
+%:%1107=350%:%
+%:%1108=350%:%
+%:%1109=351%:%
+%:%1110=351%:%
+%:%1111=351%:%
+%:%1112=352%:%
+%:%1113=352%:%
+%:%1114=352%:%
+%:%1115=352%:%
+%:%1116=353%:%
+%:%1117=353%:%
+%:%1118=354%:%
+%:%1119=354%:%
+%:%1120=354%:%
+%:%1121=355%:%
+%:%1122=355%:%
+%:%1123=355%:%
+%:%1124=356%:%
+%:%1125=356%:%
+%:%1126=356%:%
+%:%1127=356%:%
+%:%1128=357%:%
+%:%1138=359%:%
+%:%1140=360%:%
+%:%1141=360%:%
+%:%1142=361%:%
+%:%1143=362%:%
+%:%1150=363%:%
+%:%1151=363%:%
+%:%1152=364%:%
+%:%1153=364%:%
+%:%1154=364%:%
+%:%1155=365%:%
+%:%1156=366%:%
+%:%1157=366%:%
+%:%1158=366%:%
+%:%1159=367%:%
+%:%1160=367%:%
+%:%1161=368%:%
+%:%1162=368%:%
+%:%1163=369%:%
+%:%1164=369%:%
+%:%1165=369%:%
+%:%1166=370%:%
+%:%1167=370%:%
+%:%1168=370%:%
+%:%1169=370%:%
+%:%1170=371%:%
+%:%1171=371%:%
+%:%1172=372%:%
+%:%1173=372%:%
+%:%1174=373%:%
+%:%1175=373%:%
+%:%1176=374%:%
+%:%1177=374%:%
+%:%1178=375%:%
+%:%1179=375%:%
+%:%1180=376%:%
+%:%1181=376%:%
+%:%1182=377%:%
+%:%1183=377%:%
+%:%1184=378%:%
+%:%1185=378%:%
+%:%1186=378%:%
+%:%1187=378%:%
+%:%1188=379%:%
+%:%1189=379%:%
+%:%1190=380%:%
+%:%1191=380%:%
+%:%1192=381%:%
+%:%1193=381%:%
+%:%1194=382%:%
+%:%1195=382%:%
+%:%1196=382%:%
+%:%1197=383%:%
+%:%1198=383%:%
+%:%1199=384%:%
+%:%1200=384%:%
+%:%1201=385%:%
+%:%1202=385%:%
+%:%1203=385%:%
+%:%1204=385%:%
+%:%1205=386%:%
+%:%1206=386%:%
+%:%1207=387%:%
+%:%1208=387%:%
+%:%1209=387%:%
+%:%1210=387%:%
+%:%1211=388%:%
+%:%1212=388%:%
+%:%1213=389%:%
+%:%1214=389%:%
+%:%1215=389%:%
+%:%1216=390%:%
+%:%1217=390%:%
+%:%1218=391%:%
+%:%1228=393%:%
+%:%1230=394%:%
+%:%1231=394%:%
+%:%1232=395%:%
+%:%1233=396%:%
+%:%1234=397%:%
+%:%1237=398%:%
+%:%1241=398%:%
+%:%1242=398%:%
+%:%1243=398%:%
+%:%1244=399%:%
+%:%1245=399%:%
+%:%1246=399%:%
+%:%1255=401%:%
+%:%1257=402%:%
+%:%1258=402%:%
+%:%1259=403%:%
+%:%1260=404%:%
+%:%1261=405%:%
+%:%1262=406%:%
+%:%1269=407%:%
+%:%1270=407%:%
+%:%1271=408%:%
+%:%1272=408%:%
+%:%1273=408%:%
+%:%1282=410%:%
+%:%1284=411%:%
+%:%1285=411%:%
+%:%1286=412%:%
+%:%1287=413%:%
+%:%1288=414%:%
+%:%1289=415%:%
+%:%1296=416%:%
+%:%1297=416%:%
+%:%1298=417%:%
+%:%1299=417%:%
+%:%1300=417%:%
+%:%1301=417%:%
+%:%1302=418%:%
+%:%1303=418%:%
+%:%1304=418%:%
+%:%1305=418%:%
+%:%1306=419%:%
+%:%1307=419%:%
+%:%1308=419%:%
+%:%1309=419%:%
+%:%1310=420%:%
+%:%1311=420%:%
+%:%1312=420%:%
+%:%1313=421%:%
+%:%1314=421%:%
+%:%1315=421%:%
+%:%1316=421%:%
+%:%1317=422%:%
+%:%1332=424%:%
+%:%1344=425%:%
+%:%1346=426%:%
+%:%1347=426%:%
+%:%1348=427%:%
+%:%1349=428%:%
+%:%1350=429%:%
+%:%1357=430%:%
+%:%1358=430%:%
+%:%1359=431%:%
+%:%1360=431%:%
+%:%1369=433%:%
+%:%1371=434%:%
+%:%1372=434%:%
+%:%1373=435%:%
+%:%1374=436%:%
+%:%1375=437%:%
+%:%1382=438%:%
+%:%1383=438%:%
+%:%1397=440%:%
+%:%1407=442%:%
+%:%1408=442%:%
+%:%1409=443%:%
+%:%1410=443%:%
+%:%1411=444%:%
+%:%1412=445%:%
+%:%1413=445%:%
+%:%1414=446%:%
+%:%1415=446%:%
+%:%1416=447%:%
+%:%1417=447%:%
+%:%1418=448%:%
+%:%1419=448%:%
+%:%1420=449%:%
+%:%1421=450%:%
+%:%1422=450%:%
+%:%1423=451%:%
+%:%1424=451%:%
+%:%1425=452%:%
+%:%1426=452%:%
+%:%1427=453%:%
+%:%1428=453%:%
+%:%1429=454%:%
+%:%1430=454%:%
+%:%1431=455%:%
+%:%1432=455%:%
+%:%1433=456%:%
+%:%1434=457%:%
+%:%1435=457%:%
+%:%1438=458%:%
+%:%1442=458%:%
+%:%1443=458%:%
+%:%1444=458%:%
+%:%1449=458%:%
+%:%1452=459%:%
+%:%1453=460%:%
+%:%1454=460%:%
+%:%1457=461%:%
+%:%1461=461%:%
+%:%1462=461%:%
+%:%1463=461%:%
+%:%1468=461%:%
+%:%1471=462%:%
+%:%1472=463%:%
+%:%1473=463%:%
+%:%1474=464%:%
+%:%1475=465%:%
+%:%1476=465%:%
+%:%1477=466%:%
+%:%1478=466%:%
+%:%1479=467%:%
+%:%1480=467%:%
+%:%1481=468%:%
+%:%1482=469%:%
+%:%1483=469%:%
+%:%1486=470%:%
+%:%1490=470%:%
+%:%1491=470%:%
+%:%1496=470%:%
+%:%1499=471%:%
+%:%1500=472%:%
+%:%1501=472%:%
+%:%1508=473%:%
+%:%1509=473%:%
+%:%1510=474%:%
+%:%1511=474%:%
+%:%1512=475%:%
+%:%1513=475%:%
+%:%1514=476%:%
+%:%1515=476%:%
+%:%1516=476%:%
+%:%1517=477%:%
+%:%1518=477%:%
+%:%1519=478%:%
+%:%1520=478%:%
+%:%1521=479%:%
+%:%1522=479%:%
+%:%1523=480%:%
+%:%1524=480%:%
+%:%1525=481%:%
+%:%1526=481%:%
+%:%1527=481%:%
+%:%1528=482%:%
+%:%1529=482%:%
+%:%1530=482%:%
+%:%1531=483%:%
+%:%1532=483%:%
+%:%1533=483%:%
+%:%1534=484%:%
+%:%1535=484%:%
+%:%1536=484%:%
+%:%1537=485%:%
+%:%1538=485%:%
+%:%1539=486%:%
+%:%1540=487%:%
+%:%1541=487%:%
+%:%1542=487%:%
+%:%1543=487%:%
+%:%1544=488%:%
+%:%1545=488%:%
+%:%1546=488%:%
+%:%1547=488%:%
+%:%1548=489%:%
+%:%1549=489%:%
+%:%1550=489%:%
+%:%1551=489%:%
+%:%1552=490%:%
+%:%1553=490%:%
+%:%1554=491%:%
+%:%1555=491%:%
+%:%1556=492%:%
+%:%1557=492%:%
+%:%1558=492%:%
+%:%1559=493%:%
+%:%1560=493%:%
+%:%1561=494%:%
+%:%1562=494%:%
+%:%1563=495%:%
+%:%1564=495%:%
+%:%1565=495%:%
+%:%1566=495%:%
+%:%1567=496%:%
+%:%1568=496%:%
+%:%1569=497%:%
+%:%1570=497%:%
+%:%1571=497%:%
+%:%1572=498%:%
+%:%1573=498%:%
+%:%1574=499%:%
+%:%1575=499%:%
+%:%1576=499%:%
+%:%1577=500%:%
+%:%1578=500%:%
+%:%1579=500%:%
+%:%1580=500%:%
+%:%1581=501%:%
+%:%1582=501%:%
+%:%1583=502%:%
+%:%1584=502%:%
+%:%1585=503%:%
+%:%1586=503%:%
+%:%1587=503%:%
+%:%1588=503%:%
+%:%1589=504%:%
+%:%1590=504%:%
+%:%1591=505%:%
+%:%1592=505%:%
+%:%1593=506%:%
+%:%1594=506%:%
+%:%1595=507%:%
+%:%1596=507%:%
+%:%1597=507%:%
+%:%1598=508%:%
+%:%1599=508%:%
+%:%1600=508%:%
+%:%1601=508%:%
+%:%1602=509%:%
+%:%1603=509%:%
+%:%1604=510%:%
+%:%1605=510%:%
+%:%1606=511%:%
+%:%1607=511%:%
+%:%1608=512%:%
+%:%1609=512%:%
+%:%1610=512%:%
+%:%1611=513%:%
+%:%1612=513%:%
+%:%1613=514%:%
+%:%1614=514%:%
+%:%1615=514%:%
+%:%1616=514%:%
+%:%1617=515%:%
+%:%1623=515%:%
+%:%1628=516%:%
+%:%1633=517%:%
