@@ -1,6 +1,6 @@
 %
 \begin{isabellebody}%
-\setisabellecontext{Clocks}%
+\setisabellecontext{LinguaFrancaClocks}%
 %
 \isadelimtheory
 %
@@ -8,7 +8,7 @@
 %
 \isatagtheory
 \isacommand{theory}\isamarkupfalse%
-\ Clocks\isanewline
+\ LinguaFrancaClocks\isanewline
 \isanewline
 \isanewline
 \isakeyword{imports}\ Main\isanewline
@@ -39,8 +39,8 @@
 \endisadelimdocument
 %
 \begin{isamarkuptext}%
-Time is represented as the natural numbers.
-A clock represents an event that may occur or not at any time.
+Instants are represented as the natural numbers.
+A clock represents an event that may occur or not at any instant.
 We model a clock as a function from nat to bool, which is True at every
 instant when the clock ticks (the event occurs).%
 \end{isamarkuptext}\isamarkuptrue%
@@ -208,7 +208,7 @@ A clock is p-sporadic if it ticks at instants separated at least by p instants.%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{definition}\isamarkupfalse%
 \ p{\isacharunderscore}sporadic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ clock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
-\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ p\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymforall}t{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}p{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}c\ t{\isacharprime}{\isacharparenright}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}%
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ p\ c\ {\isasymequiv}\ {\isasymforall}t{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t{\isacharprime}\ {\isachargreater}\ t\ {\isasymand}\ c\ t{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isachargreater}\ t\ {\isacharplus}\ p{\isacharparenright}{\isacartoucheclose}%
 \begin{isamarkuptext}%
 Any clock is 0-sporadic%
 \end{isamarkuptext}\isamarkuptrue%
@@ -297,10 +297,75 @@ Some useful lemmas about modulo.%
 \endisadelimproof
 \isanewline
 \isacommand{lemma}\isamarkupfalse%
+\ mod{\isacharunderscore}sporadic{\isacharprime}{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isacharparenleft}{\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}{\isasymforall}n{\isacharprime}{\isachardot}\ {\isacharparenleft}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ {\isacharparenleft}n{\isacharprime}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}\ {\isasymlongrightarrow}\ n{\isacharprime}\ {\isasymge}\ n{\isacharplus}p{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{{\isacharbraceleft}}\isamarkupfalse%
+\ \isacommand{fix}\isamarkupfalse%
+\ n{\isacharprime}\ \isacommand{assume}\isamarkupfalse%
+\ h{\isacharcolon}{\isacartoucheopen}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ n{\isacharprime}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}n{\isacharprime}\ {\isasymge}\ n{\isacharplus}p{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ mod{\isacharunderscore}sporadic{\isacharbrackleft}OF\ assms{\isacharbrackright}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{{\isacharbraceright}}\isamarkupfalse%
+\ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
 \ mod{\isacharunderscore}offset{\isacharunderscore}sporadic{\isacharcolon}\isanewline
 \ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isasymge}\ k{\isacartoucheclose}\isanewline
 \ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
 \ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}{\isasymforall}n{\isacharprime}{\isachardot}\ {\isacharparenleft}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ n{\isacharprime}\ {\isacharless}\ n{\isacharplus}p{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}{\isacharparenleft}n{\isacharprime}{\isacharminus}k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}n{\isacharprime}{\isachardot}\ n{\isacharprime}\ {\isachargreater}\ n\ {\isasymlongrightarrow}\ {\isacharparenleft}n{\isacharprime}{\isacharminus}k{\isacharparenright}\ {\isachargreater}\ {\isacharparenleft}n{\isacharminus}k{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ diff{\isacharunderscore}less{\isacharunderscore}mono{\isacharparenright}\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ mod{\isacharunderscore}sporadic{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}{\isacharbrackright}\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ mod{\isacharunderscore}offset{\isacharunderscore}sporadic{\isacharprime}{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isasymge}\ k{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}{\isasymforall}n{\isacharprime}{\isachardot}\ {\isacharparenleft}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n{\isacharprime}{\isacharminus}k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}\ {\isasymlongrightarrow}\ n{\isacharprime}\ {\isasymge}\ n{\isacharplus}p{\isacartoucheclose}\isanewline
 %
 \isadelimproof
 %
@@ -331,7 +396,7 @@ A (p+1)-periodic clock is p-sporadic.%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{lemma}\isamarkupfalse%
 \ periodic{\isacharunderscore}suc{\isacharunderscore}sporadic{\isacharcolon}\isanewline
-\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}periodic\ {\isacharparenleft}Suc\ p{\isacharparenright}\ c{\isacartoucheclose}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}periodic\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ c{\isacartoucheclose}\isanewline
 \ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ p\ c{\isacartoucheclose}\isanewline
 %
 \isadelimproof
@@ -345,12 +410,19 @@ A (p+1)-periodic clock is p-sporadic.%
 \ assms\ p{\isacharunderscore}periodic{\isacharunderscore}def\ \isacommand{obtain}\isamarkupfalse%
 \ k\isanewline
 \ \ \ \ \isakeyword{where}\ {\isacartoucheopen}kp{\isacharunderscore}periodic\ k\ {\isacharparenleft}Suc\ p{\isacharparenright}\ c{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
-\ blast\isanewline
+\ {\isacharparenleft}auto\ simp\ add{\isacharcolon}\ Suc{\isacharunderscore}eq{\isacharunderscore}plus{\isadigit{1}}{\isacharbrackleft}symmetric{\isacharbrackright}{\isacharparenright}\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}n{\isachardot}\ c\ n\ {\isacharequal}\ {\isacharparenleft}{\isacharparenleft}n\ {\isasymge}\ k{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ {\isacharparenleft}Suc\ p{\isacharparenright}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\ \isacommand{unfolding}\isamarkupfalse%
+\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
 \ \ \isacommand{thus}\isamarkupfalse%
 \ {\isacharquery}thesis\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ p{\isacharunderscore}sporadic{\isacharunderscore}def\isanewline
 \ \ \ \ \isacommand{using}\isamarkupfalse%
-\ assms\ kp{\isacharunderscore}periodic{\isacharunderscore}def\ p{\isacharunderscore}sporadic{\isacharunderscore}def\ mod{\isacharunderscore}offset{\isacharunderscore}sporadic\ \isacommand{by}\isamarkupfalse%
-\ auto\isanewline
+\ mod{\isacharunderscore}offset{\isacharunderscore}sporadic{\isacharprime}{\isacharbrackleft}\isakeyword{where}\ k{\isacharequal}k\ \isakeyword{and}\ p{\isacharequal}{\isacartoucheopen}Suc\ p{\isacartoucheclose}{\isacharbrackright}\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ Suc{\isacharunderscore}le{\isacharunderscore}lessD{\isacharparenright}\isanewline
 \isacommand{qed}\isamarkupfalse%
 %
 \endisatagproof
@@ -382,7 +454,25 @@ The result of merging two clocks ticks whenever any of the two clocks ticks.%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{definition}\isamarkupfalse%
 \ merge\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}clock{\isacharcomma}\ clock{\isacharbrackright}\ {\isasymRightarrow}\ clock{\isacartoucheclose}\ {\isacharparenleft}\isakeyword{infix}\ {\isacartoucheopen}{\isasymoplus}{\isacartoucheclose}\ {\isadigit{6}}{\isadigit{0}}{\isacharparenright}\isanewline
-\ \ \isakeyword{where}\ {\isacartoucheopen}c{\isadigit{1}}\ {\isasymoplus}\ c{\isadigit{2}}\ {\isasymequiv}\ {\isasymlambda}t{\isachardot}\ c{\isadigit{1}}\ t\ {\isasymor}\ c{\isadigit{2}}\ t{\isacartoucheclose}%
+\ \ \isakeyword{where}\ {\isacartoucheopen}c{\isadigit{1}}\ {\isasymoplus}\ c{\isadigit{2}}\ {\isasymequiv}\ {\isasymlambda}t{\isachardot}\ c{\isadigit{1}}\ t\ {\isasymor}\ c{\isadigit{2}}\ t{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ merge{\isacharunderscore}comm{\isacharcolon}\ {\isacartoucheopen}c\ {\isasymoplus}\ c{\isacharprime}\ {\isacharequal}\ c{\isacharprime}\ {\isasymoplus}\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}auto\ simp\ add{\isacharcolon}\ merge{\isacharunderscore}def{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
 \begin{isamarkuptext}%
 Merging two sporadic clocks does not necessary yields a sporadic clock.%
 \end{isamarkuptext}\isamarkuptrue%
@@ -442,7 +532,7 @@ Merging two sporadic clocks does not necessary yields a sporadic clock.%
 \ sporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
 \ blast\isanewline
 \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
-\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}p{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}{\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t{\isacharprime}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}t{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ \ t{\isacharprime}\ {\isachargreater}\ t{\isacharplus}p{\isacharparenright}{\isacartoucheclose}\isanewline
 \ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
 \ {\isacharparenleft}simp\ add{\isacharcolon}p{\isacharunderscore}sporadic{\isacharunderscore}def{\isacharparenright}\isanewline
 \ \ \ \ \ \ \isacommand{moreover}\isamarkupfalse%
@@ -457,8 +547,9 @@ Merging two sporadic clocks does not necessary yields a sporadic clock.%
 \ simp\isanewline
 \ \ \ \ \ \ \isacommand{ultimately}\isamarkupfalse%
 \ \isacommand{have}\isamarkupfalse%
-\ False\ \isacommand{by}\isamarkupfalse%
-\ {\isacharparenleft}simp\ add{\isacharcolon}\ {\isachardoublequoteopen}{\isacharasterisk}{\isachardoublequoteclose}\ Suc{\isacharunderscore}leI{\isacharparenright}\isanewline
+\ False\ \isacommand{using}\isamarkupfalse%
+\ {\isacharasterisk}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
 \ \ \ \ \isacommand{{\isacharbraceright}}\isamarkupfalse%
 \ \isacommand{thus}\isamarkupfalse%
 \ {\isacharquery}thesis\ \isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
@@ -1089,12 +1180,152 @@ A sporadic clock is bounded.%
 \endisadelimproof
 %
 \begin{isamarkuptext}%
+A sporadic clock is bounded.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ spor{\isacharunderscore}bound{\isacharprime}{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isasymforall}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ c\ t{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isachargreater}\ t{\isacharplus}n{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \isakeyword{shows}\ {\isacartoucheopen}{\isasymforall}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{{\isacharbraceleft}}\isamarkupfalse%
+\ \isacommand{fix}\isamarkupfalse%
+\ t{\isacharcolon}{\isacharcolon}nat\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isacartoucheopen}c\ t{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ c\ t{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isachargreater}\ t{\isacharplus}n{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ empty{\isacharcolon}\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ finite{\isacharcolon}\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ notin{\isacharcolon}\ {\isacartoucheopen}t\ {\isasymnotin}\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ {\isacharequal}\ insert\ t\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isacartoucheopen}c\ t{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{1}}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ empty\ card{\isacharunderscore}insert{\isacharunderscore}disjoint{\isacharbrackleft}OF\ finite\ notin{\isacharbrackright}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\isanewline
+\ \ \ \ \ \ \isacommand{proof}\isamarkupfalse%
+{\isacharparenleft}cases\ {\isacartoucheopen}{\isasymexists}tt{\isachardot}\ t\ {\isacharless}\ tt\ {\isasymand}\ tt\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ tt{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \ \ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymexists}ttmin{\isachardot}\ t\ {\isacharless}\ ttmin\ {\isasymand}\ ttmin\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ ttmin\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isasymand}\ {\isacharparenleft}{\isasymforall}tt{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ tt{\isacharprime}\ {\isasymand}\ tt{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ tt{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ ttmin\ {\isasymle}\ tt{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}metis\ add{\isacharunderscore}lessD{\isadigit{1}}\ add{\isacharunderscore}less{\isacharunderscore}mono{\isadigit{1}}\ assms\ le{\isacharunderscore}Suc{\isacharunderscore}ex\ le{\isacharunderscore}eq{\isacharunderscore}less{\isacharunderscore}or{\isacharunderscore}eq\ le{\isacharunderscore}refl\ less{\isacharunderscore}imp{\isacharunderscore}le{\isacharunderscore}nat\ nat{\isacharunderscore}le{\isacharunderscore}linear\ nat{\isacharunderscore}neq{\isacharunderscore}iff{\isacharparenright}\isanewline
+\ \ \ \ \ \ \ \ \isacommand{from}\isamarkupfalse%
+\ this\ \isacommand{obtain}\isamarkupfalse%
+\ ttmin\ \isakeyword{where}\isanewline
+\ \ \ \ \ \ \ \ \ \ tmin{\isacharcolon}\ {\isacartoucheopen}t\ {\isacharless}\ ttmin\ {\isasymand}\ ttmin\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ ttmin\isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isasymand}\ {\isacharparenleft}{\isasymforall}tt{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ tt{\isacharprime}\ {\isasymand}\ tt{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ tt{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ ttmin\ {\isasymle}\ tt{\isacharprime}{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ tick{\isacharcolon}{\isacartoucheopen}c\ ttmin{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ notick{\isacharcolon}{\isacartoucheopen}{\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ ttmin\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ c\ t{\isacharprime}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isachargreater}\ ttmin\ {\isacharplus}\ n{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isacharless}\ ttmin{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}c\ t{\isacharprime}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ tmin\ {\isacartoucheopen}{\isasymnot}c\ t{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{moreover}\isamarkupfalse%
+\ \isacommand{from}\isamarkupfalse%
+\ notick\ tmin\ \isacommand{have}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \ \ \ \ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}ttmin\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}c\ t{\isacharprime}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{ultimately}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isacharcolon}{\isacharcolon}nat{\isachardot}\ {\isacharparenleft}t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isacharequal}\ ttmin{\isacartoucheclose}\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ tick\ tmin\ {\isacartoucheopen}{\isasymnot}c\ t{\isacartoucheclose}\ le{\isacharunderscore}eq{\isacharunderscore}less{\isacharunderscore}or{\isacharunderscore}eq\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}ttmin{\isacharbraceright}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ tmin\ \isacommand{by}\isamarkupfalse%
+\ fastforce\isanewline
+\ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{with}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymnot}c\ t{\isacartoucheclose}\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymforall}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymlongrightarrow}\ {\isasymnot}c\ t{\isacharprime}{\isacartoucheclose}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ nat{\isacharunderscore}less{\isacharunderscore}le\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isacharequal}\ {\isadigit{0}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ linarith\isanewline
+\ \ \ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{{\isacharbraceright}}\isamarkupfalse%
+\ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
 An n-sporadic clock is (n+1, 1)-bounded.%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{lemma}\isamarkupfalse%
 \ spor{\isacharunderscore}bounded{\isacharcolon}\isanewline
 \ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
-\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isadigit{1}}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}n{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isadigit{1}}\ c{\isacartoucheclose}\isanewline
 %
 \isadelimproof
 %
@@ -1105,12 +1336,12 @@ An n-sporadic clock is (n+1, 1)-bounded.%
 \ {\isacharminus}\isanewline
 \ \ \isacommand{from}\isamarkupfalse%
 \ assms\ \isacommand{have}\isamarkupfalse%
-\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n{\isacharparenright}\ {\isasymlongrightarrow}\ {\isasymnot}{\isacharparenleft}c\ t{\isacharprime}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ c\ t\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t\ {\isacharless}\ t{\isacharprime}\ {\isasymand}\ c\ t{\isacharprime}{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isachargreater}\ t{\isacharplus}n{\isacharparenright}{\isacartoucheclose}\isanewline
 \ \ \ \ \isacommand{using}\isamarkupfalse%
 \ p{\isacharunderscore}sporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
 \ \ \isacommand{from}\isamarkupfalse%
-\ spor{\isacharunderscore}bound{\isacharbrackleft}OF\ this{\isacharbrackright}\ \isacommand{have}\isamarkupfalse%
+\ spor{\isacharunderscore}bound{\isacharprime}{\isacharbrackleft}OF\ this{\isacharbrackright}\ \isacommand{have}\isamarkupfalse%
 \ {\isacartoucheopen}{\isasymforall}t{\isachardot}\ card\ {\isacharbraceleft}t{\isacharprime}{\isachardot}\ t\ {\isasymle}\ t{\isacharprime}\ {\isasymand}\ t{\isacharprime}\ {\isasymle}\ t{\isacharplus}n\ {\isasymand}\ c\ t{\isacharprime}{\isacharbraceright}\ {\isasymle}\ {\isadigit{1}}{\isacartoucheclose}\ \isacommand{{\isachardot}}\isamarkupfalse%
 \isanewline
 \ \ \isacommand{hence}\isamarkupfalse%
@@ -1123,7 +1354,7 @@ An n-sporadic clock is (n+1, 1)-bounded.%
 \ auto\isanewline
 \ \ \isacommand{thus}\isamarkupfalse%
 \ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
-\ bounded{\isacharunderscore}def\ tick{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{{\isachardot}}\isamarkupfalse%
+\ bounded{\isacharunderscore}def\ tick{\isacharunderscore}count{\isacharunderscore}def\ Suc{\isacharunderscore}eq{\isacharunderscore}plus{\isadigit{1}}\ \isacommand{{\isachardot}}\isamarkupfalse%
 \isanewline
 \isacommand{qed}\isamarkupfalse%
 %
@@ -1140,7 +1371,7 @@ An n-sporadic clock is (n+2, 2)-bounded.%
 \isacommand{lemma}\isamarkupfalse%
 \ spor{\isacharunderscore}bounded{\isadigit{2}}{\isacharcolon}\isanewline
 \ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
-\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ {\isacharparenleft}Suc\ n{\isacharparenright}{\isacharparenright}\ {\isadigit{2}}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}n{\isacharplus}{\isadigit{2}}{\isacharparenright}\ {\isadigit{2}}\ c{\isacartoucheclose}\isanewline
 %
 \isadelimproof
 %
@@ -1214,7 +1445,7 @@ An n-sporadic clock is (n+2, 2)-bounded.%
 \ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
 \ bounded{\isacharunderscore}def\ tick{\isacharunderscore}count{\isacharunderscore}def\isanewline
 \ \ \ \ \isacommand{by}\isamarkupfalse%
-\ {\isacharparenleft}metis\ Suc{\isacharunderscore}{\isadigit{1}}\ add{\isacharunderscore}Suc{\isacharunderscore}right{\isacharparenright}\isanewline
+\ {\isacharparenleft}metis\ Suc{\isacharunderscore}{\isadigit{1}}\ add{\isacharunderscore}Suc{\isacharunderscore}right\ Suc{\isacharunderscore}eq{\isacharunderscore}plus{\isadigit{1}}{\isacharparenright}\isanewline
 \isacommand{qed}\isamarkupfalse%
 %
 \endisatagproof
@@ -1286,7 +1517,7 @@ The merge of two sporadic clocks is bounded.%
 \ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
 \ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n{\isacharprime}\ c{\isacharprime}{\isacartoucheclose}\isanewline
 \ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}n{\isacharprime}\ {\isasymge}\ n{\isacartoucheclose}\isanewline
-\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isadigit{2}}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}n{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isadigit{2}}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
 %
 \isadelimproof
 %
@@ -1296,16 +1527,16 @@ The merge of two sporadic clocks is bounded.%
 \isacommand{proof}\isamarkupfalse%
 \ {\isacharminus}\isanewline
 \ \ \isacommand{have}\isamarkupfalse%
-\ {\isadigit{1}}{\isacharcolon}{\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharparenright}\ {\isadigit{1}}\ c{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isacartoucheopen}bounded\ {\isacharparenleft}n{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isadigit{1}}\ c{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
 \ spor{\isacharunderscore}bounded{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{1}}{\isacharparenright}{\isacharbrackright}\ \isacommand{{\isachardot}}\isamarkupfalse%
 \isanewline
 \ \ \isacommand{have}\isamarkupfalse%
-\ {\isadigit{2}}{\isacharcolon}{\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ n{\isacharprime}{\isacharparenright}\ {\isadigit{1}}\ c{\isacharprime}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isacartoucheopen}bounded\ {\isacharparenleft}n{\isacharprime}{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isadigit{1}}\ c{\isacharprime}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
 \ spor{\isacharunderscore}bounded{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}{\isacharbrackright}\ \isacommand{{\isachardot}}\isamarkupfalse%
 \isanewline
 \ \ \isacommand{from}\isamarkupfalse%
 \ assms{\isacharparenleft}{\isadigit{3}}{\isacharparenright}\ \isacommand{have}\isamarkupfalse%
-\ {\isadigit{3}}{\isacharcolon}{\isacartoucheopen}Suc\ n{\isacharprime}\ {\isasymge}\ Suc\ n{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isadigit{3}}{\isacharcolon}{\isacartoucheopen}n{\isacharprime}{\isacharplus}{\isadigit{1}}\ {\isasymge}\ n{\isacharplus}{\isadigit{1}}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
 \ \ \isacommand{have}\isamarkupfalse%
 \ {\isacartoucheopen}{\isadigit{1}}{\isacharplus}{\isadigit{1}}\ {\isacharequal}\ {\isacharparenleft}{\isadigit{2}}{\isacharcolon}{\isacharcolon}nat{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
@@ -1329,7 +1560,7 @@ The merge of two sporadic clocks is bounded.%
 %
 \isatagdocument
 %
-\isamarkupsection{Main theorem%
+\isamarkupsubsection{Main theorem%
 }
 \isamarkuptrue%
 %
@@ -1347,17 +1578,398 @@ The merge of two sporadic clocks is bounded on the min of the bounding intervals
 \ sporadic{\isacharunderscore}bounded{\isacharunderscore}min{\isacharcolon}\isanewline
 \ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n\ c{\isacartoucheclose}\isanewline
 \ \ \ \ \ \ \isakeyword{and}\ {\isacartoucheopen}p{\isacharunderscore}sporadic\ n{\isacharprime}\ c{\isacharprime}{\isacartoucheclose}\isanewline
-\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}Suc\ {\isacharparenleft}min\ n\ n{\isacharprime}{\isacharparenright}{\isacharparenright}\ {\isadigit{2}}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}bounded\ {\isacharparenleft}{\isacharparenleft}min\ n\ n{\isacharprime}{\isacharparenright}{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isadigit{2}}\ {\isacharparenleft}c{\isasymoplus}c{\isacharprime}{\isacharparenright}{\isacartoucheclose}\isanewline
 %
 \isadelimproof
 %
 \endisadelimproof
 %
 \isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isacartoucheopen}n\ {\isasymle}\ n{\isacharprime}{\isacartoucheclose}{\isacharparenright}\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}min\ n\ n{\isacharprime}\ {\isacharequal}\ n{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ sporadic{\isacharunderscore}bounded{\isadigit{1}}{\isacharbrackleft}OF\ assms\ True{\isacharbrackright}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{hence}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isacartoucheopen}n{\isacharprime}\ {\isacharequal}\ min\ n\ n{\isacharprime}{\isacartoucheclose}\ \isakeyword{and}\ {\isadigit{2}}{\isacharcolon}{\isacartoucheopen}n{\isacharprime}\ {\isasymle}\ n{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp{\isacharplus}\isanewline
+\ \ \ \ \isacommand{from}\isamarkupfalse%
+\ sporadic{\isacharunderscore}bounded{\isadigit{1}}{\isacharbrackleft}OF\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}\ assms{\isacharparenleft}{\isadigit{1}}{\isacharparenright}\ {\isadigit{2}}{\isacharbrackright}\ {\isadigit{1}}\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ merge{\isacharunderscore}comm\ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Logical time%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+Logical time is a natural number that is attached to instants.
+Logical time can stay constant for an arbitrary number of instants, but it cannot decrease.
+When logical time stays constant for an infinite number of instants, we have a Zeno condition.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{typedef}\isamarkupfalse%
+\ time\ {\isacharequal}\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isasymRightarrow}nat{\isachardot}\ mono\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
 \isacommand{using}\isamarkupfalse%
-\ assms\ bounded{\isacharunderscore}less\ bounded{\isacharunderscore}merge\ sporadic{\isacharunderscore}bounded{\isadigit{1}}\ spor{\isacharunderscore}bounded\isanewline
-\isacommand{by}\isamarkupfalse%
-\ {\isacharparenleft}metis\ {\isacharparenleft}no{\isacharunderscore}types{\isacharcomma}\ lifting{\isacharparenright}\ min{\isachardot}cobounded{\isadigit{1}}\ min{\isacharunderscore}Suc{\isacharunderscore}Suc\ min{\isacharunderscore}def\ one{\isacharunderscore}add{\isacharunderscore}one{\isacharparenright}%
+\ mono{\isacharunderscore}Suc\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{setup{\isacharunderscore}lifting}\isamarkupfalse%
+\ type{\isacharunderscore}definition{\isacharunderscore}time%
+\begin{isamarkuptext}%
+A chronometric clock is a clock associated with a time line.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{type{\isacharunderscore}synonym}\isamarkupfalse%
+\ chronoclock\ {\isacharequal}\ {\isacartoucheopen}clock{\isasymtimes}time{\isacartoucheclose}%
+\begin{isamarkuptext}%
+@term{\isa{c\ {\isasymnabla}\ t}} tells whether chronometric clock \isa{c} ticks at instant \isa{t}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ ticks\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\ {\isacharparenleft}\isakeyword{infix}\ {\isacartoucheopen}{\isasymnabla}{\isacartoucheclose}\ {\isadigit{6}}{\isadigit{0}}{\isacharparenright}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}c\ {\isasymnabla}\ t\ {\isasymequiv}\ {\isacharparenleft}fst\ c{\isacharparenright}\ t{\isacartoucheclose}%
+\begin{isamarkuptext}%
+@term{\isa{c\isactrlbsub t\isactrlesub }} is the logical time on clock \isa{c} at instant \isa{t}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lift{\isacharunderscore}definition}\isamarkupfalse%
+\ time{\isacharunderscore}at\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\ {\isacharparenleft}{\isacartoucheopen}{\isacharunderscore}\isactrlbsub {\isacharunderscore}\isactrlesub {\isacartoucheclose}\ {\isacharbrackleft}{\isadigit{6}}{\isadigit{0}}{\isacharcomma}\ {\isadigit{6}}{\isadigit{0}}{\isacharbrackright}{\isacharparenright}\isanewline
+\ \ \isakeyword{is}\ {\isacartoucheopen}{\isasymlambda}c\ t{\isachardot}\ {\isacharparenleft}snd\ c{\isacharparenright}\ t{\isacartoucheclose}%
+\isadelimproof
+\ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{{\isachardot}}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+\isanewline
+\isanewline
+\isacommand{lemmas}\isamarkupfalse%
+\ chronoclocks{\isacharunderscore}simp{\isacharbrackleft}simp{\isacharbrackright}\ {\isacharequal}\ ticks{\isacharunderscore}def\ time{\isacharunderscore}at{\isacharunderscore}def%
+\begin{isamarkuptext}%
+As consequence of the definition of the \isa{time} type, \isa{{\isacharparenleft}{\isasymnabla}{\isacharparenright}} is monotonous for any clock.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ mono{\isacharunderscore}chronotime{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}mono\ {\isacharparenleft}time{\isacharunderscore}at\ c{\isacharparenright}{\isacartoucheclose}%
+\isadelimproof
+\ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ Rep{\isacharunderscore}time\ \isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+An event occurs at a given time if the clock ticks at some instant at that time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ occurs\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}occurs\ n\ c\ {\isasymequiv}\ {\isasymexists}k{\isachardot}\ {\isacharparenleft}c\ {\isasymnabla}\ k\ {\isasymand}\ c\isactrlbsub k\isactrlesub \ {\isacharequal}\ n{\isacharparenright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+An event occurs once at a given time if the clock ticks at exactly one instant at that time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ occurs{\isacharunderscore}once\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}occurs{\isacharunderscore}once\ n\ c\ {\isasymequiv}\ {\isasymexists}{\isacharbang}k{\isachardot}\ {\isacharparenleft}c\ {\isasymnabla}\ k\ {\isasymand}\ c\isactrlbsub k\isactrlesub \ {\isacharequal}\ n{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ occurs{\isacharunderscore}once{\isacharunderscore}occurs{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}occurs{\isacharunderscore}once\ n\ c\ {\isasymLongrightarrow}\ occurs\ n\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ occurs{\isacharunderscore}once{\isacharunderscore}def\ occurs{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A clock is strict at a given time if it ticks at most once at that time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ strict{\isacharunderscore}at\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}strict{\isacharunderscore}at\ n\ c\ {\isasymequiv}\ {\isacharparenleft}occurs\ n\ c\ {\isasymlongrightarrow}\ occurs{\isacharunderscore}once\ n\ c{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ strict{\isacharunderscore}clock\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}chronoclock\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}strict{\isacharunderscore}clock\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymforall}n{\isachardot}\ strict{\isacharunderscore}at\ n\ c{\isacharparenright}{\isacartoucheclose}%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsubsection{Chrono-periodic and chrono-sporadic clocks%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+The introduction of logical time allows us to define periodicity and sporadicity
+on logical time instead of instant index.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ kp{\isacharunderscore}chronoperiodic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}kp{\isacharunderscore}chronoperiodic\ k\ p\ c\ {\isasymequiv}\ {\isacharparenleft}p\ {\isachargreater}\ {\isadigit{0}}{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isasymforall}n{\isachardot}\ occurs\ n\ c\ {\isacharequal}\ {\isacharparenleft}{\isacharparenleft}n\ {\isasymge}\ k{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ p{\isacharunderscore}chronoperiodic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic\ p\ c\ {\isasymequiv}\ {\isasymexists}k{\isachardot}\ kp{\isacharunderscore}chronoperiodic\ k\ p\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ chronoperiodic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chronoperiodic\ c\ {\isasymequiv}\ {\isasymexists}p{\isachardot}\ p{\isacharunderscore}chronoperiodic\ p\ c{\isacartoucheclose}%
+\begin{isamarkuptext}%
+A clock is strictly chronoperiodic if it ticks only once at the logical times when it ticks.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ chronoperiodic{\isacharunderscore}strict\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chronoperiodic{\isacharunderscore}strict\ c\ {\isasymequiv}\ chronoperiodic\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict\ p\ c\ {\isasymequiv}\ p{\isacharunderscore}chronoperiodic\ p\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isacartoucheopen}chronoperiodic{\isacharunderscore}strict\ c\ {\isasymLongrightarrow}\ chronoperiodic\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ chronoperiodic{\isacharunderscore}strict{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ p{\isacharunderscore}chronosporadic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic\ p\ c\ {\isasymequiv}\isanewline
+\ \ \ \ {\isasymforall}t{\isachardot}\ occurs\ t\ c\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t{\isacharprime}\ {\isachargreater}\ t\ {\isasymand}\ occurs\ t{\isacharprime}\ c{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isachargreater}\ t\ {\isacharplus}\ p{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic{\isacharunderscore}strict\ p\ c\ {\isasymequiv}\ p{\isacharunderscore}chronosporadic\ p\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}chronosporadic\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymexists}p\ {\isachargreater}\ {\isadigit{0}}{\isachardot}\ p{\isacharunderscore}chronosporadic\ p\ c{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}chronosporadic{\isacharunderscore}strict\ c\ {\isasymequiv}\ chronosporadic\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ chrono{\isacharunderscore}periodic{\isacharunderscore}suc{\isacharunderscore}sporadic{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic\ p\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ p{\isacharunderscore}chronoperiodic{\isacharunderscore}def\ \isacommand{obtain}\isamarkupfalse%
+\ k\isanewline
+\ \ \ \ \isakeyword{where}\ {\isacartoucheopen}kp{\isacharunderscore}chronoperiodic\ k\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ c{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacharasterisk}{\isacharcolon}{\isacartoucheopen}{\isasymforall}n{\isachardot}\ occurs\ n\ c\ {\isacharequal}\ {\isacharparenleft}{\isacharparenleft}n\ {\isasymge}\ k{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ kp{\isacharunderscore}chronoperiodic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ mod{\isacharunderscore}offset{\isacharunderscore}sporadic{\isacharprime}{\isacharbrackleft}of\ k\ {\isacharunderscore}\ {\isacartoucheopen}p{\isacharplus}{\isadigit{1}}{\isacartoucheclose}{\isacharbrackright}\ \isacommand{have}\isamarkupfalse%
+\ \isanewline
+\ \ \ \ {\isacartoucheopen}{\isasymforall}n{\isachardot}\ occurs\ n\ c\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}n{\isacharprime}{\isachardot}\ {\isacharparenleft}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n{\isacharprime}{\isacharminus}k{\isacharparenright}\ mod\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}\ {\isasymlongrightarrow}\ n{\isacharprime}\ {\isasymge}\ n{\isacharplus}p{\isacharplus}{\isadigit{1}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ p{\isacharunderscore}chronosporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ {\isachardoublequoteopen}{\isacharasterisk}{\isachardoublequoteclose}\ Suc{\isacharunderscore}le{\isacharunderscore}lessD{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ chrono{\isacharunderscore}periodic{\isacharunderscore}suc{\isacharunderscore}sporadic{\isacharunderscore}strict{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic{\isacharunderscore}strict\ p\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ assms\ chrono{\isacharunderscore}periodic{\isacharunderscore}suc{\isacharunderscore}sporadic\isanewline
+\ \ \ \ \ \ \ \ p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict{\isacharunderscore}def\ p{\isacharunderscore}chronosporadic{\isacharunderscore}strict{\isacharunderscore}def\isanewline
+\ \ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Number of ticks up to a given logical time.
+This counts distinct ticks that happen at the same logical time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to\ {\isacharcolon}{\isacharcolon}{\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ c\isactrlbsub t\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ t{\isacharbraceright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+A clock is Zeno if it ticks an infinite number of times in a finite amount of time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ zeno{\isacharunderscore}clock\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}chronoclock\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}zeno{\isacharunderscore}clock\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymexists}{\isasymomega}{\isachardot}\ infinite\ {\isacharbraceleft}t{\isachardot}\ c\isactrlbsub t\isactrlesub \ {\isasymle}\ {\isasymomega}\ {\isasymand}\ c\ {\isasymnabla}\ t{\isacharbraceright}{\isacharparenright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+Number of occurrences of an event up to a given logical time.
+This does not count separately ticks that occur at the same logical time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ chrono{\isacharunderscore}up{\isacharunderscore}to\ {\isacharcolon}{\isacharcolon}{\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+For any time n, a non Zeno clock has less occurrences than ticks up to n.
+This is also true for Zeno clock, but we count ticks and occurrences using \isa{card},
+and in Isabelle/HOL, the cardinal of an infinite set is 0, so the inequality breaks when
+there are infinitely many ticks before a given time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ not{\isacharunderscore}zeno{\isacharunderscore}sparse{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isasymnot}zeno{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isasymle}\ chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to\ c\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isachardot}\ c\isactrlbsub t\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ zeno{\isacharunderscore}clock{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{moreover}\isamarkupfalse%
+\ \isacommand{from}\isamarkupfalse%
+\ occurs{\isacharunderscore}def\ \isacommand{have}\isamarkupfalse%
+\isanewline
+\ \ \ \ {\isacartoucheopen}{\isasymexists}f{\isachardot}\ {\isasymforall}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c\ {\isasymlongrightarrow}\isanewline
+\ \ \ \ \ \ \ \ {\isacharparenleft}{\isasymexists}k{\isachardot}\ f\ k\ {\isacharequal}\ t\ {\isasymand}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\isanewline
+\ \ \ \ {\isacartoucheopen}{\isasymexists}f{\isachardot}\ {\isasymforall}t\ {\isasymin}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isachardot}\isanewline
+\ \ \ \ \ \ \ \ \ \ {\isasymexists}k{\isachardot}\ f\ k\ {\isacharequal}\ t\ {\isasymand}\ k\ {\isasymin}\ {\isacharbraceleft}k{\isachardot}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymexists}f{\isachardot}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\ {\isasymsubseteq}\ image\ f\ {\isacharbraceleft}k{\isachardot}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ fastforce\isanewline
+\ \ \isacommand{ultimately}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\ {\isasymle}\ card\ {\isacharbraceleft}k{\isachardot}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ \ surj{\isacharunderscore}card{\isacharunderscore}le\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ chrono{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ occurs{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
 \endisatagproof
 {\isafoldproof}%
 %
@@ -1618,7 +2230,7 @@ The merge of two sporadic clocks is bounded on the min of the bounding intervals
 %
 \end{isabellebody}%
 \endinput
-%:%file=~/Documents/Recherche/Divers/2020-02_EdLee/Clocks/Clocks.thy%:%
+%:%file=~/Documents/Recherche/Divers/2020-02_EdLee/Clocks/LinguaFrancaClocks.thy%:%
 %:%10=1%:%
 %:%11=1%:%
 %:%12=2%:%
@@ -1687,890 +2299,1290 @@ The merge of two sporadic clocks is bounded on the min of the bounding intervals
 %:%209=60%:%
 %:%210=60%:%
 %:%211=61%:%
-%:%213=63%:%
-%:%215=64%:%
-%:%216=64%:%
-%:%219=65%:%
-%:%223=65%:%
-%:%224=65%:%
-%:%225=65%:%
-%:%234=67%:%
-%:%236=68%:%
-%:%237=68%:%
-%:%238=69%:%
-%:%239=70%:%
-%:%240=70%:%
-%:%241=71%:%
-%:%248=72%:%
-%:%249=72%:%
-%:%250=72%:%
-%:%264=74%:%
-%:%276=76%:%
-%:%278=77%:%
-%:%279=77%:%
-%:%280=78%:%
-%:%281=79%:%
-%:%288=80%:%
-%:%289=80%:%
-%:%290=80%:%
-%:%295=80%:%
-%:%298=81%:%
-%:%299=82%:%
-%:%300=82%:%
-%:%301=83%:%
-%:%302=84%:%
-%:%303=85%:%
+%:%213=64%:%
+%:%215=65%:%
+%:%216=65%:%
+%:%219=66%:%
+%:%223=66%:%
+%:%224=66%:%
+%:%225=66%:%
+%:%234=68%:%
+%:%236=69%:%
+%:%237=69%:%
+%:%238=70%:%
+%:%239=71%:%
+%:%240=71%:%
+%:%241=72%:%
+%:%248=73%:%
+%:%249=73%:%
+%:%250=73%:%
+%:%264=75%:%
+%:%276=77%:%
+%:%278=78%:%
+%:%279=78%:%
+%:%280=79%:%
+%:%281=80%:%
+%:%288=81%:%
+%:%289=81%:%
+%:%290=81%:%
+%:%295=81%:%
+%:%298=82%:%
+%:%299=83%:%
+%:%300=83%:%
+%:%301=84%:%
+%:%302=85%:%
+%:%309=86%:%
 %:%310=86%:%
-%:%311=86%:%
+%:%311=87%:%
 %:%312=87%:%
 %:%313=87%:%
 %:%314=87%:%
-%:%315=87%:%
+%:%315=88%:%
 %:%316=88%:%
 %:%317=88%:%
 %:%318=88%:%
-%:%319=88%:%
+%:%319=89%:%
 %:%320=89%:%
-%:%330=91%:%
-%:%332=92%:%
+%:%321=89%:%
+%:%322=89%:%
+%:%323=90%:%
+%:%329=90%:%
+%:%332=91%:%
 %:%333=92%:%
-%:%334=93%:%
-%:%335=94%:%
-%:%342=95%:%
-%:%343=95%:%
+%:%334=92%:%
+%:%335=93%:%
+%:%336=94%:%
+%:%337=95%:%
 %:%344=96%:%
 %:%345=96%:%
-%:%346=96%:%
+%:%346=97%:%
 %:%347=97%:%
 %:%348=97%:%
-%:%349=98%:%
+%:%349=97%:%
 %:%350=98%:%
-%:%351=99%:%
-%:%352=99%:%
-%:%353=99%:%
-%:%354=100%:%
-%:%369=102%:%
-%:%381=104%:%
-%:%383=105%:%
-%:%384=105%:%
-%:%385=106%:%
-%:%387=108%:%
-%:%389=109%:%
-%:%390=109%:%
-%:%391=110%:%
+%:%351=98%:%
+%:%352=98%:%
+%:%353=98%:%
+%:%354=99%:%
+%:%360=99%:%
+%:%363=100%:%
+%:%364=101%:%
+%:%365=101%:%
+%:%366=102%:%
+%:%367=103%:%
+%:%368=104%:%
+%:%375=105%:%
+%:%376=105%:%
+%:%377=106%:%
+%:%378=106%:%
+%:%379=106%:%
+%:%380=106%:%
+%:%381=107%:%
+%:%382=107%:%
+%:%383=107%:%
+%:%384=107%:%
+%:%385=108%:%
+%:%395=110%:%
+%:%397=111%:%
 %:%398=111%:%
-%:%399=111%:%
-%:%400=112%:%
-%:%401=112%:%
-%:%402=113%:%
-%:%403=113%:%
-%:%404=114%:%
-%:%405=115%:%
-%:%406=115%:%
-%:%407=115%:%
-%:%408=116%:%
-%:%409=116%:%
-%:%410=116%:%
-%:%411=117%:%
-%:%412=117%:%
-%:%413=118%:%
-%:%414=118%:%
-%:%415=119%:%
-%:%416=119%:%
-%:%417=120%:%
-%:%418=121%:%
-%:%419=121%:%
-%:%420=121%:%
-%:%421=121%:%
-%:%422=122%:%
-%:%423=122%:%
-%:%424=123%:%
-%:%425=123%:%
-%:%426=124%:%
-%:%427=124%:%
-%:%428=125%:%
-%:%429=125%:%
-%:%430=126%:%
-%:%431=127%:%
-%:%432=127%:%
-%:%433=128%:%
-%:%434=128%:%
-%:%435=129%:%
-%:%436=129%:%
-%:%437=129%:%
-%:%438=130%:%
-%:%439=130%:%
-%:%440=130%:%
-%:%441=131%:%
-%:%442=131%:%
-%:%443=131%:%
-%:%444=132%:%
-%:%445=132%:%
-%:%446=133%:%
-%:%447=133%:%
-%:%448=134%:%
-%:%449=134%:%
-%:%450=134%:%
-%:%451=134%:%
-%:%452=134%:%
-%:%453=135%:%
-%:%454=135%:%
-%:%455=135%:%
-%:%456=135%:%
-%:%457=135%:%
-%:%458=136%:%
-%:%459=136%:%
-%:%460=136%:%
-%:%461=136%:%
-%:%462=137%:%
-%:%463=137%:%
-%:%464=137%:%
-%:%465=137%:%
-%:%466=138%:%
-%:%467=138%:%
-%:%468=139%:%
-%:%469=139%:%
-%:%470=139%:%
-%:%471=139%:%
-%:%472=140%:%
-%:%482=142%:%
-%:%484=143%:%
-%:%485=143%:%
-%:%486=144%:%
-%:%488=146%:%
-%:%490=147%:%
-%:%491=147%:%
-%:%498=148%:%
-%:%499=148%:%
-%:%500=149%:%
-%:%501=149%:%
-%:%502=149%:%
-%:%503=150%:%
-%:%504=150%:%
-%:%505=150%:%
-%:%506=151%:%
-%:%507=151%:%
-%:%508=151%:%
-%:%509=152%:%
-%:%510=152%:%
-%:%511=152%:%
-%:%512=152%:%
-%:%513=152%:%
-%:%514=153%:%
-%:%524=155%:%
-%:%526=156%:%
-%:%527=156%:%
-%:%529=158%:%
-%:%531=159%:%
-%:%532=159%:%
-%:%535=160%:%
-%:%539=160%:%
-%:%540=160%:%
-%:%541=160%:%
-%:%550=162%:%
-%:%552=163%:%
-%:%553=163%:%
-%:%554=164%:%
-%:%556=166%:%
-%:%558=167%:%
-%:%559=167%:%
-%:%560=168%:%
-%:%561=169%:%
-%:%562=170%:%
-%:%564=173%:%
-%:%565=174%:%
-%:%567=176%:%
-%:%568=176%:%
-%:%575=177%:%
-%:%576=177%:%
-%:%577=178%:%
-%:%578=178%:%
-%:%579=179%:%
-%:%580=179%:%
-%:%581=180%:%
-%:%582=180%:%
-%:%583=181%:%
-%:%584=181%:%
-%:%585=181%:%
-%:%586=181%:%
-%:%587=182%:%
-%:%588=182%:%
-%:%589=182%:%
-%:%590=183%:%
-%:%591=183%:%
-%:%592=184%:%
-%:%593=184%:%
-%:%594=184%:%
-%:%595=185%:%
-%:%596=185%:%
-%:%597=185%:%
-%:%598=186%:%
-%:%599=186%:%
-%:%600=186%:%
-%:%601=186%:%
-%:%602=187%:%
-%:%603=187%:%
-%:%604=188%:%
-%:%605=188%:%
-%:%606=189%:%
-%:%607=189%:%
-%:%608=190%:%
-%:%609=190%:%
-%:%610=191%:%
-%:%611=191%:%
-%:%612=192%:%
-%:%613=192%:%
-%:%614=192%:%
-%:%615=193%:%
-%:%616=193%:%
-%:%617=194%:%
-%:%618=194%:%
-%:%619=195%:%
-%:%620=195%:%
-%:%621=195%:%
-%:%622=195%:%
-%:%623=195%:%
-%:%624=196%:%
-%:%625=196%:%
-%:%626=196%:%
-%:%627=196%:%
-%:%628=197%:%
-%:%629=197%:%
-%:%630=198%:%
-%:%631=198%:%
-%:%632=199%:%
-%:%633=199%:%
-%:%634=199%:%
-%:%635=199%:%
-%:%636=200%:%
-%:%637=200%:%
-%:%638=201%:%
-%:%639=201%:%
-%:%640=202%:%
-%:%641=202%:%
-%:%642=202%:%
-%:%643=202%:%
-%:%644=202%:%
-%:%645=203%:%
-%:%646=203%:%
-%:%647=203%:%
-%:%648=203%:%
-%:%649=204%:%
-%:%650=204%:%
-%:%651=205%:%
-%:%661=207%:%
-%:%663=208%:%
-%:%664=208%:%
-%:%665=209%:%
-%:%667=211%:%
-%:%669=212%:%
-%:%670=212%:%
-%:%671=213%:%
-%:%672=214%:%
-%:%679=215%:%
-%:%680=215%:%
-%:%681=216%:%
-%:%682=216%:%
-%:%683=216%:%
-%:%684=217%:%
-%:%685=217%:%
-%:%686=217%:%
-%:%687=218%:%
-%:%688=218%:%
-%:%689=219%:%
-%:%690=219%:%
-%:%691=220%:%
-%:%692=221%:%
-%:%693=221%:%
-%:%694=221%:%
-%:%695=222%:%
-%:%696=222%:%
-%:%697=222%:%
-%:%698=222%:%
-%:%699=223%:%
-%:%709=225%:%
-%:%711=226%:%
-%:%712=226%:%
-%:%719=227%:%
-%:%720=227%:%
-%:%721=228%:%
-%:%722=228%:%
-%:%723=229%:%
-%:%724=229%:%
-%:%725=229%:%
-%:%726=229%:%
-%:%727=230%:%
-%:%728=230%:%
-%:%729=231%:%
-%:%730=231%:%
-%:%731=232%:%
-%:%732=232%:%
-%:%733=232%:%
-%:%734=233%:%
-%:%735=233%:%
-%:%736=233%:%
-%:%737=234%:%
-%:%738=234%:%
-%:%739=234%:%
-%:%740=234%:%
-%:%741=235%:%
-%:%751=237%:%
-%:%753=238%:%
-%:%754=238%:%
-%:%761=239%:%
-%:%762=239%:%
-%:%763=240%:%
-%:%764=240%:%
-%:%765=240%:%
-%:%766=241%:%
-%:%767=241%:%
-%:%768=241%:%
-%:%769=242%:%
-%:%770=242%:%
-%:%771=242%:%
-%:%772=242%:%
-%:%773=243%:%
-%:%783=245%:%
+%:%399=112%:%
+%:%400=113%:%
+%:%407=114%:%
+%:%408=114%:%
+%:%409=115%:%
+%:%410=115%:%
+%:%411=115%:%
+%:%412=116%:%
+%:%413=116%:%
+%:%414=117%:%
+%:%415=117%:%
+%:%416=117%:%
+%:%417=117%:%
+%:%418=118%:%
+%:%419=118%:%
+%:%420=119%:%
+%:%421=119%:%
+%:%422=120%:%
+%:%423=120%:%
+%:%424=121%:%
+%:%425=121%:%
+%:%426=122%:%
+%:%441=124%:%
+%:%453=126%:%
+%:%455=127%:%
+%:%456=127%:%
+%:%457=128%:%
+%:%458=129%:%
+%:%459=130%:%
+%:%460=130%:%
+%:%467=131%:%
+%:%468=131%:%
+%:%477=133%:%
+%:%479=134%:%
+%:%480=134%:%
+%:%481=135%:%
+%:%488=136%:%
+%:%489=136%:%
+%:%490=137%:%
+%:%491=137%:%
+%:%492=138%:%
+%:%493=138%:%
+%:%494=139%:%
+%:%495=140%:%
+%:%496=140%:%
+%:%497=140%:%
+%:%498=141%:%
+%:%499=141%:%
+%:%500=141%:%
+%:%501=142%:%
+%:%502=142%:%
+%:%503=143%:%
+%:%504=143%:%
+%:%505=144%:%
+%:%506=144%:%
+%:%507=145%:%
+%:%508=146%:%
+%:%509=146%:%
+%:%510=146%:%
+%:%511=146%:%
+%:%512=147%:%
+%:%513=147%:%
+%:%514=148%:%
+%:%515=148%:%
+%:%516=149%:%
+%:%517=149%:%
+%:%518=150%:%
+%:%519=150%:%
+%:%520=151%:%
+%:%521=152%:%
+%:%522=152%:%
+%:%523=153%:%
+%:%524=153%:%
+%:%525=154%:%
+%:%526=154%:%
+%:%527=154%:%
+%:%528=155%:%
+%:%529=155%:%
+%:%530=155%:%
+%:%531=156%:%
+%:%532=156%:%
+%:%533=156%:%
+%:%534=157%:%
+%:%535=157%:%
+%:%536=158%:%
+%:%537=158%:%
+%:%538=159%:%
+%:%539=159%:%
+%:%540=159%:%
+%:%541=159%:%
+%:%542=159%:%
+%:%543=160%:%
+%:%544=160%:%
+%:%545=160%:%
+%:%546=160%:%
+%:%547=160%:%
+%:%548=161%:%
+%:%549=161%:%
+%:%550=161%:%
+%:%551=161%:%
+%:%552=161%:%
+%:%553=162%:%
+%:%554=162%:%
+%:%555=162%:%
+%:%556=162%:%
+%:%557=163%:%
+%:%558=163%:%
+%:%559=164%:%
+%:%560=164%:%
+%:%561=164%:%
+%:%562=164%:%
+%:%563=165%:%
+%:%573=167%:%
+%:%575=168%:%
+%:%576=168%:%
+%:%577=169%:%
+%:%579=171%:%
+%:%581=172%:%
+%:%582=172%:%
+%:%589=173%:%
+%:%590=173%:%
+%:%591=174%:%
+%:%592=174%:%
+%:%593=174%:%
+%:%594=175%:%
+%:%595=175%:%
+%:%596=175%:%
+%:%597=176%:%
+%:%598=176%:%
+%:%599=176%:%
+%:%600=177%:%
+%:%601=177%:%
+%:%602=177%:%
+%:%603=177%:%
+%:%604=177%:%
+%:%605=178%:%
+%:%615=180%:%
+%:%617=181%:%
+%:%618=181%:%
+%:%620=183%:%
+%:%622=184%:%
+%:%623=184%:%
+%:%626=185%:%
+%:%630=185%:%
+%:%631=185%:%
+%:%632=185%:%
+%:%641=187%:%
+%:%643=188%:%
+%:%644=188%:%
+%:%645=189%:%
+%:%647=191%:%
+%:%649=192%:%
+%:%650=192%:%
+%:%651=193%:%
+%:%652=194%:%
+%:%653=195%:%
+%:%655=198%:%
+%:%656=199%:%
+%:%658=201%:%
+%:%659=201%:%
+%:%666=202%:%
+%:%667=202%:%
+%:%668=203%:%
+%:%669=203%:%
+%:%670=204%:%
+%:%671=204%:%
+%:%672=205%:%
+%:%673=205%:%
+%:%674=206%:%
+%:%675=206%:%
+%:%676=206%:%
+%:%677=206%:%
+%:%678=207%:%
+%:%679=207%:%
+%:%680=207%:%
+%:%681=208%:%
+%:%682=208%:%
+%:%683=209%:%
+%:%684=209%:%
+%:%685=209%:%
+%:%686=210%:%
+%:%687=210%:%
+%:%688=210%:%
+%:%689=211%:%
+%:%690=211%:%
+%:%691=211%:%
+%:%692=211%:%
+%:%693=212%:%
+%:%694=212%:%
+%:%695=213%:%
+%:%696=213%:%
+%:%697=214%:%
+%:%698=214%:%
+%:%699=215%:%
+%:%700=215%:%
+%:%701=216%:%
+%:%702=216%:%
+%:%703=217%:%
+%:%704=217%:%
+%:%705=217%:%
+%:%706=218%:%
+%:%707=218%:%
+%:%708=219%:%
+%:%709=219%:%
+%:%710=220%:%
+%:%711=220%:%
+%:%712=220%:%
+%:%713=220%:%
+%:%714=220%:%
+%:%715=221%:%
+%:%716=221%:%
+%:%717=221%:%
+%:%718=221%:%
+%:%719=222%:%
+%:%720=222%:%
+%:%721=223%:%
+%:%722=223%:%
+%:%723=224%:%
+%:%724=224%:%
+%:%725=224%:%
+%:%726=224%:%
+%:%727=225%:%
+%:%728=225%:%
+%:%729=226%:%
+%:%730=226%:%
+%:%731=227%:%
+%:%732=227%:%
+%:%733=227%:%
+%:%734=227%:%
+%:%735=227%:%
+%:%736=228%:%
+%:%737=228%:%
+%:%738=228%:%
+%:%739=228%:%
+%:%740=229%:%
+%:%741=229%:%
+%:%742=230%:%
+%:%752=232%:%
+%:%754=233%:%
+%:%755=233%:%
+%:%756=234%:%
+%:%758=236%:%
+%:%760=237%:%
+%:%761=237%:%
+%:%762=238%:%
+%:%763=239%:%
+%:%770=240%:%
+%:%771=240%:%
+%:%772=241%:%
+%:%773=241%:%
+%:%774=241%:%
+%:%775=242%:%
+%:%776=242%:%
+%:%777=242%:%
+%:%778=243%:%
+%:%779=243%:%
+%:%780=244%:%
+%:%781=244%:%
+%:%782=245%:%
+%:%783=246%:%
+%:%784=246%:%
 %:%785=246%:%
-%:%786=246%:%
+%:%786=247%:%
+%:%787=247%:%
+%:%788=247%:%
 %:%789=247%:%
-%:%793=247%:%
-%:%794=247%:%
-%:%795=247%:%
-%:%804=249%:%
-%:%806=250%:%
-%:%807=250%:%
-%:%808=251%:%
-%:%815=252%:%
-%:%816=252%:%
-%:%817=253%:%
-%:%818=253%:%
-%:%819=253%:%
-%:%828=256%:%
-%:%829=257%:%
+%:%790=248%:%
+%:%800=250%:%
+%:%802=251%:%
+%:%803=251%:%
+%:%810=252%:%
+%:%811=252%:%
+%:%812=253%:%
+%:%813=253%:%
+%:%814=254%:%
+%:%815=254%:%
+%:%816=254%:%
+%:%817=254%:%
+%:%818=255%:%
+%:%819=255%:%
+%:%820=256%:%
+%:%821=256%:%
+%:%822=257%:%
+%:%823=257%:%
+%:%824=257%:%
+%:%825=258%:%
+%:%826=258%:%
+%:%827=258%:%
+%:%828=259%:%
+%:%829=259%:%
+%:%830=259%:%
 %:%831=259%:%
-%:%832=259%:%
-%:%833=260%:%
-%:%840=261%:%
-%:%841=261%:%
+%:%832=260%:%
 %:%842=262%:%
-%:%843=262%:%
-%:%844=262%:%
+%:%844=263%:%
 %:%845=263%:%
-%:%846=263%:%
-%:%847=264%:%
-%:%848=264%:%
-%:%849=265%:%
-%:%850=265%:%
-%:%851=266%:%
-%:%852=267%:%
-%:%853=267%:%
-%:%854=268%:%
-%:%855=268%:%
-%:%856=268%:%
-%:%857=268%:%
-%:%858=269%:%
-%:%868=271%:%
-%:%870=272%:%
-%:%871=272%:%
-%:%872=273%:%
-%:%879=274%:%
-%:%880=274%:%
-%:%881=275%:%
-%:%882=275%:%
-%:%883=276%:%
-%:%884=277%:%
-%:%885=277%:%
-%:%886=277%:%
-%:%887=278%:%
-%:%888=278%:%
-%:%890=280%:%
-%:%891=280%:%
-%:%892=281%:%
-%:%893=281%:%
-%:%894=281%:%
-%:%895=281%:%
-%:%896=282%:%
-%:%911=284%:%
-%:%923=285%:%
-%:%925=286%:%
-%:%926=286%:%
-%:%927=287%:%
-%:%929=289%:%
-%:%931=290%:%
-%:%932=290%:%
-%:%935=291%:%
-%:%939=291%:%
-%:%940=291%:%
-%:%941=291%:%
+%:%852=264%:%
+%:%853=264%:%
+%:%854=265%:%
+%:%855=265%:%
+%:%856=265%:%
+%:%857=266%:%
+%:%858=266%:%
+%:%859=266%:%
+%:%860=267%:%
+%:%861=267%:%
+%:%862=267%:%
+%:%863=267%:%
+%:%864=268%:%
+%:%874=270%:%
+%:%876=271%:%
+%:%877=271%:%
+%:%880=272%:%
+%:%884=272%:%
+%:%885=272%:%
+%:%886=272%:%
+%:%895=274%:%
+%:%897=275%:%
+%:%898=275%:%
+%:%899=276%:%
+%:%906=277%:%
+%:%907=277%:%
+%:%908=278%:%
+%:%909=278%:%
+%:%910=278%:%
+%:%919=281%:%
+%:%920=282%:%
+%:%922=284%:%
+%:%923=284%:%
+%:%924=285%:%
+%:%931=286%:%
+%:%932=286%:%
+%:%933=287%:%
+%:%934=287%:%
+%:%935=287%:%
+%:%936=288%:%
+%:%937=288%:%
+%:%938=289%:%
+%:%939=289%:%
+%:%940=290%:%
+%:%941=290%:%
 %:%942=291%:%
-%:%951=293%:%
-%:%953=294%:%
-%:%954=294%:%
-%:%955=295%:%
-%:%956=296%:%
-%:%963=297%:%
-%:%964=297%:%
-%:%965=298%:%
-%:%966=298%:%
-%:%967=298%:%
-%:%968=299%:%
-%:%969=299%:%
-%:%970=300%:%
-%:%971=300%:%
-%:%972=301%:%
-%:%973=301%:%
-%:%974=302%:%
+%:%943=292%:%
+%:%944=292%:%
+%:%945=293%:%
+%:%946=293%:%
+%:%947=293%:%
+%:%948=293%:%
+%:%949=294%:%
+%:%959=296%:%
+%:%961=297%:%
+%:%962=297%:%
+%:%963=298%:%
+%:%970=299%:%
+%:%971=299%:%
+%:%972=300%:%
+%:%973=300%:%
+%:%974=301%:%
 %:%975=302%:%
 %:%976=302%:%
 %:%977=302%:%
 %:%978=303%:%
 %:%979=303%:%
-%:%980=303%:%
-%:%981=304%:%
-%:%982=304%:%
-%:%983=304%:%
-%:%984=305%:%
-%:%985=305%:%
-%:%986=305%:%
-%:%987=306%:%
-%:%988=306%:%
-%:%989=307%:%
-%:%990=307%:%
-%:%991=307%:%
-%:%992=308%:%
-%:%993=308%:%
-%:%994=309%:%
-%:%995=309%:%
-%:%996=309%:%
-%:%997=310%:%
-%:%998=310%:%
-%:%999=310%:%
-%:%1000=310%:%
-%:%1001=311%:%
-%:%1002=311%:%
-%:%1003=312%:%
-%:%1004=312%:%
-%:%1005=313%:%
-%:%1006=313%:%
-%:%1007=313%:%
-%:%1008=314%:%
-%:%1009=314%:%
-%:%1010=315%:%
-%:%1011=315%:%
-%:%1012=316%:%
-%:%1013=317%:%
-%:%1014=317%:%
-%:%1015=318%:%
-%:%1016=319%:%
-%:%1017=319%:%
-%:%1018=320%:%
-%:%1019=321%:%
-%:%1020=321%:%
-%:%1021=321%:%
-%:%1022=322%:%
-%:%1023=323%:%
-%:%1024=323%:%
-%:%1025=324%:%
-%:%1026=324%:%
-%:%1027=324%:%
-%:%1028=325%:%
-%:%1029=325%:%
-%:%1030=325%:%
-%:%1031=325%:%
-%:%1032=326%:%
-%:%1033=326%:%
-%:%1034=326%:%
-%:%1035=326%:%
-%:%1036=327%:%
-%:%1037=327%:%
-%:%1038=327%:%
-%:%1039=327%:%
-%:%1040=328%:%
-%:%1041=328%:%
-%:%1042=329%:%
-%:%1043=329%:%
-%:%1044=329%:%
-%:%1045=330%:%
-%:%1046=330%:%
-%:%1047=330%:%
-%:%1048=331%:%
-%:%1049=331%:%
-%:%1050=331%:%
-%:%1051=331%:%
-%:%1052=332%:%
-%:%1053=332%:%
-%:%1054=332%:%
-%:%1055=333%:%
-%:%1056=333%:%
-%:%1057=333%:%
-%:%1058=334%:%
-%:%1059=334%:%
-%:%1060=335%:%
-%:%1061=335%:%
-%:%1062=336%:%
-%:%1063=336%:%
-%:%1064=336%:%
-%:%1065=337%:%
-%:%1066=337%:%
-%:%1067=337%:%
-%:%1068=338%:%
-%:%1069=338%:%
-%:%1070=338%:%
-%:%1071=339%:%
-%:%1072=339%:%
-%:%1073=339%:%
-%:%1074=340%:%
-%:%1075=340%:%
-%:%1076=341%:%
-%:%1077=341%:%
-%:%1078=342%:%
-%:%1079=342%:%
-%:%1080=342%:%
-%:%1081=342%:%
-%:%1082=343%:%
-%:%1092=345%:%
-%:%1094=346%:%
-%:%1095=346%:%
-%:%1096=347%:%
-%:%1097=348%:%
-%:%1104=349%:%
-%:%1105=349%:%
-%:%1106=350%:%
-%:%1107=350%:%
-%:%1108=350%:%
-%:%1109=351%:%
-%:%1110=351%:%
-%:%1111=351%:%
-%:%1112=352%:%
-%:%1113=352%:%
-%:%1114=352%:%
-%:%1115=352%:%
-%:%1116=353%:%
-%:%1117=353%:%
-%:%1118=354%:%
-%:%1119=354%:%
-%:%1120=354%:%
-%:%1121=355%:%
-%:%1122=355%:%
-%:%1123=355%:%
-%:%1124=356%:%
-%:%1125=356%:%
-%:%1126=356%:%
-%:%1127=356%:%
-%:%1128=357%:%
-%:%1138=359%:%
-%:%1140=360%:%
-%:%1141=360%:%
-%:%1142=361%:%
-%:%1143=362%:%
-%:%1150=363%:%
-%:%1151=363%:%
-%:%1152=364%:%
-%:%1153=364%:%
-%:%1154=364%:%
-%:%1155=365%:%
-%:%1156=366%:%
-%:%1157=366%:%
-%:%1158=366%:%
-%:%1159=367%:%
-%:%1160=367%:%
-%:%1161=368%:%
-%:%1162=368%:%
-%:%1163=369%:%
-%:%1164=369%:%
-%:%1165=369%:%
-%:%1166=370%:%
-%:%1167=370%:%
-%:%1168=370%:%
-%:%1169=370%:%
-%:%1170=371%:%
-%:%1171=371%:%
-%:%1172=372%:%
-%:%1173=372%:%
-%:%1174=373%:%
-%:%1175=373%:%
-%:%1176=374%:%
-%:%1177=374%:%
-%:%1178=375%:%
-%:%1179=375%:%
-%:%1180=376%:%
-%:%1181=376%:%
-%:%1182=377%:%
-%:%1183=377%:%
-%:%1184=378%:%
-%:%1185=378%:%
-%:%1186=378%:%
-%:%1187=378%:%
-%:%1188=379%:%
-%:%1189=379%:%
-%:%1190=380%:%
-%:%1191=380%:%
-%:%1192=381%:%
-%:%1193=381%:%
-%:%1194=382%:%
-%:%1195=382%:%
-%:%1196=382%:%
-%:%1197=383%:%
-%:%1198=383%:%
-%:%1199=384%:%
-%:%1200=384%:%
-%:%1201=385%:%
-%:%1202=385%:%
-%:%1203=385%:%
-%:%1204=385%:%
-%:%1205=386%:%
-%:%1206=386%:%
-%:%1207=387%:%
-%:%1208=387%:%
-%:%1209=387%:%
-%:%1210=387%:%
-%:%1211=388%:%
-%:%1212=388%:%
-%:%1213=389%:%
-%:%1214=389%:%
-%:%1215=389%:%
-%:%1216=390%:%
-%:%1217=390%:%
-%:%1218=391%:%
-%:%1228=393%:%
-%:%1230=394%:%
-%:%1231=394%:%
-%:%1232=395%:%
-%:%1233=396%:%
-%:%1234=397%:%
-%:%1237=398%:%
-%:%1241=398%:%
-%:%1242=398%:%
-%:%1243=398%:%
-%:%1244=399%:%
-%:%1245=399%:%
-%:%1246=399%:%
-%:%1255=401%:%
-%:%1257=402%:%
-%:%1258=402%:%
-%:%1259=403%:%
-%:%1260=404%:%
-%:%1261=405%:%
-%:%1262=406%:%
-%:%1269=407%:%
-%:%1270=407%:%
-%:%1271=408%:%
-%:%1272=408%:%
-%:%1273=408%:%
-%:%1282=410%:%
-%:%1284=411%:%
-%:%1285=411%:%
-%:%1286=412%:%
-%:%1287=413%:%
-%:%1288=414%:%
-%:%1289=415%:%
-%:%1296=416%:%
-%:%1297=416%:%
-%:%1298=417%:%
-%:%1299=417%:%
-%:%1300=417%:%
-%:%1301=417%:%
-%:%1302=418%:%
-%:%1303=418%:%
-%:%1304=418%:%
-%:%1305=418%:%
-%:%1306=419%:%
-%:%1307=419%:%
-%:%1308=419%:%
-%:%1309=419%:%
-%:%1310=420%:%
-%:%1311=420%:%
-%:%1312=420%:%
-%:%1313=421%:%
-%:%1314=421%:%
-%:%1315=421%:%
-%:%1316=421%:%
-%:%1317=422%:%
-%:%1332=424%:%
-%:%1344=425%:%
-%:%1346=426%:%
-%:%1347=426%:%
-%:%1348=427%:%
-%:%1349=428%:%
-%:%1350=429%:%
-%:%1357=430%:%
-%:%1358=430%:%
-%:%1359=431%:%
-%:%1360=431%:%
-%:%1374=434%:%
-%:%1384=436%:%
-%:%1385=436%:%
-%:%1386=437%:%
-%:%1387=437%:%
-%:%1388=438%:%
-%:%1389=439%:%
-%:%1390=439%:%
-%:%1391=440%:%
-%:%1392=440%:%
-%:%1393=441%:%
-%:%1394=441%:%
-%:%1395=442%:%
-%:%1396=442%:%
-%:%1397=443%:%
-%:%1398=444%:%
-%:%1399=444%:%
-%:%1400=445%:%
-%:%1401=445%:%
-%:%1402=446%:%
-%:%1403=446%:%
-%:%1404=447%:%
-%:%1405=447%:%
-%:%1406=448%:%
-%:%1407=448%:%
-%:%1408=449%:%
-%:%1409=449%:%
-%:%1410=450%:%
-%:%1411=451%:%
-%:%1412=451%:%
-%:%1415=452%:%
-%:%1419=452%:%
-%:%1420=452%:%
-%:%1421=452%:%
-%:%1426=452%:%
-%:%1429=453%:%
-%:%1430=454%:%
-%:%1431=454%:%
-%:%1434=455%:%
-%:%1438=455%:%
-%:%1439=455%:%
-%:%1440=455%:%
-%:%1445=455%:%
-%:%1448=456%:%
-%:%1449=457%:%
-%:%1450=457%:%
-%:%1451=458%:%
-%:%1452=459%:%
-%:%1453=459%:%
-%:%1454=460%:%
-%:%1455=460%:%
-%:%1456=461%:%
-%:%1457=461%:%
-%:%1458=462%:%
-%:%1459=463%:%
-%:%1460=463%:%
-%:%1463=464%:%
-%:%1467=464%:%
-%:%1468=464%:%
-%:%1473=464%:%
-%:%1476=465%:%
-%:%1477=466%:%
-%:%1478=466%:%
-%:%1485=467%:%
-%:%1486=467%:%
-%:%1487=468%:%
-%:%1488=468%:%
-%:%1489=469%:%
-%:%1490=469%:%
-%:%1491=470%:%
-%:%1492=470%:%
-%:%1493=470%:%
-%:%1494=471%:%
-%:%1495=471%:%
-%:%1496=472%:%
-%:%1497=472%:%
-%:%1498=473%:%
-%:%1499=473%:%
-%:%1500=474%:%
-%:%1501=474%:%
-%:%1502=475%:%
-%:%1503=475%:%
-%:%1504=475%:%
-%:%1505=476%:%
-%:%1506=476%:%
-%:%1507=476%:%
-%:%1508=477%:%
-%:%1509=477%:%
-%:%1510=477%:%
-%:%1511=478%:%
-%:%1512=478%:%
-%:%1513=478%:%
-%:%1514=479%:%
-%:%1515=479%:%
-%:%1516=480%:%
-%:%1517=481%:%
-%:%1518=481%:%
-%:%1519=481%:%
-%:%1520=481%:%
-%:%1521=482%:%
-%:%1522=482%:%
-%:%1523=482%:%
-%:%1524=482%:%
-%:%1525=483%:%
-%:%1526=483%:%
-%:%1527=483%:%
-%:%1528=483%:%
-%:%1529=484%:%
-%:%1530=484%:%
-%:%1531=485%:%
-%:%1532=485%:%
-%:%1533=486%:%
-%:%1534=486%:%
-%:%1535=486%:%
-%:%1536=487%:%
-%:%1537=487%:%
-%:%1538=488%:%
-%:%1539=488%:%
-%:%1540=489%:%
-%:%1541=489%:%
-%:%1542=489%:%
-%:%1543=489%:%
-%:%1544=490%:%
-%:%1545=490%:%
-%:%1546=491%:%
-%:%1547=491%:%
-%:%1548=491%:%
-%:%1549=492%:%
-%:%1550=492%:%
-%:%1551=493%:%
-%:%1552=493%:%
-%:%1553=493%:%
-%:%1554=494%:%
-%:%1555=494%:%
-%:%1556=494%:%
-%:%1557=494%:%
-%:%1558=495%:%
-%:%1559=495%:%
-%:%1560=496%:%
-%:%1561=496%:%
-%:%1562=497%:%
-%:%1563=497%:%
-%:%1564=497%:%
-%:%1565=497%:%
-%:%1566=498%:%
-%:%1567=498%:%
-%:%1568=499%:%
-%:%1569=499%:%
-%:%1570=500%:%
-%:%1571=500%:%
-%:%1572=501%:%
-%:%1573=501%:%
-%:%1574=501%:%
-%:%1575=502%:%
-%:%1576=502%:%
+%:%981=305%:%
+%:%982=305%:%
+%:%983=306%:%
+%:%984=306%:%
+%:%985=306%:%
+%:%986=306%:%
+%:%987=307%:%
+%:%1002=309%:%
+%:%1014=310%:%
+%:%1016=311%:%
+%:%1017=311%:%
+%:%1018=312%:%
+%:%1020=314%:%
+%:%1022=315%:%
+%:%1023=315%:%
+%:%1026=316%:%
+%:%1030=316%:%
+%:%1031=316%:%
+%:%1032=316%:%
+%:%1033=316%:%
+%:%1042=318%:%
+%:%1044=319%:%
+%:%1045=319%:%
+%:%1046=320%:%
+%:%1047=321%:%
+%:%1054=322%:%
+%:%1055=322%:%
+%:%1056=323%:%
+%:%1057=323%:%
+%:%1058=323%:%
+%:%1059=324%:%
+%:%1060=324%:%
+%:%1061=325%:%
+%:%1062=325%:%
+%:%1063=326%:%
+%:%1064=326%:%
+%:%1065=327%:%
+%:%1066=327%:%
+%:%1067=327%:%
+%:%1068=327%:%
+%:%1069=328%:%
+%:%1070=328%:%
+%:%1071=328%:%
+%:%1072=329%:%
+%:%1073=329%:%
+%:%1074=329%:%
+%:%1075=330%:%
+%:%1076=330%:%
+%:%1077=330%:%
+%:%1078=331%:%
+%:%1079=331%:%
+%:%1080=332%:%
+%:%1081=332%:%
+%:%1082=332%:%
+%:%1083=333%:%
+%:%1084=333%:%
+%:%1085=334%:%
+%:%1086=334%:%
+%:%1087=334%:%
+%:%1088=335%:%
+%:%1089=335%:%
+%:%1090=335%:%
+%:%1091=335%:%
+%:%1092=336%:%
+%:%1093=336%:%
+%:%1094=337%:%
+%:%1095=337%:%
+%:%1096=338%:%
+%:%1097=338%:%
+%:%1098=338%:%
+%:%1099=339%:%
+%:%1100=339%:%
+%:%1101=340%:%
+%:%1102=340%:%
+%:%1103=341%:%
+%:%1104=342%:%
+%:%1105=342%:%
+%:%1106=343%:%
+%:%1107=344%:%
+%:%1108=344%:%
+%:%1109=345%:%
+%:%1110=346%:%
+%:%1111=346%:%
+%:%1112=346%:%
+%:%1113=347%:%
+%:%1114=348%:%
+%:%1115=348%:%
+%:%1116=349%:%
+%:%1117=349%:%
+%:%1118=349%:%
+%:%1119=350%:%
+%:%1120=350%:%
+%:%1121=350%:%
+%:%1122=350%:%
+%:%1123=351%:%
+%:%1124=351%:%
+%:%1125=351%:%
+%:%1126=351%:%
+%:%1127=352%:%
+%:%1128=352%:%
+%:%1129=352%:%
+%:%1130=352%:%
+%:%1131=353%:%
+%:%1132=353%:%
+%:%1133=354%:%
+%:%1134=354%:%
+%:%1135=354%:%
+%:%1136=355%:%
+%:%1137=355%:%
+%:%1138=355%:%
+%:%1139=356%:%
+%:%1140=356%:%
+%:%1141=356%:%
+%:%1142=356%:%
+%:%1143=357%:%
+%:%1144=357%:%
+%:%1145=357%:%
+%:%1146=358%:%
+%:%1147=358%:%
+%:%1148=358%:%
+%:%1149=359%:%
+%:%1150=359%:%
+%:%1151=360%:%
+%:%1152=360%:%
+%:%1153=361%:%
+%:%1154=361%:%
+%:%1155=361%:%
+%:%1156=362%:%
+%:%1157=362%:%
+%:%1158=362%:%
+%:%1159=363%:%
+%:%1160=363%:%
+%:%1161=363%:%
+%:%1162=364%:%
+%:%1163=364%:%
+%:%1164=364%:%
+%:%1165=365%:%
+%:%1166=365%:%
+%:%1167=366%:%
+%:%1168=366%:%
+%:%1169=367%:%
+%:%1170=367%:%
+%:%1171=367%:%
+%:%1172=367%:%
+%:%1173=368%:%
+%:%1183=370%:%
+%:%1185=371%:%
+%:%1186=371%:%
+%:%1187=372%:%
+%:%1188=373%:%
+%:%1195=374%:%
+%:%1196=374%:%
+%:%1197=375%:%
+%:%1198=375%:%
+%:%1199=375%:%
+%:%1200=376%:%
+%:%1201=376%:%
+%:%1202=377%:%
+%:%1203=377%:%
+%:%1204=378%:%
+%:%1205=378%:%
+%:%1206=379%:%
+%:%1207=379%:%
+%:%1208=379%:%
+%:%1209=379%:%
+%:%1210=380%:%
+%:%1211=380%:%
+%:%1212=380%:%
+%:%1213=381%:%
+%:%1214=381%:%
+%:%1215=381%:%
+%:%1216=382%:%
+%:%1217=382%:%
+%:%1218=382%:%
+%:%1219=383%:%
+%:%1220=383%:%
+%:%1221=384%:%
+%:%1222=384%:%
+%:%1223=384%:%
+%:%1224=385%:%
+%:%1225=385%:%
+%:%1226=386%:%
+%:%1227=386%:%
+%:%1228=386%:%
+%:%1229=387%:%
+%:%1230=387%:%
+%:%1231=387%:%
+%:%1232=387%:%
+%:%1233=388%:%
+%:%1234=388%:%
+%:%1235=389%:%
+%:%1236=389%:%
+%:%1237=390%:%
+%:%1238=390%:%
+%:%1239=390%:%
+%:%1240=391%:%
+%:%1241=391%:%
+%:%1242=392%:%
+%:%1243=392%:%
+%:%1244=393%:%
+%:%1245=394%:%
+%:%1246=394%:%
+%:%1247=395%:%
+%:%1248=396%:%
+%:%1249=396%:%
+%:%1250=397%:%
+%:%1251=397%:%
+%:%1252=397%:%
+%:%1253=398%:%
+%:%1254=399%:%
+%:%1255=399%:%
+%:%1256=400%:%
+%:%1257=400%:%
+%:%1258=400%:%
+%:%1259=401%:%
+%:%1260=401%:%
+%:%1261=401%:%
+%:%1262=401%:%
+%:%1263=402%:%
+%:%1264=402%:%
+%:%1265=402%:%
+%:%1266=402%:%
+%:%1267=403%:%
+%:%1268=403%:%
+%:%1269=403%:%
+%:%1270=403%:%
+%:%1271=404%:%
+%:%1272=404%:%
+%:%1273=405%:%
+%:%1274=405%:%
+%:%1275=405%:%
+%:%1276=406%:%
+%:%1277=406%:%
+%:%1278=406%:%
+%:%1279=407%:%
+%:%1280=407%:%
+%:%1281=407%:%
+%:%1282=407%:%
+%:%1283=408%:%
+%:%1284=408%:%
+%:%1285=408%:%
+%:%1286=409%:%
+%:%1287=409%:%
+%:%1288=409%:%
+%:%1289=410%:%
+%:%1290=410%:%
+%:%1291=411%:%
+%:%1292=411%:%
+%:%1293=412%:%
+%:%1294=412%:%
+%:%1295=412%:%
+%:%1296=413%:%
+%:%1297=413%:%
+%:%1298=413%:%
+%:%1299=414%:%
+%:%1300=414%:%
+%:%1301=414%:%
+%:%1302=415%:%
+%:%1303=415%:%
+%:%1304=415%:%
+%:%1305=416%:%
+%:%1306=416%:%
+%:%1307=417%:%
+%:%1308=417%:%
+%:%1309=418%:%
+%:%1310=418%:%
+%:%1311=418%:%
+%:%1312=418%:%
+%:%1313=419%:%
+%:%1323=421%:%
+%:%1325=422%:%
+%:%1326=422%:%
+%:%1327=423%:%
+%:%1328=424%:%
+%:%1335=425%:%
+%:%1336=425%:%
+%:%1337=426%:%
+%:%1338=426%:%
+%:%1339=426%:%
+%:%1340=427%:%
+%:%1341=427%:%
+%:%1342=427%:%
+%:%1343=428%:%
+%:%1344=428%:%
+%:%1345=428%:%
+%:%1346=428%:%
+%:%1347=429%:%
+%:%1348=429%:%
+%:%1349=430%:%
+%:%1350=430%:%
+%:%1351=430%:%
+%:%1352=431%:%
+%:%1353=431%:%
+%:%1354=431%:%
+%:%1355=432%:%
+%:%1356=432%:%
+%:%1357=432%:%
+%:%1358=432%:%
+%:%1359=433%:%
+%:%1369=435%:%
+%:%1371=436%:%
+%:%1372=436%:%
+%:%1373=437%:%
+%:%1374=438%:%
+%:%1381=439%:%
+%:%1382=439%:%
+%:%1383=440%:%
+%:%1384=440%:%
+%:%1385=440%:%
+%:%1386=441%:%
+%:%1387=442%:%
+%:%1388=442%:%
+%:%1389=442%:%
+%:%1390=443%:%
+%:%1391=443%:%
+%:%1392=444%:%
+%:%1393=444%:%
+%:%1394=445%:%
+%:%1395=445%:%
+%:%1396=445%:%
+%:%1397=446%:%
+%:%1398=446%:%
+%:%1399=446%:%
+%:%1400=446%:%
+%:%1401=447%:%
+%:%1402=447%:%
+%:%1403=448%:%
+%:%1404=448%:%
+%:%1405=449%:%
+%:%1406=449%:%
+%:%1407=450%:%
+%:%1408=450%:%
+%:%1409=451%:%
+%:%1410=451%:%
+%:%1411=452%:%
+%:%1412=452%:%
+%:%1413=453%:%
+%:%1414=453%:%
+%:%1415=454%:%
+%:%1416=454%:%
+%:%1417=454%:%
+%:%1418=454%:%
+%:%1419=455%:%
+%:%1420=455%:%
+%:%1421=456%:%
+%:%1422=456%:%
+%:%1423=457%:%
+%:%1424=457%:%
+%:%1425=458%:%
+%:%1426=458%:%
+%:%1427=458%:%
+%:%1428=459%:%
+%:%1429=459%:%
+%:%1430=460%:%
+%:%1431=460%:%
+%:%1432=461%:%
+%:%1433=461%:%
+%:%1434=461%:%
+%:%1435=461%:%
+%:%1436=462%:%
+%:%1437=462%:%
+%:%1438=463%:%
+%:%1439=463%:%
+%:%1440=463%:%
+%:%1441=463%:%
+%:%1442=464%:%
+%:%1443=464%:%
+%:%1444=465%:%
+%:%1445=465%:%
+%:%1446=465%:%
+%:%1447=466%:%
+%:%1448=466%:%
+%:%1449=467%:%
+%:%1459=469%:%
+%:%1461=470%:%
+%:%1462=470%:%
+%:%1463=471%:%
+%:%1464=472%:%
+%:%1465=473%:%
+%:%1468=474%:%
+%:%1472=474%:%
+%:%1473=474%:%
+%:%1474=474%:%
+%:%1475=475%:%
+%:%1476=475%:%
+%:%1477=475%:%
+%:%1486=477%:%
+%:%1488=478%:%
+%:%1489=478%:%
+%:%1490=479%:%
+%:%1491=480%:%
+%:%1492=481%:%
+%:%1493=482%:%
+%:%1500=483%:%
+%:%1501=483%:%
+%:%1502=484%:%
+%:%1503=484%:%
+%:%1504=484%:%
+%:%1513=486%:%
+%:%1515=487%:%
+%:%1516=487%:%
+%:%1517=488%:%
+%:%1518=489%:%
+%:%1519=490%:%
+%:%1520=491%:%
+%:%1527=492%:%
+%:%1528=492%:%
+%:%1529=493%:%
+%:%1530=493%:%
+%:%1531=493%:%
+%:%1532=493%:%
+%:%1533=494%:%
+%:%1534=494%:%
+%:%1535=494%:%
+%:%1536=494%:%
+%:%1537=495%:%
+%:%1538=495%:%
+%:%1539=495%:%
+%:%1540=495%:%
+%:%1541=496%:%
+%:%1542=496%:%
+%:%1543=496%:%
+%:%1544=497%:%
+%:%1545=497%:%
+%:%1546=497%:%
+%:%1547=497%:%
+%:%1548=498%:%
+%:%1563=500%:%
+%:%1575=501%:%
 %:%1577=502%:%
 %:%1578=502%:%
 %:%1579=503%:%
-%:%1580=503%:%
-%:%1581=504%:%
-%:%1582=504%:%
-%:%1583=505%:%
-%:%1584=505%:%
-%:%1585=506%:%
-%:%1586=506%:%
-%:%1587=506%:%
-%:%1588=507%:%
-%:%1589=507%:%
-%:%1590=508%:%
-%:%1591=508%:%
+%:%1580=504%:%
+%:%1581=505%:%
+%:%1588=506%:%
+%:%1589=506%:%
+%:%1590=507%:%
+%:%1591=507%:%
 %:%1592=508%:%
 %:%1593=508%:%
-%:%1594=509%:%
-%:%1600=509%:%
-%:%1605=510%:%
-%:%1610=511%:%
+%:%1594=508%:%
+%:%1595=509%:%
+%:%1596=509%:%
+%:%1597=509%:%
+%:%1598=509%:%
+%:%1599=510%:%
+%:%1600=510%:%
+%:%1601=511%:%
+%:%1602=511%:%
+%:%1603=512%:%
+%:%1604=512%:%
+%:%1605=512%:%
+%:%1606=513%:%
+%:%1607=513%:%
+%:%1608=513%:%
+%:%1609=513%:%
+%:%1610=513%:%
+%:%1611=514%:%
+%:%1626=516%:%
+%:%1638=519%:%
+%:%1639=520%:%
+%:%1640=521%:%
+%:%1642=524%:%
+%:%1643=524%:%
+%:%1646=525%:%
+%:%1650=525%:%
+%:%1651=525%:%
+%:%1652=525%:%
+%:%1657=525%:%
+%:%1660=526%:%
+%:%1661=527%:%
+%:%1662=527%:%
+%:%1664=530%:%
+%:%1666=532%:%
+%:%1667=532%:%
+%:%1669=535%:%
+%:%1671=537%:%
+%:%1672=537%:%
+%:%1673=538%:%
+%:%1675=542%:%
+%:%1677=544%:%
+%:%1678=544%:%
+%:%1679=545%:%
+%:%1681=545%:%
+%:%1685=545%:%
+%:%1693=545%:%
+%:%1694=546%:%
+%:%1695=547%:%
+%:%1696=547%:%
+%:%1698=550%:%
+%:%1700=552%:%
+%:%1701=552%:%
+%:%1702=553%:%
+%:%1704=553%:%
+%:%1708=553%:%
+%:%1709=553%:%
+%:%1710=553%:%
+%:%1719=556%:%
+%:%1721=558%:%
+%:%1722=558%:%
+%:%1723=559%:%
+%:%1725=562%:%
+%:%1727=564%:%
+%:%1728=564%:%
+%:%1729=565%:%
+%:%1730=566%:%
+%:%1731=567%:%
+%:%1732=567%:%
+%:%1733=568%:%
+%:%1740=569%:%
+%:%1741=569%:%
+%:%1742=569%:%
+%:%1751=572%:%
+%:%1753=574%:%
+%:%1754=574%:%
+%:%1755=575%:%
+%:%1756=576%:%
+%:%1757=577%:%
+%:%1758=577%:%
+%:%1759=578%:%
+%:%1766=580%:%
+%:%1778=582%:%
+%:%1779=583%:%
+%:%1781=585%:%
+%:%1782=585%:%
+%:%1783=586%:%
+%:%1784=587%:%
+%:%1785=588%:%
+%:%1786=588%:%
+%:%1787=589%:%
+%:%1788=590%:%
+%:%1789=591%:%
+%:%1790=591%:%
+%:%1791=592%:%
+%:%1793=595%:%
+%:%1795=597%:%
+%:%1796=597%:%
+%:%1797=598%:%
+%:%1798=599%:%
+%:%1799=600%:%
+%:%1800=600%:%
+%:%1801=601%:%
+%:%1802=602%:%
+%:%1803=603%:%
+%:%1804=603%:%
+%:%1807=604%:%
+%:%1811=604%:%
+%:%1812=604%:%
+%:%1813=604%:%
+%:%1818=604%:%
+%:%1821=605%:%
+%:%1822=606%:%
+%:%1823=606%:%
+%:%1824=607%:%
+%:%1825=608%:%
+%:%1826=609%:%
+%:%1827=610%:%
+%:%1828=610%:%
+%:%1829=611%:%
+%:%1830=612%:%
+%:%1831=612%:%
+%:%1832=613%:%
+%:%1833=614%:%
+%:%1834=614%:%
+%:%1835=615%:%
+%:%1836=616%:%
+%:%1837=616%:%
+%:%1838=617%:%
+%:%1839=618%:%
+%:%1846=619%:%
+%:%1847=619%:%
+%:%1848=620%:%
+%:%1849=620%:%
+%:%1850=620%:%
+%:%1851=621%:%
+%:%1852=621%:%
+%:%1853=622%:%
+%:%1854=622%:%
+%:%1855=623%:%
+%:%1856=623%:%
+%:%1857=623%:%
+%:%1858=624%:%
+%:%1859=624%:%
+%:%1860=624%:%
+%:%1861=625%:%
+%:%1862=626%:%
+%:%1863=626%:%
+%:%1864=627%:%
+%:%1865=627%:%
+%:%1866=627%:%
+%:%1867=627%:%
+%:%1868=628%:%
+%:%1874=628%:%
+%:%1877=629%:%
+%:%1878=630%:%
+%:%1879=630%:%
+%:%1880=631%:%
+%:%1881=632%:%
+%:%1884=633%:%
+%:%1888=633%:%
+%:%1889=633%:%
+%:%1890=634%:%
+%:%1891=635%:%
+%:%1892=635%:%
+%:%1901=638%:%
+%:%1902=639%:%
+%:%1904=641%:%
+%:%1905=641%:%
+%:%1906=642%:%
+%:%1908=645%:%
+%:%1910=647%:%
+%:%1911=647%:%
+%:%1912=648%:%
+%:%1914=651%:%
+%:%1915=652%:%
+%:%1917=654%:%
+%:%1918=654%:%
+%:%1919=655%:%
+%:%1921=658%:%
+%:%1922=659%:%
+%:%1923=660%:%
+%:%1924=661%:%
+%:%1926=663%:%
+%:%1927=663%:%
+%:%1928=664%:%
+%:%1929=665%:%
+%:%1936=666%:%
+%:%1937=666%:%
+%:%1938=667%:%
+%:%1939=667%:%
+%:%1940=667%:%
+%:%1941=668%:%
+%:%1942=668%:%
+%:%1943=668%:%
+%:%1944=669%:%
+%:%1945=669%:%
+%:%1946=669%:%
+%:%1947=669%:%
+%:%1948=670%:%
+%:%1949=671%:%
+%:%1950=671%:%
+%:%1951=672%:%
+%:%1952=672%:%
+%:%1953=673%:%
+%:%1954=674%:%
+%:%1955=674%:%
+%:%1956=675%:%
+%:%1957=675%:%
+%:%1958=676%:%
+%:%1959=676%:%
+%:%1960=677%:%
+%:%1961=677%:%
+%:%1962=677%:%
+%:%1963=678%:%
+%:%1964=678%:%
+%:%1965=678%:%
+%:%1966=679%:%
+%:%1967=679%:%
+%:%1968=680%:%
+%:%1969=680%:%
+%:%1970=680%:%
+%:%1971=681%:%
+%:%1986=683%:%
+%:%1996=685%:%
+%:%1997=685%:%
+%:%1998=686%:%
+%:%1999=686%:%
+%:%2000=687%:%
+%:%2001=688%:%
+%:%2002=688%:%
+%:%2003=689%:%
+%:%2004=689%:%
+%:%2005=690%:%
+%:%2006=690%:%
+%:%2007=691%:%
+%:%2008=691%:%
+%:%2009=692%:%
+%:%2010=693%:%
+%:%2011=693%:%
+%:%2012=694%:%
+%:%2013=694%:%
+%:%2014=695%:%
+%:%2015=695%:%
+%:%2016=696%:%
+%:%2017=696%:%
+%:%2018=697%:%
+%:%2019=697%:%
+%:%2020=698%:%
+%:%2021=698%:%
+%:%2022=699%:%
+%:%2023=700%:%
+%:%2024=700%:%
+%:%2027=701%:%
+%:%2031=701%:%
+%:%2032=701%:%
+%:%2033=701%:%
+%:%2038=701%:%
+%:%2041=702%:%
+%:%2042=703%:%
+%:%2043=703%:%
+%:%2046=704%:%
+%:%2050=704%:%
+%:%2051=704%:%
+%:%2052=704%:%
+%:%2057=704%:%
+%:%2060=705%:%
+%:%2061=706%:%
+%:%2062=706%:%
+%:%2063=707%:%
+%:%2064=708%:%
+%:%2065=708%:%
+%:%2066=709%:%
+%:%2067=709%:%
+%:%2068=710%:%
+%:%2069=710%:%
+%:%2070=711%:%
+%:%2071=712%:%
+%:%2072=712%:%
+%:%2075=713%:%
+%:%2079=713%:%
+%:%2080=713%:%
+%:%2085=713%:%
+%:%2088=714%:%
+%:%2089=715%:%
+%:%2090=715%:%
+%:%2097=716%:%
+%:%2098=716%:%
+%:%2099=717%:%
+%:%2100=717%:%
+%:%2101=718%:%
+%:%2102=718%:%
+%:%2103=719%:%
+%:%2104=719%:%
+%:%2105=719%:%
+%:%2106=720%:%
+%:%2107=720%:%
+%:%2108=721%:%
+%:%2109=721%:%
+%:%2110=722%:%
+%:%2111=722%:%
+%:%2112=723%:%
+%:%2113=723%:%
+%:%2114=724%:%
+%:%2115=724%:%
+%:%2116=724%:%
+%:%2117=725%:%
+%:%2118=725%:%
+%:%2119=725%:%
+%:%2120=726%:%
+%:%2121=726%:%
+%:%2122=726%:%
+%:%2123=727%:%
+%:%2124=727%:%
+%:%2125=727%:%
+%:%2126=728%:%
+%:%2127=728%:%
+%:%2128=729%:%
+%:%2129=730%:%
+%:%2130=730%:%
+%:%2131=730%:%
+%:%2132=730%:%
+%:%2133=731%:%
+%:%2134=731%:%
+%:%2135=731%:%
+%:%2136=731%:%
+%:%2137=732%:%
+%:%2138=732%:%
+%:%2139=732%:%
+%:%2140=732%:%
+%:%2141=733%:%
+%:%2142=733%:%
+%:%2143=734%:%
+%:%2144=734%:%
+%:%2145=735%:%
+%:%2146=735%:%
+%:%2147=735%:%
+%:%2148=736%:%
+%:%2149=736%:%
+%:%2150=737%:%
+%:%2151=737%:%
+%:%2152=738%:%
+%:%2153=738%:%
+%:%2154=738%:%
+%:%2155=738%:%
+%:%2156=739%:%
+%:%2157=739%:%
+%:%2158=740%:%
+%:%2159=740%:%
+%:%2160=740%:%
+%:%2161=741%:%
+%:%2162=741%:%
+%:%2163=742%:%
+%:%2164=742%:%
+%:%2165=742%:%
+%:%2166=743%:%
+%:%2167=743%:%
+%:%2168=743%:%
+%:%2169=743%:%
+%:%2170=744%:%
+%:%2171=744%:%
+%:%2172=745%:%
+%:%2173=745%:%
+%:%2174=746%:%
+%:%2175=746%:%
+%:%2176=746%:%
+%:%2177=746%:%
+%:%2178=747%:%
+%:%2179=747%:%
+%:%2180=748%:%
+%:%2181=748%:%
+%:%2182=749%:%
+%:%2183=749%:%
+%:%2184=750%:%
+%:%2185=750%:%
+%:%2186=750%:%
+%:%2187=751%:%
+%:%2188=751%:%
+%:%2189=751%:%
+%:%2190=751%:%
+%:%2191=752%:%
+%:%2192=752%:%
+%:%2193=753%:%
+%:%2194=753%:%
+%:%2195=754%:%
+%:%2196=754%:%
+%:%2197=755%:%
+%:%2198=755%:%
+%:%2199=755%:%
+%:%2200=756%:%
+%:%2201=756%:%
+%:%2202=757%:%
+%:%2203=757%:%
+%:%2204=757%:%
+%:%2205=757%:%
+%:%2206=758%:%
+%:%2212=758%:%
+%:%2217=759%:%
+%:%2222=760%:%

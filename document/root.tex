@@ -35,30 +35,7 @@
 
 \begin{document}
 
-%\newcommand{\isaminorsize}{\fontsize{10}{12}\selectfont}
-\let\isaminorsize=\relax
-\newcommand{\isafontsize}{\fontsize{8}{10}\selectfont}
-\newcommand{\isascriptsize}{\fontsize{6}{8}\selectfont}
-
-\renewcommand{\isabellestylett}{%
-	\def\isastyle{\isafontsize\normalfont\ttfamily}%
-	\def\isastylett{\isafontsize\normalfont\ttfamily}%
-	\def\isastyleminor{\isaminorsize\normalfont\ttfamily}%
-	\def\isastyleminortt{\isaminorsize\normalfont\ttfamily}%
-	\def\isastylescript{\isascriptsize\normalfont\ttfamily}%
-	\isachardefaults%
-}
-\isabellestylett
-
-\renewcommand{\isamarkupcmt}[1]{{%
-	\vspace{0.2\baselineskip}%
-	\isastylecmt--- \parbox[t]{\linewidth - (\widthof{---} * 2)}{%
-		\vspace*{-.6\baselineskip}\color[gray]{0.25}#1%
-	}%
-	\vspace{0.1\baselineskip}%
-}}
-
-\title{Clocks}
+\title{LinguaFrancaClocks}
 \author{Frédéric Boulanger}
 \maketitle
 

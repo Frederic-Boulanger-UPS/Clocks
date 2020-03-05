@@ -1,8 +1,10 @@
 \contentsline {section}{\numberline {1}Basic definitions}{1}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Periodic clocks}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.1}Periodic clocks}{2}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}Sporadic clocks}{2}{subsection.1.2}%
-\contentsline {section}{\numberline {2}Properties of clocks}{2}{section.2}%
+\contentsline {section}{\numberline {2}Properties of clocks}{3}{section.2}%
 \contentsline {section}{\numberline {3}Merging clocks}{3}{section.3}%
 \contentsline {section}{\numberline {4}Bounded clocks}{5}{section.4}%
-\contentsline {section}{\numberline {5}Main theorem}{6}{section.5}%
-\contentsline {section}{\numberline {6}Tests}{6}{section.6}%
+\contentsline {subsection}{\numberline {4.1}Main theorem}{6}{subsection.4.1}%
+\contentsline {section}{\numberline {5}Logical time}{7}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Chrono-periodic and chrono-sporadic clocks}{8}{subsection.5.1}%
+\contentsline {section}{\numberline {6}Tests}{9}{section.6}%

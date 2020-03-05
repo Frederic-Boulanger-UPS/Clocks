@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Library Clocks (Isabelle2019: June 2019)</title>
+<title>Library LinguaFrancaClocks (Isabelle2019: June 2019)</title>
 <link media="all" rel="stylesheet" type="text/css" href="isabelle.css"/>
 </head>
 
 <body>
-<div class="head"><h1>Library Clocks</h1>
+<div class="head"><h1>Library LinguaFrancaClocks</h1>
 
 <p>View <a href="session_graph.pdf">theory dependencies</a><br/>
 View <a href="document.pdf">document</a><br/>
@@ -18,7 +18,7 @@ View <a href="outline.pdf">outline</a></p>
 <div class="theories">
 <h2>Theories</h2>
 <ul>
-<li><a href="Clocks.html">Clocks</a></li>
+<li><a href="LinguaFrancaClocks.html">LinguaFrancaClocks</a></li>
 
 </div>
 </body>

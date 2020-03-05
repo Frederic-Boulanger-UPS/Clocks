@@ -1,10 +1,10 @@
-session "Clocks" = HOL +
+session "LinguaFrancaClocks" = HOL +
 	options [
 		document = pdf,
 		document_output = "output",
 		document_variants="document:outline=/proof"
 	]
 theories
-	Clocks
+	LinguaFrancaClocks
 document_files
 		"root.tex"
