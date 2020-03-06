@@ -121,7 +121,7 @@ proof -
     by (simp add: Suc_le_lessD)
 qed
 
-section \<open>Merging clocks\<close>
+section \<open>Operations on clocks\<close>
 
 text \<open>The result of merging two clocks ticks whenever any of the two clocks ticks.\<close>
 definition merge :: \<open>[clock, clock] \<Rightarrow> clock\<close> (infix \<open>\<oplus>\<close> 60)
@@ -129,6 +129,17 @@ definition merge :: \<open>[clock, clock] \<Rightarrow> clock\<close> (infix \<o
 
 lemma merge_comm: \<open>c \<oplus> c' = c' \<oplus> c\<close>
 by (auto simp add: merge_def)
+
+text \<open>Delaying a clock by one instant.\<close>
+definition delay :: \<open>clock \<Rightarrow> clock\<close> (\<open>$\<close>)
+  where \<open>$c k = (case k of 0 \<Rightarrow> False | Suc k' \<Rightarrow> c k')\<close>
+
+text \<open>Sampling a clock with another clock.\<close>
+definition sampling :: \<open>[clock, clock] \<Rightarrow> clock\<close> (infix \<open>when\<close> 70)
+  where \<open>c when c' \<equiv> \<lambda>k. c k \<and> c' k\<close>
+
+lemma sampling_comm: \<open>c when c' = c' when c\<close>
+by (auto simp add: sampling_def)
 
 text \<open>Merging two sporadic clocks does not necessary yields a sporadic clock.\<close>
 lemma merge_no_sporadic:
@@ -164,6 +175,38 @@ proof -
   with 1 and 2 show ?thesis by blast
 qed
 
+text \<open>
+Delaying a periodic clock yields a shifted periodic clock.
+\<close>
+lemma delay_shift_periodic:
+  assumes \<open>kp_periodic k p c\<close>
+    shows \<open>kp_periodic (k+1) p ($c)\<close>
+proof -
+  from assms have 1:\<open>(p > 0)\<close> and 2:\<open>(\<forall>n. c n = ((n \<ge> k) \<and> ((n - k) mod p = 0)))\<close>
+    unfolding kp_periodic_def by simp+
+  have \<open>\<forall>n. ($c) n = (case n of 0 \<Rightarrow> False | Suc n' \<Rightarrow> c n')\<close>
+    unfolding delay_def by simp
+  with 2 have
+    3:\<open>\<forall>n. ($c) n = (case n of 0 \<Rightarrow> False | Suc n' \<Rightarrow> ((n' \<ge> k) \<and> ((n' - k) mod p = 0)))\<close>
+    by presburger
+  have \<open>\<forall>n. ($c) n = ((n \<ge> k+1) \<and> ((n - (k+1)) mod p = 0))\<close>
+  proof -
+    { fix n
+      have \<open>($c) n = ((n \<ge> k+1) \<and> ((n - (k+1)) mod p = 0))\<close>
+      proof (cases n)
+        case 0
+          thus ?thesis by (simp add: "3")
+      next
+        case (Suc n')
+        with 3 have \<open>($c) n = ((n' \<ge> k) \<and> ((n' - k) mod p = 0))\<close> by simp
+        also have \<open>... = ((n-1 \<ge> k) \<and> ((n-1 - k) mod p = 0))\<close> using Suc by auto
+        finally show ?thesis using Suc by fastforce
+      qed
+    } thus ?thesis ..
+  qed
+  thus ?thesis unfolding kp_periodic_def using 1 by simp
+qed
+  
 text \<open>Get the number of ticks on a clock from the beginning up to instant n.\<close>
 definition ticks_up_to :: \<open>[clock, nat] \<Rightarrow> nat\<close>
   where \<open>ticks_up_to c n = card {t. t \<le> n \<and> c t}\<close>
@@ -229,11 +272,45 @@ next
     qed
 qed
 
-text \<open>Number of event occurrences during an n instant window starting at @{term\<open>t\<^sub>0\<close>}.\<close>
-definition tick_count ::\<open>[clock, nat, nat] \<Rightarrow> nat\<close>
-  where \<open>tick_count c t\<^sub>0 n \<equiv> card {t. t\<^sub>0 \<le> t \<and> t < t\<^sub>0+n \<and> c t}\<close>
+text \<open>
+Proof that the original definition and the definition using fold are equivalent.
+\<close>
+lemma ticks_up_to_is_fold: \<open>ticks_up_to c n = ticks_up_to_fold c n\<close>
+proof (induction n)
+  case 0
+    have \<open>ticks_up_to c 0 = card {t. t \<le> 0 \<and> c t}\<close>
+      by (simp add:ticks_up_to_def)
+    also have \<open>... = card {t. t=0 \<and> c t}\<close> by simp
+    also have \<open>... = (if c 0 then 1 else 0)\<close>
+      by (simp add: Collect_conv_if)
+    also have \<open>... = ticks_up_to_fold c 0\<close>
+      using ticks_up_to_fold_def count_def by simp
+    finally show ?case .
+next
+  case (Suc n)
+    show ?case
+    proof (cases \<open>c (Suc n)\<close>)
+      case True
+        hence \<open>{t. t \<le> Suc n \<and> c t} = insert (Suc n) {t. t \<le> n \<and> c t}\<close> by auto
+        hence \<open>ticks_up_to c (Suc n) = Suc (ticks_up_to c n)\<close>
+          by (simp add: ticks_up_to_def)
+        also have \<open>... = Suc (ticks_up_to_fold c n)\<close> using Suc.IH by simp
+        finally show ?thesis by (simp add: ticks_up_to_fold_def count_def \<open>c (Suc n)\<close>)
+    next
+      case False
+        hence \<open>{t. t \<le> Suc n \<and> c t} = {t. t \<le> n \<and> c t}\<close> using le_Suc_eq by blast
+        hence \<open>ticks_up_to c (Suc n) = ticks_up_to c n\<close>
+          by (simp add: ticks_up_to_def)
+        also have \<open>... = ticks_up_to_fold c n\<close> using Suc.IH by simp
+        finally show ?thesis by (simp add: ticks_up_to_fold_def count_def \<open>\<not>c (Suc n)\<close>)
+    qed
+qed
 
-text \<open>The number of event occurrences is monotonous with regard to the window width.\<close>
+text \<open>Number of ticks during an n instant window starting at @{term\<open>k\<^sub>0\<close>}.\<close>
+definition tick_count ::\<open>[clock, nat, nat] \<Rightarrow> nat\<close>
+  where \<open>tick_count c k\<^sub>0 n \<equiv> card {k. k\<^sub>0 \<le> k \<and> k < k\<^sub>0+n \<and> c k}\<close>
+
+text \<open>The number of ticks is monotonous with regard to the window width.\<close>
 lemma tick_count_mono:
   assumes \<open>n' \<ge> n\<close>
     shows \<open>tick_count c t\<^sub>0 n' \<ge> tick_count c t\<^sub>0 n\<close>
@@ -680,6 +757,24 @@ proof -
     unfolding chrono_up_to_def chrono_dense_up_to_def occurs_def by simp
 qed
 
+text \<open>Number of event occurrences during a time window.\<close>
+definition occurrence_count :: \<open>[chronoclock, nat, nat] \<Rightarrow> nat\<close>
+  where \<open>occurrence_count c t\<^sub>0 d \<equiv> card {t. t\<^sub>0 \<le> t \<and> t < t\<^sub>0 + d \<and> occurs t c}\<close>
+
+text \<open>The number of event occurrences is monotonous with regard to the window width.\<close>
+lemma occ_count_mono:
+  assumes \<open>d' \<ge> d\<close>
+    shows \<open>occurrence_count c t\<^sub>0 d' \<ge> occurrence_count c t\<^sub>0 d\<close>
+proof -
+  have finite: \<open>finite {t::nat. t\<^sub>0 \<le> t \<and> t < t\<^sub>0+d' \<and> occurs t c}\<close> by simp
+  from assms have incl:
+    \<open>{t::nat. t\<^sub>0 \<le> t \<and> t < t\<^sub>0+d \<and> occurs t c} \<subseteq> {t::nat. t\<^sub>0 \<le> t \<and> t < t\<^sub>0+d' \<and> occurs t c}\<close> by auto
+  have \<open>card {t::nat. t\<^sub>0 \<le> t \<and> t < t\<^sub>0+d \<and> occurs t c}
+        \<le> card {t::nat. t\<^sub>0 \<le> t \<and> t < t\<^sub>0+d' \<and> occurs t c}\<close>
+    using card_mono[OF finite incl] .
+  thus ?thesis using occurrence_count_def by simp
+qed
+
 section \<open>Tests\<close>
 
 abbreviation \<open>c1::clock \<equiv> (\<lambda>t. t \<ge> 1 \<and> (t-1) mod 2 = 0)\<close>
@@ -706,6 +801,7 @@ lemma \<open>kp_periodic 2 3 c2\<close>
 abbreviation \<open>c3 \<equiv> c1 \<oplus> c2\<close>
 
 value \<open>map c1 [0,1,2,3,4,5,6,7,8,9,10]\<close>
+value \<open>map ($c1) [0,1,2,3,4,5,6,7,8,9,10,11]\<close>
 value \<open>map c2 [0,1,2,3,4,5,6,7,8,9,10]\<close>
 value \<open>map c3 [0,1,2,3,4,5,6,7,8,9,10]\<close>
 
