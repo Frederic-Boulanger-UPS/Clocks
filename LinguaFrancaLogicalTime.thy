@@ -145,6 +145,17 @@ This does not count separately ticks that occur at the same logical time.
 definition chrono_up_to ::\<open>[chronoclock, nat] \<Rightarrow> nat\<close>
   where \<open>chrono_up_to c n = card {t. t \<le> n \<and> occurs t c}\<close>
 
+lemma chrono_up_to_bounded:
+  \<open>chrono_up_to c n \<le> n+1\<close>
+proof -
+  have bound:\<open>card {t. t \<le> n} = n+1\<close> using Suc_eq_plus1 card_Collect_le_nat by simp
+  hence finite:\<open>finite {t. t \<le> n}\<close> by simp
+  have included:\<open>{t. t \<le> n \<and> occurs t c} \<subseteq> {t. t \<le> n}\<close> by blast
+  from card_mono[OF finite included] bound
+    show ?thesis unfolding chrono_up_to_def by simp
+qed
+
+
 text \<open>
 For any time n, a non Zeno clock has less occurrences than ticks up to n.
 This is also true for Zeno clock, but we count ticks and occurrences using @{term \<open>card\<close>},
@@ -187,6 +198,22 @@ proof -
         \<le> card {t::nat. t\<^sub>0 \<le> t \<and> t < t\<^sub>0+d' \<and> occurs t c}\<close>
     using card_mono[OF finite incl] .
   thus ?thesis using occurrence_count_def by simp
+qed
+
+lemma interval_diff:
+  \<open>{i::nat. m \<le> i \<and> i \<le> m+l \<and> P i} = {i::nat. i \<le> m+l \<and> P i} - {i::nat. i < m \<and> P i}\<close>
+by auto
+
+corollary interval_diff_le:
+  \<open>{i::nat. m+1 \<le> i \<and> i < m+1+l+1 \<and> P i} = {i::nat. i \<le> m+1+l \<and> P i} - {i::nat. i \<le> m \<and> P i}\<close>
+using interval_diff[of \<open>m+1\<close> \<open>l\<close> P] Suc_eq_plus1 less_Suc_eq_le by presburger
+
+lemma \<open>occurrence_count c (t\<^sub>0+1) (d+1) = chrono_up_to c (t\<^sub>0+d+1) - chrono_up_to c t\<^sub>0\<close>
+proof -
+  have 1:\<open>finite {t. t \<le> t\<^sub>0 \<and> occurs t c}\<close> by simp
+  have 2:\<open>{t. t \<le> t\<^sub>0 \<and> occurs t c} \<subseteq> {t. t \<le> t\<^sub>0 + d + 1 \<and> occurs t c}\<close> by auto
+  from interval_diff_le[of \<open>t\<^sub>0\<close> \<open>d\<close>] card_Diff_subset[OF 1 2] 
+  show ?thesis unfolding occurrence_count_def chrono_up_to_def by simp
 qed
 
 end
