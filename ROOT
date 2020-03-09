@@ -6,5 +6,7 @@ session "LinguaFrancaClocks" = HOL +
 	]
 theories
 	LinguaFrancaClocks
+	LinguaFrancaLogicalTime
+	LinguaFrancaTests
 document_files
 		"root.tex"

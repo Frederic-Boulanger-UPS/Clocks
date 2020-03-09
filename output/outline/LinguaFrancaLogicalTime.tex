@@ -1,0 +1,692 @@
+%
+\begin{isabellebody}%
+\setisabellecontext{LinguaFrancaLogicalTime}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+\isacommand{theory}\isamarkupfalse%
+\ LinguaFrancaLogicalTime\isanewline
+\isanewline
+\isakeyword{imports}\ LinguaFrancaClocks\isanewline
+\isanewline
+\isakeyword{begin}%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Logical time%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+Logical time is a natural number that is attached to instants.
+Logical time can stay constant for an arbitrary number of instants, but it cannot decrease.
+When logical time stays constant for an infinite number of instants, we have a Zeno condition.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{typedef}\isamarkupfalse%
+\ time\ {\isacharequal}\ {\isacartoucheopen}{\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isasymRightarrow}nat{\isachardot}\ mono\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ mono{\isacharunderscore}Suc\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{setup{\isacharunderscore}lifting}\isamarkupfalse%
+\ type{\isacharunderscore}definition{\isacharunderscore}time%
+\begin{isamarkuptext}%
+A chronometric clock is a clock associated with a time line.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{type{\isacharunderscore}synonym}\isamarkupfalse%
+\ chronoclock\ {\isacharequal}\ {\isacartoucheopen}clock{\isasymtimes}time{\isacartoucheclose}%
+\begin{isamarkuptext}%
+@term{\isa{c\ {\isasymnabla}\ t}} tells whether chronometric clock \isa{c} ticks at instant \isa{t}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ ticks\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\ {\isacharparenleft}\isakeyword{infix}\ {\isacartoucheopen}{\isasymnabla}{\isacartoucheclose}\ {\isadigit{6}}{\isadigit{0}}{\isacharparenright}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}c\ {\isasymnabla}\ t\ {\isasymequiv}\ {\isacharparenleft}fst\ c{\isacharparenright}\ t{\isacartoucheclose}%
+\begin{isamarkuptext}%
+@term{\isa{c\isactrlbsub t\isactrlesub }} is the logical time on clock \isa{c} at instant \isa{t}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lift{\isacharunderscore}definition}\isamarkupfalse%
+\ time{\isacharunderscore}at\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\ {\isacharparenleft}{\isacartoucheopen}{\isacharunderscore}\isactrlbsub {\isacharunderscore}\isactrlesub {\isacartoucheclose}\ {\isacharbrackleft}{\isadigit{6}}{\isadigit{0}}{\isacharcomma}\ {\isadigit{6}}{\isadigit{0}}{\isacharbrackright}{\isacharparenright}\isanewline
+\ \ \isakeyword{is}\ {\isacartoucheopen}{\isasymlambda}c\ t{\isachardot}\ {\isacharparenleft}snd\ c{\isacharparenright}\ t{\isacartoucheclose}%
+\isadelimproof
+\ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{{\isachardot}}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+\isanewline
+\isanewline
+\isacommand{lemmas}\isamarkupfalse%
+\ chronoclocks{\isacharunderscore}simp{\isacharbrackleft}simp{\isacharbrackright}\ {\isacharequal}\ ticks{\isacharunderscore}def\ time{\isacharunderscore}at{\isacharunderscore}def%
+\begin{isamarkuptext}%
+As consequence of the definition of the \isa{time} type, \isa{{\isacharparenleft}{\isasymnabla}{\isacharparenright}} is monotonous for any clock.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ mono{\isacharunderscore}chronotime{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}mono\ {\isacharparenleft}time{\isacharunderscore}at\ c{\isacharparenright}{\isacartoucheclose}%
+\isadelimproof
+\ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ Rep{\isacharunderscore}time\ \isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+An event occurs at a given time if the clock ticks at some instant at that time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ occurs\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}occurs\ n\ c\ {\isasymequiv}\ {\isasymexists}k{\isachardot}\ {\isacharparenleft}c\ {\isasymnabla}\ k\ {\isasymand}\ c\isactrlbsub k\isactrlesub \ {\isacharequal}\ n{\isacharparenright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+An event occurs once at a given time if the clock ticks at exactly one instant at that time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ occurs{\isacharunderscore}once\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}occurs{\isacharunderscore}once\ n\ c\ {\isasymequiv}\ {\isasymexists}{\isacharbang}k{\isachardot}\ {\isacharparenleft}c\ {\isasymnabla}\ k\ {\isasymand}\ c\isactrlbsub k\isactrlesub \ {\isacharequal}\ n{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ occurs{\isacharunderscore}once{\isacharunderscore}occurs{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}occurs{\isacharunderscore}once\ n\ c\ {\isasymLongrightarrow}\ occurs\ n\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ occurs{\isacharunderscore}once{\isacharunderscore}def\ occurs{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ blast%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A clock is strict at a given time if it ticks at most once at that time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ strict{\isacharunderscore}at\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}strict{\isacharunderscore}at\ n\ c\ {\isasymequiv}\ {\isacharparenleft}occurs\ n\ c\ {\isasymlongrightarrow}\ occurs{\isacharunderscore}once\ n\ c{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ strict{\isacharunderscore}clock\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}chronoclock\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}strict{\isacharunderscore}clock\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymforall}n{\isachardot}\ strict{\isacharunderscore}at\ n\ c{\isacharparenright}{\isacartoucheclose}%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsubsection{Chrono-periodic and chrono-sporadic clocks%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+The introduction of logical time allows us to define periodicity and sporadicity
+on logical time instead of instant index.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ kp{\isacharunderscore}chronoperiodic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}kp{\isacharunderscore}chronoperiodic\ k\ p\ c\ {\isasymequiv}\ {\isacharparenleft}p\ {\isachargreater}\ {\isadigit{0}}{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isasymforall}n{\isachardot}\ occurs\ n\ c\ {\isacharequal}\ {\isacharparenleft}{\isacharparenleft}n\ {\isasymge}\ k{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ p\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ p{\isacharunderscore}chronoperiodic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic\ p\ c\ {\isasymequiv}\ {\isasymexists}k{\isachardot}\ kp{\isacharunderscore}chronoperiodic\ k\ p\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ chronoperiodic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chronoperiodic\ c\ {\isasymequiv}\ {\isasymexists}p{\isachardot}\ p{\isacharunderscore}chronoperiodic\ p\ c{\isacartoucheclose}%
+\begin{isamarkuptext}%
+A clock is strictly chronoperiodic if it ticks only once at the logical times when it ticks.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ chronoperiodic{\isacharunderscore}strict\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chronoperiodic{\isacharunderscore}strict\ c\ {\isasymequiv}\ chronoperiodic\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict\ p\ c\ {\isasymequiv}\ p{\isacharunderscore}chronoperiodic\ p\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isacartoucheopen}chronoperiodic{\isacharunderscore}strict\ c\ {\isasymLongrightarrow}\ chronoperiodic\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ chronoperiodic{\isacharunderscore}strict{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ p{\isacharunderscore}chronosporadic\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}nat{\isacharcomma}\ chronoclock{\isacharbrackright}\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic\ p\ c\ {\isasymequiv}\isanewline
+\ \ \ \ {\isasymforall}t{\isachardot}\ occurs\ t\ c\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}t{\isacharprime}{\isachardot}\ {\isacharparenleft}t{\isacharprime}\ {\isachargreater}\ t\ {\isasymand}\ occurs\ t{\isacharprime}\ c{\isacharparenright}\ {\isasymlongrightarrow}\ t{\isacharprime}\ {\isachargreater}\ t\ {\isacharplus}\ p{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic{\isacharunderscore}strict\ p\ c\ {\isasymequiv}\ p{\isacharunderscore}chronosporadic\ p\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}chronosporadic\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymexists}p\ {\isachargreater}\ {\isadigit{0}}{\isachardot}\ p{\isacharunderscore}chronosporadic\ p\ c{\isacharparenright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ {\isacartoucheopen}chronosporadic{\isacharunderscore}strict\ c\ {\isasymequiv}\ chronosporadic\ c\ {\isasymand}\ strict{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ chrono{\isacharunderscore}periodic{\isacharunderscore}suc{\isacharunderscore}sporadic{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic\ p\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ p{\isacharunderscore}chronoperiodic{\isacharunderscore}def\ \isacommand{obtain}\isamarkupfalse%
+\ k\isanewline
+\ \ \ \ \isakeyword{where}\ {\isacartoucheopen}kp{\isacharunderscore}chronoperiodic\ k\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ c{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacharasterisk}{\isacharcolon}{\isacartoucheopen}{\isasymforall}n{\isachardot}\ occurs\ n\ c\ {\isacharequal}\ {\isacharparenleft}{\isacharparenleft}n\ {\isasymge}\ k{\isacharparenright}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n\ {\isacharminus}\ k{\isacharparenright}\ mod\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ kp{\isacharunderscore}chronoperiodic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{with}\isamarkupfalse%
+\ mod{\isacharunderscore}offset{\isacharunderscore}sporadic{\isacharprime}{\isacharbrackleft}of\ k\ {\isacharunderscore}\ {\isacartoucheopen}p{\isacharplus}{\isadigit{1}}{\isacartoucheclose}{\isacharbrackright}\ \isacommand{have}\isamarkupfalse%
+\ \isanewline
+\ \ \ \ {\isacartoucheopen}{\isasymforall}n{\isachardot}\ occurs\ n\ c\ {\isasymlongrightarrow}\ {\isacharparenleft}{\isasymforall}n{\isacharprime}{\isachardot}\ {\isacharparenleft}n\ {\isacharless}\ n{\isacharprime}\ {\isasymand}\ {\isacharparenleft}{\isacharparenleft}n{\isacharprime}{\isacharminus}k{\isacharparenright}\ mod\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isacharequal}\ {\isadigit{0}}{\isacharparenright}{\isacharparenright}\ {\isasymlongrightarrow}\ n{\isacharprime}\ {\isasymge}\ n{\isacharplus}p{\isacharplus}{\isadigit{1}}{\isacharparenright}{\isacartoucheclose}\isanewline
+\ \ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ p{\isacharunderscore}chronosporadic{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ {\isachardoublequoteopen}{\isacharasterisk}{\isachardoublequoteclose}\ Suc{\isacharunderscore}le{\isacharunderscore}lessD{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ chrono{\isacharunderscore}periodic{\isacharunderscore}suc{\isacharunderscore}sporadic{\isacharunderscore}strict{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict\ {\isacharparenleft}p{\isacharplus}{\isadigit{1}}{\isacharparenright}\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}p{\isacharunderscore}chronosporadic{\isacharunderscore}strict\ p\ c{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ assms\ chrono{\isacharunderscore}periodic{\isacharunderscore}suc{\isacharunderscore}sporadic\isanewline
+\ \ \ \ \ \ \ \ p{\isacharunderscore}chronoperiodic{\isacharunderscore}strict{\isacharunderscore}def\ p{\isacharunderscore}chronosporadic{\isacharunderscore}strict{\isacharunderscore}def\isanewline
+\ \ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Number of ticks up to a given logical time.
+This counts distinct ticks that happen at the same logical time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to\ {\isacharcolon}{\isacharcolon}{\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ c\isactrlbsub t\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ t{\isacharbraceright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+A clock is Zeno if it ticks an infinite number of times in a finite amount of time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ zeno{\isacharunderscore}clock\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}chronoclock\ {\isasymRightarrow}\ bool{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}zeno{\isacharunderscore}clock\ c\ {\isasymequiv}\ {\isacharparenleft}{\isasymexists}{\isasymomega}{\isachardot}\ infinite\ {\isacharbraceleft}t{\isachardot}\ c\isactrlbsub t\isactrlesub \ {\isasymle}\ {\isasymomega}\ {\isasymand}\ c\ {\isasymnabla}\ t{\isacharbraceright}{\isacharparenright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+Number of occurrences of an event up to a given logical time.
+This does not count separately ticks that occur at the same logical time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ chrono{\isacharunderscore}up{\isacharunderscore}to\ {\isacharcolon}{\isacharcolon}{\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+For any time n, a non Zeno clock has less occurrences than ticks up to n.
+This is also true for Zeno clock, but we count ticks and occurrences using \isa{card},
+and in Isabelle/HOL, the cardinal of an infinite set is 0, so the inequality breaks when
+there are infinitely many ticks before a given time.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ not{\isacharunderscore}zeno{\isacharunderscore}sparse{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}{\isasymnot}zeno{\isacharunderscore}clock\ c{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isasymle}\ chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to\ c\ n{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isachardot}\ c\isactrlbsub t\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ t{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ zeno{\isacharunderscore}clock{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{moreover}\isamarkupfalse%
+\ \isacommand{from}\isamarkupfalse%
+\ occurs{\isacharunderscore}def\ \isacommand{have}\isamarkupfalse%
+\isanewline
+\ \ \ \ {\isacartoucheopen}{\isasymexists}f{\isachardot}\ {\isasymforall}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c\ {\isasymlongrightarrow}\isanewline
+\ \ \ \ \ \ \ \ {\isacharparenleft}{\isasymexists}k{\isachardot}\ f\ k\ {\isacharequal}\ t\ {\isasymand}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharparenright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\isanewline
+\ \ \ \ {\isacartoucheopen}{\isasymexists}f{\isachardot}\ {\isasymforall}t\ {\isasymin}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isachardot}\isanewline
+\ \ \ \ \ \ \ \ \ \ {\isasymexists}k{\isachardot}\ f\ k\ {\isacharequal}\ t\ {\isasymand}\ k\ {\isasymin}\ {\isacharbraceleft}k{\isachardot}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ {\isacartoucheopen}{\isasymexists}f{\isachardot}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\ {\isasymsubseteq}\ image\ f\ {\isacharbraceleft}k{\isachardot}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ fastforce\isanewline
+\ \ \isacommand{ultimately}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\ {\isasymle}\ card\ {\isacharbraceleft}k{\isachardot}\ c\isactrlbsub k\isactrlesub \ {\isasymle}\ n\ {\isasymand}\ c\ {\isasymnabla}\ k{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ \ surj{\isacharunderscore}card{\isacharunderscore}le\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\isanewline
+\ \ \ \ \isacommand{unfolding}\isamarkupfalse%
+\ chrono{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ chrono{\isacharunderscore}dense{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ occurs{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Number of event occurrences during a time window.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ occurrence{\isacharunderscore}count\ {\isacharcolon}{\isacharcolon}\ {\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
+\ \ \isakeyword{where}\ {\isacartoucheopen}occurrence{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ d\ {\isasymequiv}\ card\ {\isacharbraceleft}t{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ d\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}%
+\begin{isamarkuptext}%
+The number of event occurrences is monotonous with regard to the window width.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ occ{\isacharunderscore}count{\isacharunderscore}mono{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isacartoucheopen}d{\isacharprime}\ {\isasymge}\ d{\isacartoucheclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isacartoucheopen}occurrence{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ d{\isacharprime}\ {\isasymge}\ occurrence{\isacharunderscore}count\ c\ t\isactrlsub {\isadigit{0}}\ d{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ finite{\isacharcolon}\ {\isacartoucheopen}finite\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}d{\isacharprime}\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ assms\ \isacommand{have}\isamarkupfalse%
+\ incl{\isacharcolon}\isanewline
+\ \ \ \ {\isacartoucheopen}{\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}d\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\ {\isasymsubseteq}\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}d{\isacharprime}\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isacartoucheopen}card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}d\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\isanewline
+\ \ \ \ \ \ \ \ {\isasymle}\ card\ {\isacharbraceleft}t{\isacharcolon}{\isacharcolon}nat{\isachardot}\ t\isactrlsub {\isadigit{0}}\ {\isasymle}\ t\ {\isasymand}\ t\ {\isacharless}\ t\isactrlsub {\isadigit{0}}{\isacharplus}d{\isacharprime}\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}\isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ card{\isacharunderscore}mono{\isacharbrackleft}OF\ finite\ incl{\isacharbrackright}\ \isacommand{{\isachardot}}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{thus}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
+\ occurrence{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+%
+\isadelimtheory
+\isanewline
+%
+\endisadelimtheory
+%
+\isatagtheory
+\isacommand{end}\isamarkupfalse%
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\end{isabellebody}%
+\endinput
+%:%file=~/Documents/Recherche/Divers/2020-02_EdLee/Clocks/LinguaFrancaLogicalTime.thy%:%
+%:%10=1%:%
+%:%11=1%:%
+%:%12=2%:%
+%:%13=3%:%
+%:%14=4%:%
+%:%15=5%:%
+%:%29=7%:%
+%:%41=10%:%
+%:%42=11%:%
+%:%43=12%:%
+%:%45=15%:%
+%:%46=15%:%
+%:%49=16%:%
+%:%53=16%:%
+%:%54=16%:%
+%:%55=16%:%
+%:%60=16%:%
+%:%63=17%:%
+%:%64=18%:%
+%:%65=18%:%
+%:%67=21%:%
+%:%69=23%:%
+%:%70=23%:%
+%:%72=26%:%
+%:%74=28%:%
+%:%75=28%:%
+%:%76=29%:%
+%:%78=33%:%
+%:%80=35%:%
+%:%81=35%:%
+%:%82=36%:%
+%:%84=36%:%
+%:%88=36%:%
+%:%96=36%:%
+%:%97=37%:%
+%:%98=38%:%
+%:%99=38%:%
+%:%101=41%:%
+%:%103=43%:%
+%:%104=43%:%
+%:%105=44%:%
+%:%107=44%:%
+%:%111=44%:%
+%:%112=44%:%
+%:%113=44%:%
+%:%122=47%:%
+%:%124=49%:%
+%:%125=49%:%
+%:%126=50%:%
+%:%128=53%:%
+%:%130=55%:%
+%:%131=55%:%
+%:%132=56%:%
+%:%133=57%:%
+%:%134=58%:%
+%:%135=58%:%
+%:%136=59%:%
+%:%143=60%:%
+%:%144=60%:%
+%:%145=60%:%
+%:%154=63%:%
+%:%156=65%:%
+%:%157=65%:%
+%:%158=66%:%
+%:%159=67%:%
+%:%160=68%:%
+%:%161=68%:%
+%:%162=69%:%
+%:%169=71%:%
+%:%181=73%:%
+%:%182=74%:%
+%:%184=76%:%
+%:%185=76%:%
+%:%186=77%:%
+%:%187=78%:%
+%:%188=79%:%
+%:%189=79%:%
+%:%190=80%:%
+%:%191=81%:%
+%:%192=82%:%
+%:%193=82%:%
+%:%194=83%:%
+%:%196=86%:%
+%:%198=88%:%
+%:%199=88%:%
+%:%200=89%:%
+%:%201=90%:%
+%:%202=91%:%
+%:%203=91%:%
+%:%204=92%:%
+%:%205=93%:%
+%:%206=94%:%
+%:%207=94%:%
+%:%210=95%:%
+%:%214=95%:%
+%:%215=95%:%
+%:%216=95%:%
+%:%221=95%:%
+%:%224=96%:%
+%:%225=97%:%
+%:%226=97%:%
+%:%227=98%:%
+%:%228=99%:%
+%:%229=100%:%
+%:%230=101%:%
+%:%231=101%:%
+%:%232=102%:%
+%:%233=103%:%
+%:%234=103%:%
+%:%235=104%:%
+%:%236=105%:%
+%:%237=105%:%
+%:%238=106%:%
+%:%239=107%:%
+%:%240=107%:%
+%:%241=108%:%
+%:%242=109%:%
+%:%249=110%:%
+%:%250=110%:%
+%:%251=111%:%
+%:%252=111%:%
+%:%253=111%:%
+%:%254=112%:%
+%:%255=112%:%
+%:%256=113%:%
+%:%257=113%:%
+%:%258=114%:%
+%:%259=114%:%
+%:%260=114%:%
+%:%261=115%:%
+%:%262=115%:%
+%:%263=115%:%
+%:%264=116%:%
+%:%265=117%:%
+%:%266=117%:%
+%:%267=118%:%
+%:%268=118%:%
+%:%269=118%:%
+%:%270=118%:%
+%:%271=119%:%
+%:%277=119%:%
+%:%280=120%:%
+%:%281=121%:%
+%:%282=121%:%
+%:%283=122%:%
+%:%284=123%:%
+%:%287=124%:%
+%:%291=124%:%
+%:%292=124%:%
+%:%293=125%:%
+%:%294=126%:%
+%:%295=126%:%
+%:%304=129%:%
+%:%305=130%:%
+%:%307=132%:%
+%:%308=132%:%
+%:%309=133%:%
+%:%311=136%:%
+%:%313=138%:%
+%:%314=138%:%
+%:%315=139%:%
+%:%317=142%:%
+%:%318=143%:%
+%:%320=145%:%
+%:%321=145%:%
+%:%322=146%:%
+%:%324=149%:%
+%:%325=150%:%
+%:%326=151%:%
+%:%327=152%:%
+%:%329=154%:%
+%:%330=154%:%
+%:%331=155%:%
+%:%332=156%:%
+%:%339=157%:%
+%:%340=157%:%
+%:%341=158%:%
+%:%342=158%:%
+%:%343=158%:%
+%:%344=159%:%
+%:%345=159%:%
+%:%346=159%:%
+%:%347=160%:%
+%:%348=160%:%
+%:%349=160%:%
+%:%350=160%:%
+%:%351=161%:%
+%:%352=162%:%
+%:%353=162%:%
+%:%354=163%:%
+%:%355=163%:%
+%:%356=164%:%
+%:%357=165%:%
+%:%358=165%:%
+%:%359=166%:%
+%:%360=166%:%
+%:%361=167%:%
+%:%362=167%:%
+%:%363=168%:%
+%:%364=168%:%
+%:%365=168%:%
+%:%366=169%:%
+%:%367=169%:%
+%:%368=169%:%
+%:%369=170%:%
+%:%370=170%:%
+%:%371=171%:%
+%:%372=171%:%
+%:%373=171%:%
+%:%374=172%:%
+%:%384=174%:%
+%:%386=175%:%
+%:%387=175%:%
+%:%388=176%:%
+%:%390=178%:%
+%:%392=179%:%
+%:%393=179%:%
+%:%394=180%:%
+%:%395=181%:%
+%:%402=182%:%
+%:%403=182%:%
+%:%404=183%:%
+%:%405=183%:%
+%:%406=183%:%
+%:%407=184%:%
+%:%408=184%:%
+%:%409=184%:%
+%:%410=185%:%
+%:%411=185%:%
+%:%412=186%:%
+%:%413=186%:%
+%:%414=187%:%
+%:%415=188%:%
+%:%416=188%:%
+%:%417=188%:%
+%:%418=189%:%
+%:%419=189%:%
+%:%420=189%:%
+%:%421=189%:%
+%:%422=190%:%
+%:%428=190%:%
+%:%433=191%:%
+%:%438=192%:%

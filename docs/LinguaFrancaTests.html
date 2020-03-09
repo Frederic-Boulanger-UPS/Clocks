@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Theory LinguaFrancaTests (Isabelle2019: June 2019)</title>
+<link media="all" rel="stylesheet" type="text/css" href="isabelle.css"/>
+</head>
+
+<body>
+<div class="head"><h1>Theory LinguaFrancaTests</h1>
+
+<span class="command">theory</span> <span class="name">LinguaFrancaTests</span><br/>
+<span class="keyword">imports</span> <a href="LinguaFrancaClocks.html"><span class="name">LinguaFrancaClocks</span></a><br/>
+
+</div>
+<div class="source">
+<pre class="source"><span class="keyword1"><span class="command">theory</span></span><span> </span><span>LinguaFrancaTests</span><span>
+</span><span>
+</span><span class="keyword2"><span class="keyword">imports</span></span><span> </span><span>LinguaFrancaClocks</span><span>
+</span><span>
+</span><span class="keyword2"><span class="keyword">begin</span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">section</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;Tests&#8250;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">abbreviation</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c1::clock &#8801; (&#955;t. t &#8805; 1 &#8743; (t-1) mod 2 = 0)&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">abbreviation</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c2::clock &#8801; (&#955;t. t &#8805; 2 &#8743; (t-2) mod 3 = 0)&#8250;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c1 0&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c1 1&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c1 2&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c1 3&#8250;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c2 0&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c2 1&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c2 2&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c2 3&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c2 4&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c2 5&#8250;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;kp_periodic 1 2 c1&#8250;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>kp_periodic_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;kp_periodic 2 3 c2&#8250;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>kp_periodic_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">abbreviation</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;c3 &#8801; c1 &#8853; c2&#8250;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;map c1 [0,1,2,3,4,5,6,7,8,9,10]&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;map ($c1) [0,1,2,3,4,5,6,7,8,9,10,11]&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;map c2 [0,1,2,3,4,5,6,7,8,9,10]&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">value</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;map c3 [0,1,2,3,4,5,6,7,8,9,10]&#8250;</span></span></span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span>interv_2</span><span class="delimiter">:</span><span class="cartouche"><span class="delete"><span class="delete">&#8249;{t::nat. t<span class="hidden">&#8681;</span><sub>0</sub> &#8804; t &#8743; t &lt; t<span class="hidden">&#8681;</span><sub>0</sub> + 2 &#8743; 1 &#8804; t &#8743; (t - 1) mod 2 = 0} = {t. (t = t<span class="hidden">&#8681;</span><sub>0</sub> &#8744; t = t<span class="hidden">&#8681;</span><sub>0</sub> + 1) &#8743; 1 &#8804; t &#8743; (t - 1) mod 2 = 0}&#8250;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>
+</span><span class="keyword1"><span class="command">lemma</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;bounded 2 1 c1&#8250;</span></span></span><span>
+</span><span class="keyword1"><span class="command">proof</span></span><span> </span><span>-</span><span>
+</span><span>  </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;&#8704;t. tick_count c1 t 2 &#8804; 1&#8250;</span></span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">proof</span></span><span> </span><span>-</span><span>
+</span><span>    </span><span class="keyword1"><span class="command">{</span></span><span> </span><span class="keyword3"><span class="command">fix</span></span><span> </span><span>t<span class="hidden">&#8681;</span><sub>0</sub></span><span class="delimiter">::</span><span>nat</span><span>
+</span><span>      </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;tick_count c1 t<span class="hidden">&#8681;</span><sub>0</sub> 2 &#8804; 1&#8250;</span></span></span><span>
+</span><span>      </span><span class="keyword1"><span class="command">proof</span></span><span> </span><span class="delimiter">(</span><span>cases</span><span> </span><span>t<span class="hidden">&#8681;</span><sub>0</sub></span><span class="delimiter">)</span><span>
+</span><span>        </span><span class="keyword3"><span class="command">case</span></span><span> </span><span>0</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">hence</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;tick_count c1 t<span class="hidden">&#8681;</span><sub>0</sub> 2 = ticks_up_to c1 1&#8250;</span></span></span><span>
+</span><span>            </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>tick_count_orig</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>simp</span><span> </span><span>add</span><span class="delimiter">:</span><span> </span><span>numeral_2_eq_2</span><span class="delimiter">)</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">also</span></span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;... = card {t::nat. t &#8804; 1 &#8743; 1 &#8804; t &#8743; (t-1) mod 2 = 0}&#8250;</span></span></span><span>
+</span><span>            </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>ticks_up_to_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">also</span></span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;... &#8804;  card {t::nat. t &#8804; 1 &#8743; 1 &#8804; t}&#8250;</span></span></span><span>
+</span><span>            </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>metis</span><span> </span><span class="delimiter">(</span><span>mono_tags</span><span class="delimiter">,</span><span> </span><span>lifting</span><span class="delimiter">)</span><span> </span><span>Collect_cong</span><span>
+</span><span>                </span><span>cancel_comm_monoid_add_class.diff_cancel</span><span> </span><span>le_antisym</span><span> </span><span>le_refl</span><span> </span><span>mod_0</span><span class="delimiter">)</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">also</span></span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;... = card {t::nat. t = 1}&#8250;</span></span></span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span class="delimiter">(</span><span>metis</span><span> </span><span>le_antisym</span><span> </span><span>order_refl</span><span class="delimiter">)</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">also</span></span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;... = 1&#8250;</span></span></span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">finally</span></span><span> </span><span class="keyword3"><span class="command">show</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command">.</span></span><span> 
+</span><span>      </span><span class="keyword1"><span class="command">next</span></span><span>
+</span><span>        </span><span class="keyword3"><span class="command">case</span></span><span> </span><span class="delimiter">(</span><span>Suc</span><span> </span><span>nat</span><span class="delimiter">)</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">then</span></span><span> </span><span class="keyword3"><span class="command">show</span></span><span> </span><span class="var">?thesis</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">proof</span></span><span> </span><span class="delimiter">(</span><span>cases</span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;(t<span class="hidden">&#8681;</span><sub>0</sub>-1) mod 2 = 0&#8250;</span></span></span><span class="delimiter">)</span><span>
+</span><span>            </span><span class="keyword3"><span class="command">case</span></span><span> </span><span>True</span><span>
+</span><span>              </span><span class="keyword1"><span class="command">with</span></span><span> </span><span>Suc</span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;t<span class="hidden">&#8681;</span><sub>0</sub> mod 2 &#8800; 0&#8250;</span></span></span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>arith</span><span> 
+</span><span>              </span><span class="keyword1"><span class="command">hence</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;{t. (t = t<span class="hidden">&#8681;</span><sub>0</sub> &#8744; t = t<span class="hidden">&#8681;</span><sub>0</sub> + 1) &#8743; 1 &#8804; t &#8743; (t - 1) mod 2 = 0} = {t<span class="hidden">&#8681;</span><sub>0</sub>}&#8250;</span></span></span><span>
+</span><span>                </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>True</span><span>  </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span>
+</span><span>              </span><span class="keyword1"><span class="command">hence</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;{t. t<span class="hidden">&#8681;</span><sub>0</sub> &#8804; t &#8743; t &lt; t<span class="hidden">&#8681;</span><sub>0</sub> + 2 &#8743; 1 &#8804; t &#8743; (t - 1) mod 2 = 0} = {t<span class="hidden">&#8681;</span><sub>0</sub>}&#8250;</span></span></span><span>
+</span><span>                </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>interv_2</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>              </span><span class="keyword3"><span class="command">thus</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>tick_count_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">next</span></span><span>
+</span><span>            </span><span class="keyword3"><span class="command">case</span></span><span> </span><span>False</span><span>
+</span><span>              </span><span class="keyword1"><span class="command">with</span></span><span> </span><span>Suc</span><span> </span><span class="keyword1"><span class="command">have</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;t<span class="hidden">&#8681;</span><sub>0</sub> mod 2 = 0&#8250;</span></span></span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>arith</span><span>
+</span><span>              </span><span class="keyword1"><span class="command">hence</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;{t. (t = t<span class="hidden">&#8681;</span><sub>0</sub> &#8744; t = t<span class="hidden">&#8681;</span><sub>0</sub> + 1) &#8743; 1 &#8804; t &#8743; (t - 1) mod 2 = 0} = {t<span class="hidden">&#8681;</span><sub>0</sub>+1}&#8250;</span></span></span><span>
+</span><span>                </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>auto</span><span> 
+</span><span>              </span><span class="keyword1"><span class="command">hence</span></span><span> </span><span class="cartouche"><span class="delete"><span class="delete">&#8249;{t. t<span class="hidden">&#8681;</span><sub>0</sub> &#8804; t &#8743; t &lt; t<span class="hidden">&#8681;</span><sub>0</sub> + 2 &#8743; 1 &#8804; t &#8743; (t - 1) mod 2 = 0} = {t<span class="hidden">&#8681;</span><sub>0</sub>+1}&#8250;</span></span></span><span>
+</span><span>                </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>interv_2</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>              </span><span class="keyword3"><span class="command">thus</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command">unfolding</span></span><span> </span><span>tick_count_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span>          </span><span class="keyword1"><span class="command">qed</span></span><span>
+</span><span>      </span><span class="keyword1"><span class="command">qed</span></span><span>
+</span><span>    </span><span class="keyword1"><span class="command">}</span></span><span>
+</span><span>    </span><span class="keyword3"><span class="command">thus</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command">..</span></span><span>
+</span><span>  </span><span class="keyword1"><span class="command">qed</span></span><span>
+</span><span>  </span><span class="keyword3"><span class="command">thus</span></span><span> </span><span class="var">?thesis</span><span> </span><span class="keyword1"><span class="command">using</span></span><span> </span><span>bounded_def</span><span> </span><span class="keyword1"><span class="command">by</span></span><span> </span><span>simp</span><span>
+</span><span class="keyword1"><span class="command">qed</span></span><span>
+</span><span>
+</span><span class="keyword2"><span class="keyword">end</span></span><span>
+</span></pre>
+
+</div>
+</body>
+</html>

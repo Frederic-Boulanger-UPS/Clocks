@@ -27,5 +27,7 @@ reboot:
 	echo "	]" >> ROOT
 	echo "theories" >> ROOT
 	echo "	LinguaFrancaClocks" >> ROOT
+	echo "	LinguaFrancaLogicalTime" >> ROOT
+	echo "	LinguaFrancaTests" >> ROOT
 	echo "document_files" >> ROOT
 	echo "		\"root.tex\"" >> ROOT
