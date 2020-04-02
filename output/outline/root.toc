@@ -7,4 +7,4 @@
 \contentsline {subsection}{\numberline {4.1}Main theorem}{7}{subsection.4.1}%
 \contentsline {section}{\numberline {5}Logical time}{7}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Chrono-periodic and chrono-sporadic clocks}{8}{subsection.5.1}%
-\contentsline {section}{\numberline {6}Tests}{10}{section.6}%
+\contentsline {section}{\numberline {6}Tests}{11}{section.6}%

@@ -319,7 +319,44 @@ This does not count separately ticks that occur at the same logical time.%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{definition}\isamarkupfalse%
 \ chrono{\isacharunderscore}up{\isacharunderscore}to\ {\isacharcolon}{\isacharcolon}{\isacartoucheopen}{\isacharbrackleft}chronoclock{\isacharcomma}\ nat{\isacharbrackright}\ {\isasymRightarrow}\ nat{\isacartoucheclose}\isanewline
-\ \ \isakeyword{where}\ {\isacartoucheopen}chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}%
+\ \ \isakeyword{where}\ {\isacartoucheopen}chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isacharequal}\ card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ chrono{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}bounded{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ n\ {\isasymle}\ n{\isacharplus}{\isadigit{1}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ bound{\isacharcolon}{\isacartoucheopen}card\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n{\isacharbraceright}\ {\isacharequal}\ n{\isacharplus}{\isadigit{1}}{\isacartoucheclose}\ \isacommand{using}\isamarkupfalse%
+\ Suc{\isacharunderscore}eq{\isacharunderscore}plus{\isadigit{1}}\ card{\isacharunderscore}Collect{\isacharunderscore}le{\isacharunderscore}nat\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{hence}\isamarkupfalse%
+\ finite{\isacharcolon}{\isacartoucheopen}finite\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ included{\isacharcolon}{\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\ {\isasymsubseteq}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ n{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ blast\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ card{\isacharunderscore}mono{\isacharbrackleft}OF\ finite\ included{\isacharbrackright}\ bound\isanewline
+\ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ chrono{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
 \begin{isamarkuptext}%
 For any time n, a non Zeno clock has less occurrences than ticks up to n.
 This is also true for Zeno clock, but we count ticks and occurrences using \isa{card},
@@ -418,6 +455,77 @@ The number of event occurrences is monotonous with regard to the window width.%
 \ \ \isacommand{thus}\isamarkupfalse%
 \ {\isacharquery}thesis\ \isacommand{using}\isamarkupfalse%
 \ occurrence{\isacharunderscore}count{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ interval{\isacharunderscore}diff{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}{\isacharbraceleft}i{\isacharcolon}{\isacharcolon}nat{\isachardot}\ m\ {\isasymle}\ i\ {\isasymand}\ i\ {\isasymle}\ m{\isacharplus}l\ {\isasymand}\ P\ i{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}i{\isacharcolon}{\isacharcolon}nat{\isachardot}\ i\ {\isasymle}\ m{\isacharplus}l\ {\isasymand}\ P\ i{\isacharbraceright}\ {\isacharminus}\ {\isacharbraceleft}i{\isacharcolon}{\isacharcolon}nat{\isachardot}\ i\ {\isacharless}\ m\ {\isasymand}\ P\ i{\isacharbraceright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{corollary}\isamarkupfalse%
+\ interval{\isacharunderscore}diff{\isacharunderscore}le{\isacharcolon}\isanewline
+\ \ {\isacartoucheopen}{\isacharbraceleft}i{\isacharcolon}{\isacharcolon}nat{\isachardot}\ m{\isacharplus}{\isadigit{1}}\ {\isasymle}\ i\ {\isasymand}\ i\ {\isacharless}\ m{\isacharplus}{\isadigit{1}}{\isacharplus}l{\isacharplus}{\isadigit{1}}\ {\isasymand}\ P\ i{\isacharbraceright}\ {\isacharequal}\ {\isacharbraceleft}i{\isacharcolon}{\isacharcolon}nat{\isachardot}\ i\ {\isasymle}\ m{\isacharplus}{\isadigit{1}}{\isacharplus}l\ {\isasymand}\ P\ i{\isacharbraceright}\ {\isacharminus}\ {\isacharbraceleft}i{\isacharcolon}{\isacharcolon}nat{\isachardot}\ i\ {\isasymle}\ m\ {\isasymand}\ P\ i{\isacharbraceright}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ interval{\isacharunderscore}diff{\isacharbrackleft}of\ {\isacartoucheopen}m{\isacharplus}{\isadigit{1}}{\isacartoucheclose}\ {\isacartoucheopen}l{\isacartoucheclose}\ P{\isacharbrackright}\ Suc{\isacharunderscore}eq{\isacharunderscore}plus{\isadigit{1}}\ less{\isacharunderscore}Suc{\isacharunderscore}eq{\isacharunderscore}le\ \isacommand{by}\isamarkupfalse%
+\ presburger%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isacartoucheopen}occurrence{\isacharunderscore}count\ c\ {\isacharparenleft}t\isactrlsub {\isadigit{0}}{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isacharparenleft}d{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isacharequal}\ chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ {\isacharparenleft}t\isactrlsub {\isadigit{0}}{\isacharplus}d{\isacharplus}{\isadigit{1}}{\isacharparenright}\ {\isacharminus}\ chrono{\isacharunderscore}up{\isacharunderscore}to\ c\ t\isactrlsub {\isadigit{0}}{\isacartoucheclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isacartoucheopen}finite\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isacartoucheopen}{\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}\ {\isasymsubseteq}\ {\isacharbraceleft}t{\isachardot}\ t\ {\isasymle}\ t\isactrlsub {\isadigit{0}}\ {\isacharplus}\ d\ {\isacharplus}\ {\isadigit{1}}\ {\isasymand}\ occurs\ t\ c{\isacharbraceright}{\isacartoucheclose}\ \isacommand{by}\isamarkupfalse%
+\ auto\isanewline
+\ \ \isacommand{from}\isamarkupfalse%
+\ interval{\isacharunderscore}diff{\isacharunderscore}le{\isacharbrackleft}of\ {\isacartoucheopen}t\isactrlsub {\isadigit{0}}{\isacartoucheclose}\ {\isacartoucheopen}d{\isacartoucheclose}{\isacharbrackright}\ card{\isacharunderscore}Diff{\isacharunderscore}subset{\isacharbrackleft}OF\ {\isadigit{1}}\ {\isadigit{2}}{\isacharbrackright}\ \isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{unfolding}\isamarkupfalse%
+\ occurrence{\isacharunderscore}count{\isacharunderscore}def\ chrono{\isacharunderscore}up{\isacharunderscore}to{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
 \isacommand{qed}\isamarkupfalse%
 %
@@ -613,80 +721,137 @@ The number of event occurrences is monotonous with regard to the window width.%
 %:%320=145%:%
 %:%321=145%:%
 %:%322=146%:%
-%:%324=149%:%
-%:%325=150%:%
-%:%326=151%:%
-%:%327=152%:%
-%:%329=154%:%
-%:%330=154%:%
-%:%331=155%:%
-%:%332=156%:%
-%:%339=157%:%
-%:%340=157%:%
-%:%341=158%:%
-%:%342=158%:%
-%:%343=158%:%
-%:%344=159%:%
-%:%345=159%:%
-%:%346=159%:%
-%:%347=160%:%
-%:%348=160%:%
-%:%349=160%:%
-%:%350=160%:%
-%:%351=161%:%
-%:%352=162%:%
-%:%353=162%:%
-%:%354=163%:%
-%:%355=163%:%
-%:%356=164%:%
-%:%357=165%:%
-%:%358=165%:%
-%:%359=166%:%
-%:%360=166%:%
-%:%361=167%:%
-%:%362=167%:%
-%:%363=168%:%
-%:%364=168%:%
-%:%365=168%:%
-%:%366=169%:%
-%:%367=169%:%
-%:%368=169%:%
-%:%369=170%:%
-%:%370=170%:%
-%:%371=171%:%
-%:%372=171%:%
-%:%373=171%:%
-%:%374=172%:%
-%:%384=174%:%
-%:%386=175%:%
-%:%387=175%:%
-%:%388=176%:%
-%:%390=178%:%
-%:%392=179%:%
-%:%393=179%:%
-%:%394=180%:%
-%:%395=181%:%
-%:%402=182%:%
-%:%403=182%:%
-%:%404=183%:%
-%:%405=183%:%
-%:%406=183%:%
-%:%407=184%:%
-%:%408=184%:%
-%:%409=184%:%
-%:%410=185%:%
-%:%411=185%:%
-%:%412=186%:%
-%:%413=186%:%
-%:%414=187%:%
-%:%415=188%:%
-%:%416=188%:%
-%:%417=188%:%
-%:%418=189%:%
-%:%419=189%:%
-%:%420=189%:%
-%:%421=189%:%
-%:%422=190%:%
-%:%428=190%:%
-%:%433=191%:%
-%:%438=192%:%
+%:%323=147%:%
+%:%324=148%:%
+%:%325=148%:%
+%:%326=149%:%
+%:%333=150%:%
+%:%334=150%:%
+%:%335=151%:%
+%:%336=151%:%
+%:%337=151%:%
+%:%338=151%:%
+%:%339=152%:%
+%:%340=152%:%
+%:%341=152%:%
+%:%342=153%:%
+%:%343=153%:%
+%:%344=153%:%
+%:%345=154%:%
+%:%346=154%:%
+%:%347=155%:%
+%:%348=155%:%
+%:%349=155%:%
+%:%350=155%:%
+%:%351=156%:%
+%:%361=160%:%
+%:%362=161%:%
+%:%363=162%:%
+%:%364=163%:%
+%:%366=165%:%
+%:%367=165%:%
+%:%368=166%:%
+%:%369=167%:%
+%:%376=168%:%
+%:%377=168%:%
+%:%378=169%:%
+%:%379=169%:%
+%:%380=169%:%
+%:%381=170%:%
+%:%382=170%:%
+%:%383=170%:%
+%:%384=171%:%
+%:%385=171%:%
+%:%386=171%:%
+%:%387=171%:%
+%:%388=172%:%
+%:%389=173%:%
+%:%390=173%:%
+%:%391=174%:%
+%:%392=174%:%
+%:%393=175%:%
+%:%394=176%:%
+%:%395=176%:%
+%:%396=177%:%
+%:%397=177%:%
+%:%398=178%:%
+%:%399=178%:%
+%:%400=179%:%
+%:%401=179%:%
+%:%402=179%:%
+%:%403=180%:%
+%:%404=180%:%
+%:%405=180%:%
+%:%406=181%:%
+%:%407=181%:%
+%:%408=182%:%
+%:%409=182%:%
+%:%410=182%:%
+%:%411=183%:%
+%:%421=185%:%
+%:%423=186%:%
+%:%424=186%:%
+%:%425=187%:%
+%:%427=189%:%
+%:%429=190%:%
+%:%430=190%:%
+%:%431=191%:%
+%:%432=192%:%
+%:%439=193%:%
+%:%440=193%:%
+%:%441=194%:%
+%:%442=194%:%
+%:%443=194%:%
+%:%444=195%:%
+%:%445=195%:%
+%:%446=195%:%
+%:%447=196%:%
+%:%448=196%:%
+%:%449=197%:%
+%:%450=197%:%
+%:%451=198%:%
+%:%452=199%:%
+%:%453=199%:%
+%:%454=199%:%
+%:%455=200%:%
+%:%456=200%:%
+%:%457=200%:%
+%:%458=200%:%
+%:%459=201%:%
+%:%465=201%:%
+%:%468=202%:%
+%:%469=203%:%
+%:%470=203%:%
+%:%471=204%:%
+%:%478=205%:%
+%:%479=205%:%
+%:%484=205%:%
+%:%487=206%:%
+%:%488=207%:%
+%:%489=207%:%
+%:%490=208%:%
+%:%497=209%:%
+%:%498=209%:%
+%:%499=209%:%
+%:%504=209%:%
+%:%507=210%:%
+%:%508=211%:%
+%:%509=211%:%
+%:%516=212%:%
+%:%517=212%:%
+%:%518=213%:%
+%:%519=213%:%
+%:%520=213%:%
+%:%521=214%:%
+%:%522=214%:%
+%:%523=214%:%
+%:%524=215%:%
+%:%525=215%:%
+%:%526=216%:%
+%:%527=216%:%
+%:%528=216%:%
+%:%529=216%:%
+%:%530=217%:%
+%:%536=217%:%
+%:%541=218%:%
+%:%546=219%:%
